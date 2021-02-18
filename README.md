@@ -4,7 +4,8 @@ Internship Management System
 #### Initial Project setup
 - Install Node.js (https://nodejs.org/en/download/)
 - Install yarn (run in a terminal window) - `npm install --global yarn`
-- Open terminal window in project directory and run `yarn install`
+- Clone this project
+- Open terminal window **in the project directory** and run `yarn install`
   - This will install all the dependencies and packages
 
 - You can run `yarn start` to start a local web server (defaults to port 3000)
