@@ -48,7 +48,7 @@
     margin-bottom: 40px;
 }
 
-button[type="submit"] {
+.login__form button[type="submit"] {
     width: 394px;
     border-radius: 25px;
     border: 2px solid var(--primary-bg-color);
@@ -59,11 +59,11 @@ button[type="submit"] {
     margin-bottom: 40px;
 }
 
-input[type="checkbox"]{
+.login__form input[type="checkbox"]{
     width: 20px;
 }
 
-input:focus, button:focus {
+.login__form input:focus, button:focus {
     outline: none;
 }
 
