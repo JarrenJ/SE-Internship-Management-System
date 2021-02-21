@@ -6,16 +6,13 @@
     align-items: center;
 }
 
-.container {
-    margin: 0 auto;
-    /*max-width: 970px;*/
-}
-
 .login__box {
     display: flex;
-    min-width: 1120px;
+    width: 100%;
+    max-width: 1120px;
     min-height: 550px;
     background-color: #fff;
+    border-radius: 10px;
 }
 
 .row {
@@ -69,6 +66,8 @@
 
 
 .login__img {
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
     height: 100%;
     background: url("https://www.nwmissouri.edu/facts/image/admin-building.jpg") center center/cover no-repeat;
 }
