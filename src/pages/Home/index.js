@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import '../../colors.css';
 import './home.css';
 
-
 export default function Home() {
 
     return(
