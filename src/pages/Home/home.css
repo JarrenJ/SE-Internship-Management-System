@@ -1,0 +1,74 @@
+.main {
+    height: 100vh;
+    background-color: var(--primary-bg-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    margin: 0 auto;
+    /*max-width: 970px;*/
+}
+
+.login__box {
+    display: flex;
+    min-width: 1120px;
+    min-height: 550px;
+    background-color: #fff;
+}
+
+.row {
+    display: flex;
+    width: 100%;
+}
+
+.login__column {
+    flex: 50%;
+    text-align: center;
+}
+
+.login__form {
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+    height: 85%;
+}
+
+.login__form input{
+    margin-bottom: 20px;
+    width: 350px;
+    border-radius: 25px;
+    border: 2px solid #808080;
+    padding: 20px;
+}
+
+.login__form h2{
+    margin-bottom: 40px;
+}
+
+button[type="submit"] {
+    width: 394px;
+    border-radius: 25px;
+    border: 2px solid var(--primary-bg-color);
+    padding: 20px;
+    background-color: var(--primary-bg-color);
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 40px;
+}
+
+input[type="checkbox"]{
+    width: 20px;
+}
+
+input:focus, button:focus {
+    outline: none;
+}
+
+
+.login__img {
+    height: 100%;
+    background: url("https://www.nwmissouri.edu/facts/image/admin-building.jpg") center center/cover no-repeat;
+}
