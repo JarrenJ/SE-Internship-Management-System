@@ -3,7 +3,7 @@ const mysql = require('mysql');
 
 const app = express();
 const port = 8000;
-const table ='users';
+const authTable ='users';
 
 // const pool = mysql.createPool({
 //     host: process.env.MYSQL_HOST,
@@ -32,7 +32,7 @@ app.listen(port, () => {
 });
 
 app.get('/api/users', (req, res) => {
-    db.query(`select * from ${table}`, (err, rows) => {
+    db.query(`select * from ${authTable}`, (err, rows) => {
         if (err) {
             res.send(err);
         } else {
