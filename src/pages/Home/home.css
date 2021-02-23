@@ -22,12 +22,11 @@
 
 .login__column {
     flex: 50%;
-    text-align: center;
 }
 
 .login__form {
     display: flex;
-    flex-flow: column;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     height: 85%;
@@ -70,4 +69,11 @@
     border-bottom-left-radius: 10px;
     height: 100%;
     background: url("https://www.nwmissouri.edu/facts/image/admin-building.jpg") center center/cover no-repeat;
+}
+
+@media (max-width: 1120px) {
+    .login__box {
+        width: 100%;
+        max-width: 960px;
+    }
 }

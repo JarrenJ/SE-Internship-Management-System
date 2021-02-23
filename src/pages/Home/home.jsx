@@ -15,7 +15,7 @@ export function Home() {
                     </div>
                     <div className="login__column">
                         <form className="login__form" onSubmit={(e) => e.preventDefault()}>
-                            <h2>NorthWest Network Account Login</h2>
+                            <h2>Northwest Network Account Login</h2>
                             <input placeholder="Please enter your northwest account username" name="login__username" type="text"/>
                             <input placeholder="Please enter your northwest account password" name="login__password" type="password"/>
                             <span><input type="checkbox"/>Remember Me</span>
