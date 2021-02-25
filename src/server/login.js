@@ -3,6 +3,7 @@ const mysql = require('mysql');
 const session = require('express-session');
 const bodyParser = require('body-parser');
 const path = require('path');
+const cors = require("cors");
 
 
 const connection = mysql.createConnection({
@@ -14,6 +15,7 @@ const connection = mysql.createConnection({
 
 const app = express();
 
+app.use(cors())
 app.use(session({
     secret: 'secret',
     resave: true,
@@ -60,6 +62,29 @@ app.get('/api/users', (req, res) => {
         } else {
             res.send(rows);
         }
+    });
+});
+
+app.post('/api/auth', (request, response) => {
+    const username = request.body.username;
+    const password = request.body.password;
+    connection.query('SELECT * FROM accounts WHERE username = ? AND password = ?', [username, password], function(error, results, fields) {
+        console.log('query database...')
+        if (results.length > 0) {
+            console.log('found user!')
+            request.session.loggedin = true;
+            request.session.username = username;
+            response.status(200)
+            // response.send('OK!')
+            // response.redirect('/playground');
+        } else {
+            console.log('Invalid User!')
+            response.status(400)
+            // response.send('Not OK!')
+            // response.json('Incorrect Username and/or Password!');
+        }
+        console.log('ended')
+        response.end();
     });
 });
 
