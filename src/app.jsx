@@ -7,7 +7,6 @@ import {SampleComponent} from "components";
 const App = () => {
 
     // Allow only authenticated users to view a protected route
-
     const authGuard = (Component) => () => {
         return localStorage.getItem("token") ? (
             <Component />
