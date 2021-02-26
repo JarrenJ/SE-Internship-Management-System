@@ -1,6 +1,9 @@
 :root {
   font-family: Roboto, serif;
   --primary-bg-color: #006747;
+  --white: #fff;
+  --primary-btn-text: #fff;
+  --error: #ff0000;
 }
 
 body {
