@@ -1,0 +1,17 @@
+.main {
+    height: 100vh;
+    background-color: var(--primary-bg-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.app__form {
+    display: flex;
+    width: 100%;
+    max-width: 1120px;
+    min-height: 550px;
+    background-color: #fff;
+    border-radius: 10px;
+}
+
