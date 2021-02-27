@@ -7,11 +7,19 @@
 }
 
 .app__form {
-    display: flex;
     width: 100%;
     max-width: 1120px;
     min-height: 550px;
-    background-color: #fff;
+    background-color: #ffffff;
     border-radius: 10px;
+
+}
+
+h1{
+    text-align: center;
+}
+
+#normal{
+
 }
 
