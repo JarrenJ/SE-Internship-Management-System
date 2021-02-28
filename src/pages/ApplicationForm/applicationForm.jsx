@@ -31,7 +31,7 @@ export function ApplicationForm(){
                     <TextField id="normal" label='Personal Email' variant={'outlined'}/><br></br>
                     <TextField id="normal" label='Phone Number' variant={'outlined'}/><br></br>
                     <div>
-                         <h4>Address</h4>
+                        <h4>Address</h4>
                         <TextField id="normal" label='Address Line 1'/><br></br>
                         <TextField id="normal" label='Address Line 2'/><br></br>
                         <TextField id="normal" label='City'/>
@@ -53,7 +53,7 @@ export function ApplicationForm(){
                     <TextField id="normal" label='Employee Email' variant={'outlined'}/>
                     <TextField id="normal" label='Employee Phone' variant={'outlined'}/><br></br>
                     <div>
-                         <h4>Employee Location</h4>
+                        <h4>Employee Location</h4>
                         <TextField id="normal" label='Address Line 1'/><br></br>
                         <TextField id="normal" label='Address Line 2'/><br></br>
                         <TextField id="normal" label='City'/>
@@ -62,7 +62,7 @@ export function ApplicationForm(){
                         <h6>Internship Start Date:</h6>
                         <DatePicker id="normal" onChange={change} selected={startDate} variant={'outlined'}/><br></br>
                         <h6>Internship End Date:</h6>
-                       <DatePicker id="normal" onChange={onChange} selected={endDate} variant={"outlined"}/>
+                        <DatePicker id="normal" onChange={onChange} selected={endDate} variant={"outlined"}/>
                     </div>
                 </div>
 
