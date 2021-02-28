@@ -14,7 +14,6 @@ export function Home() {
     const history = useHistory();
 
     const onSubmit = (data, e) => {
-        console.log(JSON.stringify(data))
         setMessage({
             data: "Logging in...",
         });
@@ -31,11 +30,9 @@ export function Home() {
                 console.log(res)
                 if (res.ok) {
                     // api returned status 200, so we return the response
-                    console.log('res is ok')
                     return res.json()
                 } else {
                     // api returned code 400, so we throw an error to catch later
-                    console.log('res is not ok')
                     throw new Error('Something went wrong with the /api/auth endpoint (Most likely an invalid user)')
                 }
             })
