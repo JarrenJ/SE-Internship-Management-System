@@ -28,17 +28,18 @@ export function Home() {
             body: JSON.stringify(data),
         })
             .then((res) => {
+                console.log(res)
                 if (res.ok) {
                     // api returned status 200, so we return the response
                     console.log('res is ok')
-                    return res.text()
+                    return res.json()
                 } else {
                     // api returned code 400, so we throw an error to catch later
                     console.log('res is not ok')
                     throw new Error('Something went wrong with the /api/auth endpoint (Most likely an invalid user)')
                 }
             })
-            .then(({ error }) => {
+            .then(({ error, data }) => {
                 setMessage({
                     data: error || "Logged in successfully, redirecting...",
                 });
@@ -47,6 +48,7 @@ export function Home() {
                 setTimeout(() => {
                     // set JWT here - for login session and to guard routes so only authenticated users can access them
                     localStorage.setItem("token", data.token);
+                    localStorage.setItem("role", data.role);
                     // send user to dashboard
                     // PUSH new url onto history so create a new entry
                     history.push("/playground");

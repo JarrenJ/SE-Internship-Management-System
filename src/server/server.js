@@ -24,7 +24,7 @@ app.use(session({
 app.use(bodyParser.urlencoded({extended : true}))
 app.use(bodyParser.json())
 
-app.get('/api/users', (req, res) => {
+app.get('/api/accounts', (req, res) => {
     connection.query(`SELECT * FROM accounts`, (err, rows) => {
         if (err) {
             res.send(err)
@@ -34,31 +34,78 @@ app.get('/api/users', (req, res) => {
     });
 });
 
+app.get('/api/admins', (req, res) => {
+    const role = "admin"
+    connection.query(`SELECT * FROM accounts WHERE role = ?`, [role], (err, rows) => {
+        if (err) {
+            res.send(err)
+        } else {
+            res.send(rows)
+        }
+    });
+});
+
+app.get('/api/faculty', (req, res) => {
+    const role = "faculty"
+    connection.query(`SELECT * FROM accounts WHERE role = ?`, [role], (err, rows) => {
+        if (err) {
+            res.send(err)
+        } else {
+            res.send(rows)
+        }
+    });
+});
+
+app.get('/api/students', (req, res) => {
+    const role = "student"
+    connection.query(`SELECT * FROM accounts WHERE role = ?`, [role], (err, rows) => {
+        if (err) {
+            res.send(err)
+        } else {
+            res.send(rows)
+        }
+    });
+});
+
 app.post('/api/auth', (request, response) => {
+    console.log(request.body)
     const username = request.body.username
     const password = request.body.password
     connection.query('SELECT * FROM accounts WHERE username = ? AND password = ?', [username, password], function(error, results, fields) {
         console.log('query database...')
         if (results.length > 0) {
             console.log('found user!')
+            console.log(results[0].role)
             request.session.loggedin = true
             request.session.username = username
+
+            // MAYBE I CAN USE A JWT TOKEN TO CHECK IF USER IS ADMIN / STUDENT / FACULTY????
 
             const token = jwt.sign(
                 // payload data
                 {
-                    name: request.body.username,
+                    name: 'name',
+                    id: 'id',
                 },
-                '1234'
+                process.env.TOKEN_SECRET
             );
+
+            const role = results[0].role
 
             response.header("auth-token", token).json({
                 error: null,
                 data: {
                     token,
+                    role,
                 },
             });
 
+            // response.header("auth-role", userRole).json({
+            //     error: null,
+            //     data: {
+            //         userRole,
+            //     },
+            // });
             response.status(200)
         } else {
             console.log('Invalid User!')
