@@ -1,4 +1,4 @@
-.main {
+.login__container {
     height: 100vh;
     background-color: var(--primary-bg-color);
     display: flex;

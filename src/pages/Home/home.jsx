@@ -14,7 +14,6 @@ export function Home() {
     const history = useHistory();
 
     const onSubmit = (data, e) => {
-        console.log(JSON.stringify(data))
         setMessage({
             data: "Logging in...",
         });
@@ -28,17 +27,16 @@ export function Home() {
             body: JSON.stringify(data),
         })
             .then((res) => {
+                console.log(res)
                 if (res.ok) {
                     // api returned status 200, so we return the response
-                    console.log('res is ok')
-                    return res.text()
+                    return res.json()
                 } else {
                     // api returned code 400, so we throw an error to catch later
-                    console.log('res is not ok')
                     throw new Error('Something went wrong with the /api/auth endpoint (Most likely an invalid user)')
                 }
             })
-            .then(({ error }) => {
+            .then(({ error, data }) => {
                 setMessage({
                     data: error || "Logged in successfully, redirecting...",
                 });
@@ -46,15 +44,16 @@ export function Home() {
                 !error &&
                 setTimeout(() => {
                     // set JWT here - for login session and to guard routes so only authenticated users can access them
-                    localStorage.setItem("token", data.token);
-                    // send user to dashboard
+                    sessionStorage.setItem("token", data.token);
+                    sessionStorage.setItem("role", data.role);
+
                     // PUSH new url onto history so create a new entry
-                    history.push("/playground");
+                    history.push("/dash");
                 }, 3000);
 
                 !error && e.target.reset();
             })
-            // Catch user with invalid credentials here
+            // Catch user with invalid credentials here... or any other error
             .catch((error) => {
                 console.log(error)
                 setMessage({
@@ -64,7 +63,7 @@ export function Home() {
     };
 
     return(
-        <div className="main">
+        <div className="login__container">
             <div className="login__logo">
                 <img src={NWHorizontal2Color} alt='NW_Horizontal_2Color'/>
             </div>
