@@ -31,7 +31,7 @@ export function ApplicationForm(){
                     <TextField id="normal" label='Personal Email' variant={'outlined'}/><br></br>
                     <TextField id="normal" label='Phone Number' variant={'outlined'}/><br></br>
                     <div>
-                        <h4>Address</h4>
+                        <h4>Address:</h4>
                         <TextField id="normal" label='Address Line 1'/><br></br>
                         <TextField id="normal" label='Address Line 2'/><br></br>
                         <TextField id="normal" label='City'/>
@@ -42,26 +42,26 @@ export function ApplicationForm(){
                 </div>
                 <div>
                     <h2>Instructor Details:</h2>
-                    <TextField id="normal" label='Instructor First Name' variant={"outlined"}/><br></br>
+                    <TextField id="normal" label='Instructor First Name' variant={"outlined"}/>
                     <TextField id="normal" label='Instructor Last Name' variant={'outlined'}/><br></br>
                     <TextField id="normal" label='Instructor Mail' variant={'outlined'}/>
                 </div>
                 <div>
                     <h2>Employer Information:</h2>
                     <TextField id="normal" label='Employee Name' variant={'outlined'}/><br></br>
-                    <TextField id="normal" label='Primary Contact Name' variant={"outlined"}/>
-                    <TextField id="normal" label='Employee Email' variant={'outlined'}/>
+                    <TextField id="normal" label='Primary Contact Name' variant={"outlined"}/><br></br>
+                    <TextField id="normal" label='Employee Email' variant={'outlined'}/><br></br>
                     <TextField id="normal" label='Employee Phone' variant={'outlined'}/><br></br>
                     <div>
-                        <h4>Employee Location</h4>
+                        <h4>Employee Location:</h4>
                         <TextField id="normal" label='Address Line 1'/><br></br>
                         <TextField id="normal" label='Address Line 2'/><br></br>
                         <TextField id="normal" label='City'/>
                         <TextField id="normal" label='State'/>
                         <TextField id="normal" label='ZIP'/>
-                        <h6>Internship Start Date:</h6>
+                        <h4>Internship Start Date:</h4>
                         <DatePicker id="normal" onChange={change} selected={startDate} variant={'outlined'}/><br></br>
-                        <h6>Internship End Date:</h6>
+                        <h4>Internship End Date:</h4>
                         <DatePicker id="normal" onChange={onChange} selected={endDate} variant={"outlined"}/>
                     </div>
                 </div>
