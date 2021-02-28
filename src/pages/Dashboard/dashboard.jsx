@@ -3,12 +3,6 @@ import React from "react";
 
 
 export function StudentView() {
-    // let role = JSON.parse(localStorage.getItem('token'));
-    // console.log('admin, pls')
-    // console.log(role)
-    console.log(localStorage)
-    console.log(localStorage.getItem('token'))
-    console.log(localStorage.getItem('role'))
 
     return (
         <div>
@@ -18,12 +12,6 @@ export function StudentView() {
 }
 
 export function AdminView() {
-    // let role = JSON.parse(localStorage.getItem('token'));
-    // console.log('admin, pls')
-    // console.log(role)
-    console.log(localStorage)
-    console.log(localStorage.getItem('token'))
-    console.log(localStorage.getItem('role'))
 
     return (
         <div>
@@ -33,12 +21,6 @@ export function AdminView() {
 }
 
 export function FacultyView() {
-    // let role = JSON.parse(localStorage.getItem('token'));
-    // console.log('admin, pls')
-    // console.log(role)
-    console.log(localStorage)
-    console.log(localStorage.getItem('token'))
-    console.log(localStorage.getItem('role'))
 
     return (
         <div>

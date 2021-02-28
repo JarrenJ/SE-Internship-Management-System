@@ -13,6 +13,15 @@ const connection = mysql.createConnection({
     database: process.env.MYSQL_DB,
 })
 
+// If connection fails, log error to console
+connection.connect(err => {
+    if (err) {
+        console.log(err);
+    } else {
+        console.log('Connected to the MySQL server');
+    }
+});
+
 const app = express()
 
 app.use(cors())
@@ -24,6 +33,7 @@ app.use(session({
 app.use(bodyParser.urlencoded({extended : true}))
 app.use(bodyParser.json())
 
+// Endpoint to get all accounts
 app.get('/api/accounts', (req, res) => {
     connection.query(`SELECT * FROM accounts`, (err, rows) => {
         if (err) {
@@ -34,6 +44,7 @@ app.get('/api/accounts', (req, res) => {
     });
 });
 
+// Endpoint to get all ADMIN accounts
 app.get('/api/admins', (req, res) => {
     const role = "admin"
     connection.query(`SELECT * FROM accounts WHERE role = ?`, [role], (err, rows) => {
@@ -45,6 +56,7 @@ app.get('/api/admins', (req, res) => {
     });
 });
 
+// Endpoint to get all FACULTY accounts
 app.get('/api/faculty', (req, res) => {
     const role = "faculty"
     connection.query(`SELECT * FROM accounts WHERE role = ?`, [role], (err, rows) => {
@@ -56,6 +68,7 @@ app.get('/api/faculty', (req, res) => {
     });
 });
 
+// Endpoint to get all STUDENT accounts
 app.get('/api/students', (req, res) => {
     const role = "student"
     connection.query(`SELECT * FROM accounts WHERE role = ?`, [role], (err, rows) => {
@@ -66,6 +79,13 @@ app.get('/api/students', (req, res) => {
         }
     });
 });
+
+/* Endpoint to authenticate user
+ * Expects a JSON object with following shape
+ *
+ * { "username": "", "password": "" }
+ *
+ */
 
 app.post('/api/auth', (request, response) => {
     console.log(request.body)
@@ -79,13 +99,11 @@ app.post('/api/auth', (request, response) => {
             request.session.loggedin = true
             request.session.username = username
 
-            // MAYBE I CAN USE A JWT TOKEN TO CHECK IF USER IS ADMIN / STUDENT / FACULTY????
 
             const token = jwt.sign(
                 // payload data
                 {
-                    name: 'name',
-                    id: 'id',
+                    username: request.body.username,
                 },
                 process.env.TOKEN_SECRET
             );
@@ -99,31 +117,17 @@ app.post('/api/auth', (request, response) => {
                     role,
                 },
             });
-
-            // response.header("auth-role", userRole).json({
-            //     error: null,
-            //     data: {
-            //         userRole,
-            //     },
-            // });
             response.status(200)
+
         } else {
-            console.log('Invalid User!')
+            response.statusMessage = "Invalid User"
             response.status(400)
+            // response.sendStatus(400)
         }
         console.log('ended')
         response.end();
     });
 });
-
-// app.get('/home', function(request, response) {
-//     if (request.session.loggedin) {
-//         response.send('Welcome back, ' + request.session.username + '!');
-//     } else {
-//         response.send('Please login to view this page!');
-//     }
-//     response.end();
-// });
 
 app.listen(8000, () => {
     console.log(`App server now listening to port 8000`);
