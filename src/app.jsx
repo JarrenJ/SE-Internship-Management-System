@@ -25,6 +25,8 @@ const App = () => {
                 return FacultyView
             case 'Student':
                 return StudentView
+            default:
+                return StudentView
         }
     }
 

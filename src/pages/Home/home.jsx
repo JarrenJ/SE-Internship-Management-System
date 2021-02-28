@@ -47,18 +47,16 @@ export function Home() {
                 !error &&
                 setTimeout(() => {
                     // set JWT here - for login session and to guard routes so only authenticated users can access them
-                    // localStorage.setItem("token", data.token);
-                    // localStorage.setItem("role", data.role);
                     sessionStorage.setItem("token", data.token);
                     sessionStorage.setItem("role", data.role);
-                    // send user to dashboard
+
                     // PUSH new url onto history so create a new entry
-                    history.push("/playground");
+                    history.push("/dash");
                 }, 3000);
 
                 !error && e.target.reset();
             })
-            // Catch user with invalid credentials here
+            // Catch user with invalid credentials here... or any other error
             .catch((error) => {
                 console.log(error)
                 setMessage({
@@ -68,7 +66,7 @@ export function Home() {
     };
 
     return(
-        <div className="main">
+        <div className="login__container">
             <div className="login__logo">
                 <img src={NWHorizontal2Color} alt='NW_Horizontal_2Color'/>
             </div>
