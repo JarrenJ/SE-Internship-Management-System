@@ -17,7 +17,8 @@ Form will be one page and at the bottom will be two buttons. Upon clicking one o
 * -- Possibly more things...
 *  */
 export function ApplicationForm(){
-        const [value, onChange] = useState(new Date());
+    const [startDate, change] = useState(new Date());
+    const [endDate, onChange] = useState(new Date());
     return(
         <div className={'main'}>
             <form className={'app__form'} >
@@ -59,9 +60,9 @@ export function ApplicationForm(){
                         <TextField id="normal" label='State'/>
                         <TextField id="normal" label='ZIP'/>
                         <h6>Internship Start Date:</h6>
-                        <DatePicker id="normal" onChange={onChange} value={value} variant={'outlined'}/><br></br>
+                        <DatePicker id="normal" onChange={change} selected={startDate} variant={'outlined'}/><br></br>
                         <h6>Internship End Date:</h6>
-                        <DatePicker id="normal" onChange={onChange} value={value} dateFormat="yy-MM-dd" variant={"outlined"}/>
+                       <DatePicker id="normal" onChange={onChange} selected={endDate} variant={"outlined"}/>
                     </div>
                 </div>
 
