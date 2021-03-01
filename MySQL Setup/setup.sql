@@ -1,6 +1,17 @@
 CREATE DATABASE IF NOT EXISTS ims DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 USE ims;
 
+CREATE TABLE IF NOT EXISTS `accounts` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `username` varchar(50) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `role` varchar(10) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=2 
+
+INSERT INTO `accounts` (`id`, `username`, `password`, `role`) VALUES (1, 'admin', 'admin', 'Admin');
+INSERT INTO `accounts` (`id`, `username`, `password`, `role`) VALUES (2, 'faculty', 'faculty', 'Faculty');
+INSERT INTO `accounts` (`id`, `username`, `password`, `role`) VALUES (3, 'student', 'student', 'Student');
+
 CREATE TABLE IF NOT EXISTS Student (
     StudentID VARCHAR(25) NOT NULL,
     LastName varchar(25) NOT NULL,
