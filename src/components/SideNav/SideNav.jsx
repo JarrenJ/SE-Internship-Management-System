@@ -4,17 +4,16 @@ import { NWHorizontal2Color } from 'assets'
 import styled from "styled-components"
 
 import { withStyles } from '@material-ui/core/styles';
+<<<<<<< HEAD
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Button from '@material-ui/core/Button';
+=======
+>>>>>>> Conditional rendering for different roles
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import DraftsIcon from '@material-ui/icons/Drafts';
-import SendIcon from '@material-ui/icons/Send';
 
 import '../../colors.css'
 import './SideNav.css'
@@ -45,10 +44,8 @@ const StyledMenu = withStyles({
     />
 ));
 
-const StyledMenuItem = withStyles((theme) => ({
+const StyledMenuItem = withStyles(() => ({
     root: {
-        // paddingRight: '3rem',
-        // paddingLeft: '3rem',
         '&:focus': {
             backgroundColor: 'lightgray',
             '& .MuiListItemIcon-root, & .MuiListItemText-primary': {
