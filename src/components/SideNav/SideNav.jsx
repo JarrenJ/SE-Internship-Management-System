@@ -13,7 +13,6 @@ import './SideNav.css'
 
 const Divider = styled.hr`
   width: 85%;
-  background-color: aqua;
   opacity: 50%;
 `
 
