@@ -1,5 +1,6 @@
 import React from "react";
 
+import { SideNav } from 'components'
 
 
 export function StudentView() {
@@ -15,6 +16,7 @@ export function AdminView() {
 
     return (
         <div>
+            <SideNav />
             THIS IS THE ADMIN PAGE
         </div>
     );
