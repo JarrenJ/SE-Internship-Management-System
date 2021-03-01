@@ -33,45 +33,25 @@ app.use(session({
 app.use(bodyParser.urlencoded({extended : true}))
 app.use(bodyParser.json())
 
+/* Endpoint to grab user specified role
+ * Example: /api/admin
+ * Returns: all admin accounts
+ */
+app.get('/api/:accountType', (req, res) => {
+    const role = req.params.accountType
+    console.log(role)
+    connection.query(`SELECT * FROM accounts WHERE role = ?`, [role], (err, rows) => {
+        if (err) {
+            res.send(err)
+        } else {
+            res.send(rows)
+        }
+    });
+});
+
 // Endpoint to get all accounts
 app.get('/api/accounts', (req, res) => {
     connection.query(`SELECT * FROM accounts`, (err, rows) => {
-        if (err) {
-            res.send(err)
-        } else {
-            res.send(rows)
-        }
-    });
-});
-
-// Endpoint to get all ADMIN accounts
-app.get('/api/admins', (req, res) => {
-    const role = "admin"
-    connection.query(`SELECT * FROM accounts WHERE role = ?`, [role], (err, rows) => {
-        if (err) {
-            res.send(err)
-        } else {
-            res.send(rows)
-        }
-    });
-});
-
-// Endpoint to get all FACULTY accounts
-app.get('/api/faculty', (req, res) => {
-    const role = "faculty"
-    connection.query(`SELECT * FROM accounts WHERE role = ?`, [role], (err, rows) => {
-        if (err) {
-            res.send(err)
-        } else {
-            res.send(rows)
-        }
-    });
-});
-
-// Endpoint to get all STUDENT accounts
-app.get('/api/students', (req, res) => {
-    const role = "student"
-    connection.query(`SELECT * FROM accounts WHERE role = ?`, [role], (err, rows) => {
         if (err) {
             res.send(err)
         } else {
@@ -86,7 +66,6 @@ app.get('/api/students', (req, res) => {
  * { "username": "", "password": "" }
  *
  */
-
 app.post('/api/auth', (request, response) => {
     console.log(request.body)
     const username = request.body.username
@@ -98,7 +77,6 @@ app.post('/api/auth', (request, response) => {
             console.log(results[0].role)
             request.session.loggedin = true
             request.session.username = username
-
 
             const token = jwt.sign(
                 // payload data
