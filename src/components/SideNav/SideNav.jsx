@@ -4,13 +4,10 @@ import { NWHorizontal2Color } from 'assets'
 import styled from "styled-components"
 
 import { withStyles } from '@material-ui/core/styles';
-<<<<<<< HEAD
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Button from '@material-ui/core/Button';
-=======
->>>>>>> Conditional rendering for different roles
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -20,7 +17,6 @@ import './SideNav.css'
 
 const Divider = styled.hr`
   width: 85%;
-  background-color: aqua;
   opacity: 50%;
 `
 
