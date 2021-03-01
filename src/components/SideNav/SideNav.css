@@ -1,6 +1,18 @@
+.container {
+    height: auto;
+    /*width: 300px;*/
+    position: fixed;
+    z-index: 1;
+    top: 300px;
+    left: 0;
+    /*overflow-x: hidden;*/
+    /*padding-top: 20px;*/
+    /*align-items: center;*/
+}
+
 .sidenav {
     height: 100%;
-    width: 300px;
+    /*width: 300px;*/
     position: fixed;
     z-index: 1;
     top: 0;
@@ -47,4 +59,42 @@
     width: 90%;
     padding-bottom: 10px;
     align-items: center;
+}
+
+.sidenav__btn__close {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    padding-top: 150px;
+}
+
+.sidenav__btn__close button {
+    height: 40px;
+    width: 40px;
+    background: rgba(255, 255, 255, .4);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, .4);
+    color: white;
+}
+
+.sidenav__btn__open {
+    display: flex;
+    flex-direction: column;
+    /*align-items: center;*/
+    width: 100%;
+    /*padding-top: 150px;*/
+}
+
+.sidenav__btn__open button {
+    height: 100px;
+    width: 40px;
+    background: var(--primary-bg-color);
+    border-radius: 10px;
+    border: 1px solid var(--primary-bg-color);
+    color: white;
+}
+
+.left {
+    padding-left: 160px;
 }
