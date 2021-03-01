@@ -1,4 +1,4 @@
-CREATE DATABASE IF NOT EXISTS ims DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+CREATE DATABASE IF NOT EXISTS ims;
 USE ims;
 
 CREATE TABLE IF NOT EXISTS `accounts` (
@@ -12,31 +12,16 @@ INSERT INTO `accounts` (`id`, `username`, `password`, `role`) VALUES (1, 'admin'
 INSERT INTO `accounts` (`id`, `username`, `password`, `role`) VALUES (2, 'faculty', 'faculty', 'Faculty');
 INSERT INTO `accounts` (`id`, `username`, `password`, `role`) VALUES (3, 'student', 'student', 'Student');
 
-CREATE TABLE IF NOT EXISTS Student (
-    StudentID VARCHAR(25) NOT NULL,
-    LastName varchar(25) NOT NULL,
+CREATE TABLE IF NOT EXISTS Users (
+    UserID VARCHAR(25) NOT NULL,
+    UserRole VARCHAR(25),
+    LastName varchar(25),
     FirstName VARCHAR(25),
-    StudentEmail VARCHAR(25),
+    PersonalEmail VARCHAR(25),
     StudentAddress VARCHAR(25),
     Phone VARCHAR(25),
-    PRIMARY KEY (StudentID)
-);
-
-
-CREATE TABLE IF NOT EXISTS Faculty (
-    FacultyID VARCHAR(25) NOT NULL,
-    LastName VARCHAR(25),
-    FirstName VARCHAR(25),
-    PRIMARY KEY (FacultyID)
-);
-
-
-CREATE TABLE IF NOT EXISTS Administrator (
-    AdminID VARCHAR(25) NOT NULL,
-    LastName VARCHAR(25) NOT NULL,
-    FirstName VARCHAR(25),
-    PRIMARY KEY (AdminID)
-);
+    PRIMARY KEY (UserID)
+)
 
 CREATE TABLE IF NOT EXISTS Internship (
     InternshipID int NOT NULL AUTO_INCREMENT,
@@ -59,7 +44,7 @@ CREATE TABLE IF NOT EXISTS Applications (
     FacultyID VARCHAR(20),
     PRIMARY KEY (ApplicationID),
     FOREIGN KEY (InternshipID) REFERENCES Internship(InternshipID),
-    FOREIGN KEY (StudentID) REFERENCES Student(StudentID),
-    FOREIGN KEY (FacultyID) REFERENCES Faculty(FacultyID)
+    FOREIGN KEY (StudentID) REFERENCES Users(StudentID),
+    FOREIGN KEY (FacultyID) REFERENCES Users(FacultyID)
 );  
 
