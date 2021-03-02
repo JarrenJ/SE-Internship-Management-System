@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 
-import {AdminView, FacultyView, Home, StudentView} from "pages";
+import {AdminView, FacultyView, Home, StudentView,Dashboard} from "pages";
 import {SampleComponent} from "components";
 
 const App = () => {
@@ -37,6 +37,7 @@ const App = () => {
             <Route path='/' exact component={Home} />
             <Route path='/playground' component={authGuard(SampleComponent)} />
             <Route path='/dash' component={authGuard(showView(role))} />
+            <Route path='/Dashboard' component={Dashboard} />
             {/*<Route component={error404} />*/}
         </Switch>
         {/*<Footer />*/}

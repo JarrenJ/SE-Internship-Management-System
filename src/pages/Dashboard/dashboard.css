@@ -1,0 +1,11 @@
+.dashboard__container {
+    background-color: aquamarine;
+    margin-left: 350px;
+    color: var(--error);
+
+}
+.dashboard__Header{
+    height: 100px;
+    background-color: var(--error);
+
+}

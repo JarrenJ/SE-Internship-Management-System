@@ -1,7 +1,15 @@
 import React from "react";
+import "./dashboard.css"
+import "../../colors.css"
 
-
-
+export function Dashboard() {
+    return (
+        <div className="dashboard__container">
+            <div className="dashboard__Header"></div>
+            <p>Hello world!</p>
+        </div>
+    )
+}
 export function StudentView() {
 
     return (
