@@ -143,8 +143,10 @@ export function SideNav({isAdmin, isFaculty, isStudent}) {
                     <button onClick={closeSideNav}><i className="fas fa-chevron-left" /></button>
                 </div>
             </div>
-            <div className='sidenav__btn__open'>
-                <button onClick={openSideNav}><i className="fas fa-chevron-right" /></button>
-            </div>
+            {navWidth === '0px' &&
+                <div className='sidenav__btn__open'>
+                    <button onClick={openSideNav}><i className="fas fa-chevron-right" /></button>
+                </div>
+            }
         </div>
     )}
