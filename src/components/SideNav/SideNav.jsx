@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import {Link} from "react-router-dom";
-import { NWHorizontal2Color } from 'assets'
+import { NWHorizontal2Color, NWTripleStacked2Color } from 'assets'
 import styled from "styled-components"
 
 import { withStyles } from '@material-ui/core/styles';
@@ -52,6 +52,7 @@ export function SideNav({isAdmin, isFaculty, isStudent}) {
     const [anchorEl, setAnchorEl] = useState(null);
     const [down, setDown] = useState(false)
     const [navWidth, setNavWidth] = useState('300px')
+    const [navWidthLeft, setNavWidthLeft] = useState('0')
 
     const handleClick = (e) => {
         setDown(!down)
@@ -70,9 +71,18 @@ export function SideNav({isAdmin, isFaculty, isStudent}) {
     const openSideNav = () => {
         setNavWidth('300px')
     }
+
+    const closeSideNavLeft = () => {
+        setNavWidthLeft('-300px')
+    }
+
+    const openSideNavLeft = () => {
+        setNavWidthLeft('0')
+    }
+
     return(
         <div className='container'>
-            <div className='sidenav' style={{width: navWidth}}>
+            <div className='sidenav' style={{width: navWidth, left: navWidthLeft}}>
                 <div className='sidenav__logo'>
                     <img src={NWHorizontal2Color} alt='NW_Horizontal_2Color' />
                 </div>
@@ -136,14 +146,63 @@ export function SideNav({isAdmin, isFaculty, isStudent}) {
                 </div>
 
                 <div className='sidenav__btn__close'>
-                    <button onClick={closeSideNav}><i className="fas fa-chevron-left" /></button>
+                    <button onClick={closeSideNavLeft}><i className="fas fa-chevron-left" /></button>
                 </div>
             </div>
-            {navWidth === '0px' &&
-                <div className='sidenav__btn__open'>
+            <div
+                className='sidenav__collapsed'
+                onClick={openSideNavLeft}
+            >
+                <div className='sidenav__collapsed__logo'>
+                    <img src={NWTripleStacked2Color} alt='NW_Horizontal_2Color' />
+                </div>
+                {!isStudent &&
+                <>
+                    <div className='sidenav__collapsed__icon'>
+                        <Link to='#'><i className="fas fa-tachometer-alt" /></Link>
+                    </div>
+                    {/*<Divider />*/}
+                </>
+                }
+                <div className='sidenav__collapsed__icon'>
+                    {isAdmin &&
+                    <Link
+                        to='#'
+                        aria-controls="customized-menu"
+                        aria-haspopup="true"
+                        variant="contained"
+                        color="primary"
+                        onClick={handleClick}
+                    >
+                        <i className="fas fa-folder" />
+                    </Link>
+                    }
+                    {isFaculty &&
+                    <Link to='#'>
+                        <i className="fas fa-folder" />
+                    </Link>
+                    }
+
+                    {isStudent &&
+                    <>
+                        <Link to='#'>
+                            <i className="fas fa-plus-square" />
+                        </Link>
+                        <Link to='#'>
+                            <i className="fas fa-folder-open" />
+                        </Link>
+                    </>
+                    }
+                </div>
+                <div className='sidenav__btn__close'>
                     <button onClick={openSideNav}><i className="fas fa-chevron-right" /></button>
                 </div>
-            }
+            </div>
+            {/*{navWidth === '0px' &&*/}
+            {/*    <div className='sidenav__btn__open'>*/}
+            {/*        <button onClick={openSideNav}><i className="fas fa-chevron-right" /></button>*/}
+            {/*    </div>*/}
+            {/*}*/}
         </div>
     )
 }

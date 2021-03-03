@@ -1,5 +1,5 @@
 .container {
-    height: auto;
+    height: 100%;
     /*width: 300px;*/
     position: fixed;
     z-index: 1;
@@ -15,8 +15,8 @@
     /*width: 300px;*/
     position: fixed;
     z-index: 1;
-    top: 0;
-    left: 0;
+    top: -10px;
+    /*left: 0;*/
     background-color: var(--primary-bg-color);
     transition: .5s ease;
     overflow-x: hidden;
@@ -24,6 +24,38 @@
     /*display: flex;*/
     /*flex-direction: column;*/
     align-items: center;
+}
+
+.sidenav__collapsed {
+    height: 100%;
+    width: 60px;
+    background-color: var(--primary-bg-color);
+    cursor: pointer;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+.sidenav__collapsed__logo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.sidenav__collapsed img {
+    width: 90%;
+    padding-top: 10px;
+    align-items: center;
+}
+
+.sidenav__collapsed__icon {
+    display: flex;
+    flex-direction: column;
+    /*margin-left: 20px;*/
+    align-items: center;
+    font-size: 2rem;
+    width: 100%;
 }
 
 .sidenav__link {
@@ -48,7 +80,7 @@
     width: 100%;
 }
 
-.sidenav a {
+.sidenav a, .sidenav__collapsed a {
     color: white;
     text-decoration: none;
     margin-top: 10px;
@@ -79,18 +111,21 @@
 }
 
 .sidenav__btn__open {
-    display: flex;
-    flex-direction: column;
+    /*display: flex;*/
+    /*flex-direction: column;*/
     /*align-items: center;*/
-    width: 100%;
+    /*width: 100%;*/
+    height: 100%;
+    position: absolute;
+    top: -300px;
     /*padding-top: 150px;*/
 }
 
 .sidenav__btn__open button {
-    height: 100px;
+    height: 100%;
     width: 40px;
     background: var(--primary-bg-color);
-    border-radius: 10px;
+    /*border-radius: 10px;*/
     border: 1px solid var(--primary-bg-color);
     color: white;
 }
