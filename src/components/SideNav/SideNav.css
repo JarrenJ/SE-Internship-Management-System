@@ -1,13 +1,9 @@
 .container {
     height: 100%;
-    /*width: 300px;*/
     position: fixed;
     z-index: 1;
     top: 0;
     left: 0;
-    /*overflow-x: hidden;*/
-    /*padding-top: 20px;*/
-    /*align-items: center;*/
 }
 
 .sidenav {
@@ -16,13 +12,10 @@
     position: fixed;
     z-index: 1;
     top: -10px;
-    /*left: 0;*/
     background-color: var(--primary-bg-color);
     transition: .5s ease;
     overflow-x: hidden;
     padding-top: 20px;
-    /*display: flex;*/
-    /*flex-direction: column;*/
     align-items: center;
 }
 
@@ -51,7 +44,6 @@
 .sidenav__collapsed__icon {
     display: flex;
     flex-direction: column;
-    /*margin-left: 20px;*/
     align-items: center;
     font-size: 2rem;
     width: 100%;
@@ -62,6 +54,7 @@
     flex-direction: column;
     margin-left: 20px;
     width: 100%;
+    font-size: 1.2rem;
 }
 
 .sidenav__popup {
@@ -69,6 +62,7 @@
     flex-direction: column;
     margin-left: 20px;
     width: 100%;
+    font-size: 1.2rem;
 
 }
 
@@ -111,26 +105,20 @@
 }
 
 .sidenav__btn__open {
-    /*display: flex;*/
-    /*flex-direction: column;*/
-    /*align-items: center;*/
-    /*width: 100%;*/
     height: 100%;
     position: absolute;
     top: -300px;
-    /*padding-top: 150px;*/
 }
 
 .sidenav__btn__open button {
     height: 100%;
     width: 40px;
     background: var(--primary-bg-color);
-    /*border-radius: 10px;*/
     border: 1px solid var(--primary-bg-color);
     color: white;
     cursor: pointer;
 }
 
 .left {
-    padding-left: 160px;
+    padding-left: 150px;
 }
