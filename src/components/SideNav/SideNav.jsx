@@ -55,7 +55,6 @@ const StyledMenuItem = withStyles(() => ({
 export function SideNav({isAdmin, isFaculty, isStudent}) {
     const [anchorEl, setAnchorEl] = useState(null);
     const [down, setDown] = useState(false)
-    // const [navWidth, setNavWidth] = useState('300px')
     const [navOpen, setNavOpen] = useState('0')
 
     const handleClick = (e) => {
@@ -67,14 +66,6 @@ export function SideNav({isAdmin, isFaculty, isStudent}) {
         setAnchorEl(null);
         setDown(!down)
     };
-
-    // const closeSideNav = () => {
-    //     setNavWidth('0px')
-    // }
-    //
-    // const openSideNav = () => {
-    //     setNavWidth('300px')
-    // }
 
     const closeSideNav = () => {
         setNavOpen('-300px')
@@ -203,11 +194,5 @@ export function SideNav({isAdmin, isFaculty, isStudent}) {
                 </div>
             </div>
             }
-
-            {/*{navWidth === '0px' &&*/}
-            {/*    <div className='sidenav__btn__open'>*/}
-            {/*        <button onClick={openSideNav}><i className="fas fa-chevron-right" /></button>*/}
-            {/*    </div>*/}
-            {/*}*/}
         </div>
     )}
