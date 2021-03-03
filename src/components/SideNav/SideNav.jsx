@@ -51,8 +51,8 @@ const StyledMenuItem = withStyles(() => ({
 export function SideNav({isAdmin, isFaculty, isStudent}) {
     const [anchorEl, setAnchorEl] = useState(null);
     const [down, setDown] = useState(false)
-    const [navWidth, setNavWidth] = useState('300px')
-    const [navWidthLeft, setNavWidthLeft] = useState('0')
+    // const [navWidth, setNavWidth] = useState('300px')
+    const [navOpen, setNavOpen] = useState('0')
 
     const handleClick = (e) => {
         setDown(!down)
@@ -64,25 +64,25 @@ export function SideNav({isAdmin, isFaculty, isStudent}) {
         setDown(!down)
     };
 
+    // const closeSideNav = () => {
+    //     setNavWidth('0px')
+    // }
+    //
+    // const openSideNav = () => {
+    //     setNavWidth('300px')
+    // }
+
     const closeSideNav = () => {
-        setNavWidth('0px')
+        setNavOpen('-300px')
     }
 
     const openSideNav = () => {
-        setNavWidth('300px')
-    }
-
-    const closeSideNavLeft = () => {
-        setNavWidthLeft('-300px')
-    }
-
-    const openSideNavLeft = () => {
-        setNavWidthLeft('0')
+        setNavOpen('0')
     }
 
     return(
         <div className='container'>
-            <div className='sidenav' style={{width: navWidth, left: navWidthLeft}}>
+            <div className='sidenav' style={{left: navOpen}}>
                 <div className='sidenav__logo'>
                     <img src={NWHorizontal2Color} alt='NW_Horizontal_2Color' />
                 </div>
@@ -146,12 +146,13 @@ export function SideNav({isAdmin, isFaculty, isStudent}) {
                 </div>
 
                 <div className='sidenav__btn__close'>
-                    <button onClick={closeSideNavLeft}><i className="fas fa-chevron-left" /></button>
+                    <button onClick={closeSideNav}><i className="fas fa-chevron-left" /></button>
                 </div>
             </div>
+            {console.log(navOpen)}
+            {navOpen >= '-200px' &&
             <div
                 className='sidenav__collapsed'
-                onClick={openSideNavLeft}
             >
                 <div className='sidenav__collapsed__logo'>
                     <img src={NWTripleStacked2Color} alt='NW_Horizontal_2Color' />
@@ -161,7 +162,6 @@ export function SideNav({isAdmin, isFaculty, isStudent}) {
                     <div className='sidenav__collapsed__icon'>
                         <Link to='#'><i className="fas fa-tachometer-alt" /></Link>
                     </div>
-                    {/*<Divider />*/}
                 </>
                 }
                 <div className='sidenav__collapsed__icon'>
@@ -198,6 +198,8 @@ export function SideNav({isAdmin, isFaculty, isStudent}) {
                     <button onClick={openSideNav}><i className="fas fa-chevron-right" /></button>
                 </div>
             </div>
+            }
+
             {/*{navWidth === '0px' &&*/}
             {/*    <div className='sidenav__btn__open'>*/}
             {/*        <button onClick={openSideNav}><i className="fas fa-chevron-right" /></button>*/}
