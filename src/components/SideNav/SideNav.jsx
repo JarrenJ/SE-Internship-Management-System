@@ -100,7 +100,12 @@ export function SideNav({isAdmin, isFaculty, isStudent}) {
                             color="primary"
                             onClick={handleClick}
                         >
-                            <i className="fas fa-folder" /> Reports {down ? <i className="fas fa-chevron-down left" /> : <i className="fas fa-chevron-right left" /> }
+                            <i className="fas fa-folder" /> Reports
+                            {
+                                down ? <i className="fas fa-chevron-down left" />
+                            :
+                                <i className="fas fa-chevron-right left" />
+                        }
                         </Link>
                     }
                     {isFaculty &&
