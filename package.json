@@ -58,6 +58,7 @@
     ]
   },
   "devDependencies": {
+    "react-hook-form": "^6.15.4",
     "react-router-dom": "^5.2.0",
     "styled-components": "^5.2.1"
   }
