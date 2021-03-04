@@ -48,7 +48,7 @@ export function Home() {
                     sessionStorage.setItem("role", data.role);
 
                     // PUSH new url onto history so create a new entry
-                    history.push("/dash");
+                    history.push("/dashboard");
                 }, 3000);
 
                 !error && e.target.reset();

@@ -7,10 +7,6 @@ import { withStyles } from '@material-ui/core/styles';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import Button from '@material-ui/core/Button';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-import ListItemText from '@material-ui/core/ListItemText';
 
 import '../../colors.css'
 import './SideNav.css'
@@ -52,7 +48,10 @@ const StyledMenuItem = withStyles(() => ({
 }))(MenuItem);
 
 
-export function SideNav({isAdmin, isFaculty, isStudent}) {
+export function SideNav({role}) {
+    // Destructure role object
+    const { isStudent, isAdmin, isFaculty } = role
+
     const [anchorEl, setAnchorEl] = useState(null);
     const [down, setDown] = useState(false)
     const [navOpen, setNavOpen] = useState('0')
@@ -145,24 +144,19 @@ export function SideNav({isAdmin, isFaculty, isStudent}) {
                     </StyledMenu>
                 </div>
 
-                <div className='sidenav__btn__close'>
+                <div className='sidenav__btn'>
                     <button onClick={closeSideNav}><i className="fas fa-chevron-left" /></button>
                 </div>
             </div>
-            {console.log(navOpen)}
             {navOpen >= '-200px' &&
-            <div
-                className='sidenav__collapsed'
-            >
+            <div className='sidenav__collapsed'>
                 <div className='sidenav__collapsed__logo'>
                     <img src={NWTripleStacked2Color} alt='NW_Horizontal_2Color' />
                 </div>
                 {!isStudent &&
-                <>
                     <div className='sidenav__collapsed__icon'>
                         <Link to='#'><i className="fas fa-tachometer-alt" /></Link>
                     </div>
-                </>
                 }
                 <div className='sidenav__collapsed__icon'>
                     {isAdmin &&
@@ -194,7 +188,7 @@ export function SideNav({isAdmin, isFaculty, isStudent}) {
                     </>
                     }
                 </div>
-                <div className='sidenav__btn__close'>
+                <div className='sidenav__btn'>
                     <button onClick={openSideNav}><i className="fas fa-chevron-right" /></button>
                 </div>
             </div>
