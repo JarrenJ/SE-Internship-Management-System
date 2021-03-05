@@ -1,4 +1,4 @@
-.main {
+.login__container {
     height: 100vh;
     background-color: var(--primary-bg-color);
     display: flex;
@@ -6,12 +6,23 @@
     align-items: center;
 }
 
+.login__logo {
+    height: 100px;
+    position: relative;
+}
+
+.login__logo img{
+    position: absolute;
+    top: -350px;
+    height: 100px;
+}
+
 .login__box {
     display: flex;
     width: 100%;
     max-width: 1120px;
     min-height: 550px;
-    background-color: #fff;
+    background-color: var(--white);
     border-radius: 10px;
 }
 
@@ -51,8 +62,8 @@
     padding: 20px;
     background-color: var(--primary-bg-color);
     font-weight: 600;
-    color: #fff;
-    margin-bottom: 40px;
+    color: var(--primary-btn-text);
+    margin-bottom: 20px;
 }
 
 .login__form input[type="checkbox"]{
@@ -63,12 +74,20 @@
     outline: none;
 }
 
+.login__error {
+    color: var(--error);
+    margin-bottom: 10px;
+}
 
 .login__img {
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
     height: 100%;
     background: url("https://www.nwmissouri.edu/facts/image/admin-building.jpg") center center/cover no-repeat;
+}
+
+a:visited {
+    color: blue;
 }
 
 @media (max-width: 1120px) {
@@ -78,8 +97,15 @@
     }
 }
 
+
 @media (max-width: 970px) {
 
+    /* Change direction to column to stack elements for better viewing on mobile  */
+    .row {
+        flex-direction: column;
+    }
+
+    /* Change border radius on image since we stacked elements now  */
     .login__img {
         border-top-left-radius: 10px;
         border-top-right-radius: 10px;
@@ -96,7 +122,4 @@
         max-width: 400px;
     }
 
-    .row {
-        flex-direction: column;
-    }
 }
