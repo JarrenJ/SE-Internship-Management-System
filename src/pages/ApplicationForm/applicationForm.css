@@ -1,4 +1,4 @@
-.main {
+.appFormContainer {
     height: 250vh;
     background-color: var(--primary-bg-color);
     display: flex;
