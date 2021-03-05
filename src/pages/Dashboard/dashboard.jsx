@@ -1,30 +1,15 @@
 import React from "react";
 
+import { SideNav } from 'components'
 
-
-export function StudentView() {
-
+export function Dashboard({role}) {
     return (
-        <div>
-            THIS IS THE STUDENT PAGE
-        </div>
-    );
-}
-
-export function AdminView() {
-
-    return (
-        <div>
-            THIS IS THE ADMIN PAGE
-        </div>
-    );
-}
-
-export function FacultyView() {
-
-    return (
-        <div>
-            THIS IS THE FACULTY PAGE
-        </div>
-    );
+        <>
+            <SideNav role={role} />
+            <div className="dashboard__container">
+                <div className="dashboard__Header"></div>
+                <p>Hello world!</p>
+            </div>
+        </>
+    )
 }

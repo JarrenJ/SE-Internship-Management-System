@@ -1,2 +1,2 @@
 export { Home } from './Home/home';
-export { StudentView, AdminView, FacultyView } from './Dashboard/dashboard'
+export { Dashboard } from './Dashboard/dashboard'
