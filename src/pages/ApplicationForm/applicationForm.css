@@ -1,27 +1,60 @@
 .appFormContainer {
-    height: 250vh;
-    background-color: var(--primary-bg-color);
+    height: auto;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    background-color: #ececec;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
 .app__form {
-    width: 90%;
+    width: 100%;
     max-width: 1120px;
-    min-height: 550px;
+    /*min-height: 550px;*/
     background-color: #ffffff;
-    border-radius: 10px;
+    border-radius: 3px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.app__row {
+    display: flex;
+    width: 100%;
+    margin-bottom: 1rem;
+}
+
+.app__column {
+    flex: 50%;
+    /*margin-left: 20px;*/
+    margin: auto 10px;
+}
+
+.app__column__3 {
+    flex: 33.3%;
+    /*margin-left: 20px;*/
+    margin: auto 10px;
+}
+
+.app__input {
+    width: 100%;
+}
+
+.app__input.wide {
+    width: 1000px;
 }
 
 h1{
     text-align: center;
 }
-h2{font-weight: 100px; 
+h2{font-weight: 100px;
     text-align: center;
 }
 
-div{
-    text-align: center;
-}
+/*div{*/
+/*    text-align: center;*/
+/*}*/
 
