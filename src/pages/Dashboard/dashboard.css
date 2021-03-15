@@ -1,11 +1,23 @@
 .dashboard__container {
-    background-color: aquamarine;
+    background-color: rgb(236, 233, 233);;
     margin-left: 350px;
-    color: var(--error);
-
+    color: rgb(128, 123, 123);
+    font-size:x-large;
+    height: 1000px;
+    
 }
 .dashboard__Header{
-    height: 100px;
-    background-color: var(--error);
+    height: 75px;
+    background-color: var(--white);
+
+}
+.dashboard__Button1{
+    height: 10px;
+    color: blue;
+    background-color: var(--white);
+    padding: 50px;
+    width: 200px;
+    border: 1px solid gray;
+    border-radius: 10px;
 
 }

@@ -6,8 +6,12 @@ export function Dashboard() {
     return (
         <div className="dashboard__container">
             <div className="dashboard__Header"></div>
-            <p>Hello world!</p>
+            <p>Dashboard</p>
+            <div className="dashboard__Button1">
+            <p>Total Interns</p>
+            </div>
         </div>
+        
     )
 }
 export function StudentView() {
