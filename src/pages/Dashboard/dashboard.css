@@ -20,14 +20,14 @@
 
 }
 .Header_Namebox{
-    height: 50px;
+    height: 40px;
     width: 150px;
     margin-left: 1400px;
     border-left: 3px solid;
 
 }
 .Header_Namebox > p{
-    margin-top: 10px;
+    margin-top: 13px;
     margin-left: 5px;
     font-size:large;
 
