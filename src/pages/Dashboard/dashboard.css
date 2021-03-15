@@ -6,23 +6,24 @@
     height: 1000px;
     display: flex;
     flex-direction: column;
-    
-    
-    
 }
-.dashboard__container > p{ 
+.dashboard__container > p{
     margin-left: 20px;
 }
 .dashboard__Header{
     height: 65px;
     background-color: var(--white);
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    width: 100%;
 
 }
 .Header_Namebox{
+    display: flex;
+    position: absolute;
     height: 40px;
-    width: 150px;
-    margin-left: 1400px;
+    /*margin-left: 1400px;*/
+    top: 10px;
+    right: 10px;
     border-left: 3px solid;
 
 }
@@ -38,14 +39,26 @@
     width: 100%;
 
 }
+
+.dashboard__row {
+    display: flex;
+    width: 100%;
+}
+
+.dashboard__column__4 {
+    margin: 0 25px;
+    flex: 25%;
+}
+
 .dashboard__Button1{
     height: 10px;
     color: blue;
     background-color: var(--white);
     padding: 50px;
     width: 150px;
+    min-width: 150px;
     border-radius: 10px;
-    margin-left: 20px;   
+    /*margin-left: 20px;*/
     text-align: center;
     vertical-align: middle;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
@@ -63,11 +76,12 @@
     background-color: var(--white);
     padding: 50px;
     width: 150px;
+    min-width: 150px;
     border-radius: 10px;
-    margin-left: 75px;
+    /*margin-left: 75px;*/
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
     border-left: 5px solid;
-    
+
 }
 .dashboard__Button2 > p {
     margin-top: -30px;
@@ -81,8 +95,9 @@
     background-color: var(--white);
     padding: 50px;
     width: 150px;
+    min-width: 150px;
     border-radius: 10px;
-    margin-left: 75px;
+    /*margin-left: 75px;*/
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
     border-left: 5px solid;
 }
@@ -98,8 +113,9 @@
     background-color: var(--white);
     padding: 50px;
     width: 150px;
+    min-width: 150px;
     border-radius: 10px;
-    margin-left: 75px;
+    /*margin-left: 75px;*/
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
     border-left: 5px solid;
 }
@@ -108,4 +124,15 @@
     margin-left: -35px;
     font-size:large;
     -webkit-text-stroke: .2px gray;
+}
+
+@media (max-width: 1594px) {
+    .dashboard__row{
+        flex-direction: column;
+    }
+
+    .dashboard__column__4 {
+        margin-top: 20px;
+        flex: 25%;
+    }
 }
