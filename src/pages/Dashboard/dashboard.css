@@ -4,11 +4,38 @@
     color: rgb(128, 123, 123);
     font-size:x-large;
     height: 1000px;
+    display: flex;
+    flex-direction: column;
+    
+    
     
 }
+.dashboard__container > p{ 
+    margin-left: 20px;
+}
 .dashboard__Header{
-    height: 75px;
+    height: 65px;
     background-color: var(--white);
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+
+}
+.Header_Namebox{
+    height: 50px;
+    width: 150px;
+    margin-left: 1400px;
+    border-left: 3px solid;
+
+}
+.Header_Namebox > p{
+    margin-top: 10px;
+    margin-left: 5px;
+    font-size:large;
+
+}
+.Button_box{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
 
 }
 .dashboard__Button1{
@@ -16,8 +43,69 @@
     color: blue;
     background-color: var(--white);
     padding: 50px;
-    width: 200px;
-    border: 1px solid gray;
+    width: 150px;
     border-radius: 10px;
-
+    margin-left: 20px;   
+    text-align: center;
+    vertical-align: middle;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    border-left: 5px solid;
+}
+.dashboard__Button1 > p {
+    margin-top: -30px;
+    margin-left: -135px;
+    font-size:large;
+    -webkit-text-stroke: .2px gray;
+}
+.dashboard__Button2{
+    height: 10px;
+    color: green;
+    background-color: var(--white);
+    padding: 50px;
+    width: 150px;
+    border-radius: 10px;
+    margin-left: 75px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    border-left: 5px solid;
+    
+}
+.dashboard__Button2 > p {
+    margin-top: -30px;
+    margin-left: -35px;
+    font-size:large;
+    -webkit-text-stroke: .2px gray;
+}
+.dashboard__Button3{
+    height: 10px;
+    color: rgb(55, 165, 238);
+    background-color: var(--white);
+    padding: 50px;
+    width: 150px;
+    border-radius: 10px;
+    margin-left: 75px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    border-left: 5px solid;
+}
+.dashboard__Button3 > p {
+    margin-top: -30px;
+    margin-left: -35px;
+    font-size:large;
+    -webkit-text-stroke: .2px gray;
+}
+.dashboard__Button4{
+    height: 10px;
+    color: red;
+    background-color: var(--white);
+    padding: 50px;
+    width: 150px;
+    border-radius: 10px;
+    margin-left: 75px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    border-left: 5px solid;
+}
+.dashboard__Button4 > p {
+    margin-top: -30px;
+    margin-left: -35px;
+    font-size:large;
+    -webkit-text-stroke: .2px gray;
 }
