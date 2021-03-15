@@ -10,7 +10,7 @@
 .app__form__component {
     width: 100%;
     max-width: 1120px;
-    /*min-height: 550px;*/
+    min-height: 740px;
     background-color: #ffffff;
     border-radius: 3px;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
@@ -19,6 +19,22 @@
     justify-content: center;
     align-items: center;
     margin-left: 100px;
+}
+
+.app__btns__container {
+    display: flex;
+    flex-direction: row;
+    width: 85%;
+    justify-content: flex-end;
+    padding-bottom: 2rem;
+}
+
+.app__btn__prev {
+    background-color: #ececec;
+}
+
+.app__btn__next {
+    background-color: #006747;
 }
 
 .app__row__component {

@@ -89,27 +89,31 @@ const ApplicationForm1 = () => {
     const nextButton = () => {
         if (currentStep < 3) {
             return (
-                <button
-                    className="btn btn-primary float-right"
-                    type="button" onClick={next}>
+                <Button
+                    className='app__btn__next'
+                    variant='outlined'
+                    onClick={next}
+                >
                     Next
-                </button>
+                </Button>
             )
         }
-        return null;
+        return null
     }
 
     const previousButton = () => {
         if (currentStep !== 1) {
             return (
-                <button
-                    className="btn btn-primary float-right"
-                    type="button" onClick={previous}>
+                <Button
+                    className='app__btn__prev'
+                    variant='outlined'
+                    onClick={previous}
+                >
                     Previous
-                </button>
+                </Button>
             )
         }
-        return null;
+        return null
     }
 
     return (
@@ -141,11 +145,11 @@ const ApplicationForm1 = () => {
                     handleInputChange={handleInputChange}
                     handleAddressChangeE={handleAddressChangeE}
                 />
-                <div className='app__row__component'>
-                    <div className='app__column__component'>
+                <div className='app__btns__container'>
+                    <div className='app__btn__prev'>
                         {previousButton()}
                     </div>
-                    <div className='app__column__component'>
+                    <div className='app__btn__next'>
                         {nextButton()}
                     </div>
                 </div>
@@ -222,7 +226,6 @@ const StudentInfo = (props) => {
                     />
                 </div>
             </div>
-            {/*<h4>Address:</h4>*/}
             <div className='app__row__component'>
                 <div className='app__column__component'>
                     <TextField
