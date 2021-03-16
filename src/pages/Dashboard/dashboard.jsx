@@ -5,6 +5,7 @@ import { Manlogo } from 'assets'
 import { Hourglass } from 'assets'
 import { airplane } from 'assets'
 import { account } from 'assets'
+import { map } from 'assets'
 
 export function Dashboard() {
     return (
@@ -42,6 +43,7 @@ export function Dashboard() {
                 <p>Interns Map</p>
             </div>
             <div className='dashboard__Map'>
+                <img src={ map } alt='map.png'/>
             </div>
         </div>
 
