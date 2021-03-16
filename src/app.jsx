@@ -1,7 +1,9 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 
-import {Home, Dashboard } from "pages";
+
+import {Home, Dashboard, ApplicationForm } from "pages";
+
 import {SampleComponent} from "components";
 
 const App = () => {
@@ -25,6 +27,7 @@ const App = () => {
     <Router>
         <Switch>
             <Route path='/' exact component={Home} />
+            <Route path='/appForm' component={ApplicationForm} />
             <Route path='/playground' component={authGuard(SampleComponent)} />
             <Route path='/dashboard' component={authGuard(Dashboard, role)} />
             {/*<Route component={error404} />*/}

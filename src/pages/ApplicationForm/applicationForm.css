@@ -1,0 +1,27 @@
+.appFormContainer {
+    height: 250vh;
+    background-color: var(--primary-bg-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.app__form {
+    width: 90%;
+    max-width: 1120px;
+    min-height: 550px;
+    background-color: #ffffff;
+    border-radius: 10px;
+}
+
+h1{
+    text-align: center;
+}
+h2{font-weight: 100px; 
+    text-align: center;
+}
+
+div{
+    text-align: center;
+}
+
