@@ -1,4 +1,6 @@
 import React from "react";
+import { SideNav } from 'components'
+
 import "./dashboard.css"
 import "../../colors.css"
 import { Manlogo } from 'assets'
@@ -46,9 +48,8 @@ export function Dashboard() {
                 <img src={ map } alt='map.png'/>
             </div>
         </div>
+    )}
 
-    )
-}
 export function StudentView() {
 
     return (
@@ -66,16 +67,3 @@ export function AdminView() {
         </div>
     );
 }
-
-// export function Dashboard() {
-//
-//     const userRole = sessionStorage.getItem('role')
-//     return (
-//         <>
-//             <SideNav role={userRole} />
-//             <div className="dashboard__container">
-//                 <div className="dashboard__Header"></div>
-//             </div>
-//         </>
-//     )
-// }
