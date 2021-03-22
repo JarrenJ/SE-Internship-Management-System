@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import { NWHorizontal2Color, NWTripleStacked2Color } from 'assets'
 import styled from "styled-components"
 
@@ -47,10 +47,7 @@ const StyledMenuItem = withStyles(() => ({
     },
 }))(MenuItem);
 
-
 export function SideNav({role}) {
-    // Destructure role object
-    const { isStudent, isAdmin, isFaculty } = role
 
     const [anchorEl, setAnchorEl] = useState(null);
     const [down, setDown] = useState(false)
@@ -81,7 +78,7 @@ export function SideNav({role}) {
                     <img src={NWHorizontal2Color} alt='NW_Horizontal_2Color' />
                 </div>
                 <Divider />
-                {!isStudent &&
+                {role !== 'Student' &&
                     <>
                         <div className='sidenav__link'>
                             <Link to='#'><i className="fas fa-tachometer-alt" /> Dashboard</Link>
@@ -90,7 +87,7 @@ export function SideNav({role}) {
                     </>
                 }
                 <div className='sidenav__popup'>
-                    {isAdmin &&
+                    {role === 'Admin' &&
                         <Link
                             to='#'
                             aria-controls="customized-menu"
@@ -107,13 +104,13 @@ export function SideNav({role}) {
                         }
                         </Link>
                     }
-                    {isFaculty &&
+                    {role === 'Faculty' &&
                         <Link to='#'>
                             <i className="fas fa-folder" /> Applications
                         </Link>
                     }
 
-                    {isStudent &&
+                    {role === 'Student' &&
                         <>
                             <Link to='#'>
                                 <i className="fas fa-plus-square" /> New Application
@@ -153,13 +150,13 @@ export function SideNav({role}) {
                 <div className='sidenav__collapsed__logo'>
                     <img src={NWTripleStacked2Color} alt='NW_Horizontal_2Color' />
                 </div>
-                {!isStudent &&
+                {role !== 'Student' &&
                     <div className='sidenav__collapsed__icon'>
                         <Link to='#'><i className="fas fa-tachometer-alt" /></Link>
                     </div>
                 }
                 <div className='sidenav__collapsed__icon'>
-                    {isAdmin &&
+                    {role === 'Admin' &&
                     <Link
                         to='#'
                         aria-controls="customized-menu"
@@ -171,13 +168,13 @@ export function SideNav({role}) {
                         <i className="fas fa-folder" />
                     </Link>
                     }
-                    {isFaculty &&
+                    {role === 'Faculty' &&
                     <Link to='#'>
                         <i className="fas fa-folder" />
                     </Link>
                     }
 
-                    {isStudent &&
+                    {role === 'Student' &&
                     <>
                         <Link to='#'>
                             <i className="fas fa-plus-square" />

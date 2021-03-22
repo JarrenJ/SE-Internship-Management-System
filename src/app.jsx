@@ -8,20 +8,13 @@ import {SampleComponent} from "components";
 
 const App = () => {
     // Allow only authenticated users to view a protected route
-    const authGuard = (Component, role) => () => {
+    const authGuard = (Component, props) => () => {
         return sessionStorage.getItem("token") ? (
-            <Component role={role}/>
+            <Component />
         ) : (
             <Redirect to="/" />
         );
     };
-
-    const roleId = sessionStorage.getItem('role')
-    const role = {
-        "isStudent": roleId === 'Student',
-        "isAdmin": roleId === 'Admin',
-        "isFaculty": roleId === 'Faculty'
-    }
 
   return (
     <Router>
@@ -29,7 +22,7 @@ const App = () => {
             <Route path='/' exact component={Home} />
             <Route path='/appForm' component={ApplicationForm} />
             <Route path='/playground' component={authGuard(SampleComponent)} />
-            <Route path='/dashboard' component={authGuard(Dashboard, role)} />
+            <Route path='/dashboard' component={authGuard(Dashboard)} />
             {/*<Route component={error404} />*/}
         </Switch>
         {/*<Footer />*/}

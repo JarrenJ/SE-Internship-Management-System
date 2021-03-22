@@ -2,13 +2,15 @@ import React from "react";
 
 import { SideNav } from 'components'
 
-export function Dashboard({role}) {
+export function Dashboard() {
+
+    const userRole = sessionStorage.getItem('role')
+
     return (
         <>
-            <SideNav role={role} />
+            <SideNav role={userRole} />
             <div className="dashboard__container">
                 <div className="dashboard__Header"></div>
-                <p>Hello world!</p>
             </div>
         </>
     )
