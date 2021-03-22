@@ -27,7 +27,6 @@ const App = () => {
             <Route path='/appForm' component={ApplicationForm} />
             <Route path='/playground' component={authGuard(SampleComponent)} />
             <Route path='/dashboard' component={authGuard(Dashboard, role)} />
-            <Route path='/Dashboard' component={Dashboard} />
             {/*<Route component={error404} />*/}
         </Switch>
         {/*<Footer />*/}
