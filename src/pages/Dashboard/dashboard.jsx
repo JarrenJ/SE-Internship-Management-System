@@ -67,14 +67,15 @@ export function AdminView() {
     );
 }
 
-export function FacultyView() {
-    return (
-        <>
-            <SideNav role={role} />
-            <div className="dashboard__container">
-                <div className="dashboard__Header"></div>
-                <p>Hello world!</p>
-            </div>
-        </>
-    )
-}
+// export function Dashboard() {
+//
+//     const userRole = sessionStorage.getItem('role')
+//     return (
+//         <>
+//             <SideNav role={userRole} />
+//             <div className="dashboard__container">
+//                 <div className="dashboard__Header"></div>
+//             </div>
+//         </>
+//     )
+// }
