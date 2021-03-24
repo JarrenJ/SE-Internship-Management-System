@@ -18,9 +18,13 @@ export function Dashboard() {
             <SideNav role={userRole} />
             <div className="dashboard__container">
                 <div className="dashboard__Header">
-                    <img src={ account } alt='account.png'/>
-                    <div className="Header_Namebox">
-                        <p>Cindy Tu</p>
+                    <div className='dashboard__row'>
+                        <div className='dashboard__column'>
+                            <img src={ account } alt='account.png'/>
+                            <div className="Header_Namebox">
+                                <p>Cindy Tu</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <p>Dashboard</p>

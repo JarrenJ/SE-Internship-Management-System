@@ -3,24 +3,30 @@
     margin-left: 350px;
     color: rgb(128, 123, 123);
     font-size:x-large;
-    height: 1000px;
+    height: auto;
     display: flex;
     flex-direction: column;
+    width: auto;
+    padding-bottom: 1rem;
 }
 .dashboard__container > p{
     margin-left: 25px;
     font-size: larger;
 }
 .dashboard__Header{
+    display: flex;
     height: 65px;
     background-color: var(--white);
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
     width: 100%;
 
 }
-.dashboard__Header > img {
+.dashboard__Header .dashboard__row .dashboard__column > img {
     height: 50px;
-    Margin-left: 1490px;
+    /*Margin-left: 1490px;*/
+    position: absolute;
+    top: 5px;
+    right: 10px;
     margin-top: 5px;
 }
 .Header_Namebox{
@@ -31,7 +37,6 @@
     top: 10px;
     right: 80px;
     border-left: 3px solid;
-
 }
 .Header_Namebox > p{
     margin-top: 13px;
@@ -49,6 +54,11 @@
 .dashboard__row {
     display: flex;
     width: 100%;
+}
+
+.dashboard__column {
+    margin: 0 25px;
+    flex: 50%;
 }
 
 .dashboard__column__4 {
@@ -162,9 +172,9 @@
 
     .dashboard__column__4 {
         margin-top: 20px;
-        flex: 25%;
     }
 }
+
 .dashboard__Map_header{
     height: 10px;
     color: Blue;
@@ -191,7 +201,7 @@
     min-width: 150px;
     Margin-left: 25px;
 }
-.dashboard__Map > img { 
+.dashboard__Map > img {
     height: 500px;
-    
+
 }
