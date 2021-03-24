@@ -21,6 +21,10 @@
     align-items: center;
 }
 
+.app__form__submit__btn {
+    padding-bottom: 1rem;
+}
+
 .app__row {
     display: flex;
     width: 100%;
