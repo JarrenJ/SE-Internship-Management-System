@@ -430,12 +430,14 @@ export function ApplicationForm() {
                         </div>
                     </div>
                 </div>
-                <Button
-                    variant={"contained"}
-                    onClick={submitCLick}
-                >
-                    Submit
-                </Button>
+                <div className='app__form__submit__btn'>
+                    <Button
+                        variant={"contained"}
+                        onClick={submitCLick}
+                    >
+                        Submit
+                    </Button>
+                </div>
             </form>
         </div>
     )
