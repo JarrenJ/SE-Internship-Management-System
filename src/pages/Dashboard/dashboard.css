@@ -2,14 +2,19 @@
     background-color: rgb(231, 231, 231);
     /*margin-left: 350px;*/
     position: fixed;
-    left: 21%;
+    /*left: 21%;*/
     color: rgb(128, 123, 123);
     font-size:x-large;
-    height: auto;
+    /*height: auto;*/
     display: flex;
     flex-direction: column;
-    width: auto;
+    /*width: auto;*/
+    /*width: 80%;*/
+    /*width: calc(100% - 3.5%);*/
+    height: 100%;
     padding-bottom: 1rem;
+    transition: 2s ease;
+    overflow-y: auto;
 }
 .dashboard__container > p{
     margin-left: 25px;
@@ -206,4 +211,10 @@
 .dashboard__Map > img {
     height: 500px;
 
+}
+
+@media (max-width: 970px) {
+    .dashboard__container {
+
+    }
 }

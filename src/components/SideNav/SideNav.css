@@ -13,7 +13,8 @@
     z-index: 1;
     top: -10px;
     background-color: var(--primary-bg-color);
-    transition: .5s ease;
+    /*transition: .5s ease;*/
+    transition: 2s ease;
     overflow-x: hidden;
     padding-top: 20px;
     align-items: center;
@@ -21,7 +22,7 @@
 
 .sidenav__collapsed {
     height: 100%;
-    width: 60px;
+    width: 3.5%;
     background-color: var(--primary-bg-color);
     position: fixed;
     top: 0;
@@ -103,5 +104,14 @@
 }
 
 .left {
-    padding-left: 150px;
+    padding-left: 55%;
+}
+
+@media (max-width: 970px) {
+    .sidenav {
+        display: none;
+    }
+    .sidenav__collapsed {
+        display: none;
+    }
 }

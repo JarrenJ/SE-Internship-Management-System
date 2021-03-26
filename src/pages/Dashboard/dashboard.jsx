@@ -57,11 +57,13 @@ const StyledMenuItem = withStyles(() => ({
     },
 }))(MenuItem);
 
-function SideNav({role}) {
-
+const Dashboard1 = () => {
     const [anchorEl, setAnchorEl] = useState(null);
     const [down, setDown] = useState(false)
     const [navOpen, setNavOpen] = useState('0')
+
+    const [isOpen, setIsOpen] = useState(true)
+    const userRole = sessionStorage.getItem("role")
 
     const handleClick = (e) => {
         setDown(!down)
@@ -75,11 +77,64 @@ function SideNav({role}) {
 
     const closeSideNav = () => {
         setNavOpen('-20%')
+        console.log(isOpen)
+        setIsOpen(false)
+        console.log(isOpen)
     }
 
     const openSideNav = () => {
         setNavOpen('0')
+        setIsOpen(true)
     }
+
+    return(
+        <div className='dashboard__container__1'>
+            <SideNav
+                role={userRole}
+                handleClick={handleClick}
+                handleClose={handleClose}
+                closeSideNav={closeSideNav}
+                openSideNav={openSideNav}
+                down={down}
+                setDown={setDown}
+                navOpen={navOpen}
+                setNavOpen={setNavOpen}
+                anchorEl={anchorEl}
+                setAnchorEl={setAnchorEl}
+            />
+            <Dashboard
+                isOpen={isOpen}
+                closeSideNav={closeSideNav}
+                openSideNav={openSideNav}
+            />
+        </div>
+    )
+
+}
+
+function SideNav({role, handleClick, handleClose, closeSideNav, openSideNav, anchorEl, setAnchorEl, down, setDown, navOpen, setNavOpen}) {
+
+    // const [anchorEl, setAnchorEl] = useState(null);
+    // const [down, setDown] = useState(false)
+    // const [navOpen, setNavOpen] = useState('0')
+    //
+    // const handleClick = (e) => {
+    //     setDown(!down)
+    //     setAnchorEl(e.currentTarget);
+    // };
+    //
+    // const handleClose = () => {
+    //     setAnchorEl(null);
+    //     setDown(!down)
+    // };
+    //
+    // const closeSideNav = () => {
+    //     setNavOpen('-20%')
+    // }
+    //
+    // const openSideNav = () => {
+    //     setNavOpen('0')
+    // }
 
     return(
         <div className='container'>
@@ -204,20 +259,22 @@ function SideNav({role}) {
     )}
 
 
-export function Dashboard() {
+export function Dashboard({isOpen, openSideNav, closeSideNav}) {
 
-    const userRole = sessionStorage.getItem("role")
+    // const userRole = sessionStorage.getItem("role")
 
     return (
         <>
-            <SideNav role={userRole} />
-            <div className="dashboard__container">
+            {/*<SideNav role={userRole} />*/}
+            <div className="dashboard__container" style={{left: isOpen ? '20%' : '3.5%', width: isOpen ? `calc(100% - 20%)` : `calc(100% - 3.5%)`}}>
                 <div className="dashboard__Header">
                     <div className='dashboard__row'>
                         <div className='dashboard__column'>
                             <img src={ account } alt='account.png'/>
                             <div className="Header_Namebox">
-                                <p>Cindy Tu</p>
+                                <button onClick={openSideNav}>Open</button>
+                                <button onClick={closeSideNav}>Closed</button>
+                                <p>{isOpen ? 'open' : 'closed'}</p>
                             </div>
                         </div>
                     </div>
@@ -272,3 +329,5 @@ export function AdminView() {
         </div>
     );
 }
+
+export { Dashboard1 }

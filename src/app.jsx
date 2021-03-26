@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
-import {Home, Dashboard, ApplicationForm} from "pages";
+import {Home, Dashboard, Dashboard1, ApplicationForm} from "pages";
 import {SampleComponent} from "components";
 
 const App = () => {
@@ -19,7 +19,7 @@ const App = () => {
             <Route path='/' exact component={Home} />
             <Route path='/appForm' component={ApplicationForm} />
             <Route path='/playground' component={authGuard(SampleComponent)} />
-            <Route path='/dashboard' component={authGuard(Dashboard)} />
+            <Route path='/dashboard' component={authGuard(Dashboard1)} />
             {/*<Route component={error404} />*/}
         </Switch>
         {/*<Footer />*/}
