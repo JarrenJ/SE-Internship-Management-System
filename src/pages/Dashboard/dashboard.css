@@ -1,6 +1,8 @@
 .dashboard__container {
     background-color: rgb(231, 231, 231);
-    margin-left: 350px;
+    /*margin-left: 350px;*/
+    position: fixed;
+    left: 21%;
     color: rgb(128, 123, 123);
     font-size:x-large;
     height: auto;
