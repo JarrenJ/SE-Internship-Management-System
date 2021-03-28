@@ -267,14 +267,18 @@ export function Dashboard({isOpen, openSideNav, closeSideNav}) {
         <>
             {/*<SideNav role={userRole} />*/}
             <div className="dashboard__container" style={{left: isOpen ? '20%' : '3.5%', width: isOpen ? `calc(100% - 20%)` : `calc(100% - 3.5%)`}}>
-                <div className="dashboard__Header">
-                    <div className='dashboard__row'>
-                        <div className='dashboard__column'>
-                            <img src={ account } alt='account.png'/>
-                            <div className="Header_Namebox">
-                                <button onClick={openSideNav}>Open</button>
-                                <button onClick={closeSideNav}>Closed</button>
-                                <p>{isOpen ? 'open' : 'closed'}</p>
+                <div className="dashboard__row">
+                    <div className="dashboard__column__no__margin">
+                        <div className="dashboard__Header">
+                            <div className='dashboard__row'>
+                                <div className='dashboard__column'>
+                                    <img src={ account } alt='account.png'/>
+                                    <div className="Header_Namebox">
+                                        <button onClick={openSideNav}>Open</button>
+                                        <button onClick={closeSideNav}>Closed</button>
+                                        <p>{isOpen ? 'open' : 'closed'}</p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -302,12 +306,22 @@ export function Dashboard({isOpen, openSideNav, closeSideNav}) {
                         </div>
                     </div>
                 </div>
-                <div className='dashboard__Map_header'>
-                    <p>Interns Map</p>
+                <div className='dashboard__row'>
+                    <div className='dashboard__column'>
+                        <div className='dashboard__Map_header'>
+                            <p>Interns Map</p>
+                        </div>
+                        <div className='dashboard__Map'>
+                            <img src={ map } alt='map.png'/>
+                        </div>
+                    </div>
                 </div>
-                <div className='dashboard__Map'>
-                    <img src={ map } alt='map.png'/>
-                </div>
+                {/*<div className='dashboard__Map_header'>*/}
+                {/*    <p>Interns Map</p>*/}
+                {/*</div>*/}
+                {/*<div className='dashboard__Map'>*/}
+                {/*    <img src={ map } alt='map.png'/>*/}
+                {/*</div>*/}
             </div>
         </>
     )}
