@@ -201,7 +201,8 @@
     color: Blue;
     background-color: rgb(248, 248, 248);
     padding: 25px;
-    width: 800px;
+    /*width: 800px;*/
+    width: 60%;
     min-width: 150px;
     margin-top: 50px;
     Margin-left: 25px;
@@ -216,16 +217,19 @@
 }
 .dashboard__Map{
     height: 500px;
-    background-color: white;
+    /*height: 100%;*/
+    /*background-color: white;*/
+    background: white url('/src/assets/map.png') no-repeat center/contain;
     padding: 25px;
-    width: 800px;
+    /*width: 800px;*/
+    width: 60%;
     min-width: 150px;
     Margin-left: 25px;
 }
-.dashboard__Map > img {
-    height: 500px;
-
-}
+/*.dashboard__Map > img {*/
+/*    height: 500px;*/
+/*    width: 100%;*/
+/*}*/
 
 @media (max-width: 970px) {
     .dashboard__container {

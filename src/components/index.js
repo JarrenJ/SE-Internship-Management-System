@@ -1,3 +1,3 @@
 export { SampleComponent } from './sample-component/sample-component';
 export { SideNav } from './SideNav/SideNav'
-export { DashboardPanel } from './Dashboard/Dashboard'
+export { DashboardPanel } from './DashboardPanel/DashboardPanel'

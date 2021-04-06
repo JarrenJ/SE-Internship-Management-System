@@ -14,9 +14,7 @@ export function DashboardPanel({isOpen, openSideNav, closeSideNav}) {
                                 <div className='dashboard__column'>
                                     <img src={ account } alt='account.png'/>
                                     <div className="Header_Namebox">
-                                        <button onClick={openSideNav}>Open</button>
-                                        <button onClick={closeSideNav}>Closed</button>
-                                        <p>{isOpen ? 'open' : 'closed'}</p>
+                                        <p>Cindy Tu</p>
                                     </div>
                                 </div>
                             </div>
@@ -52,7 +50,7 @@ export function DashboardPanel({isOpen, openSideNav, closeSideNav}) {
                             <p>Interns Map</p>
                         </div>
                         <div className='dashboard__Map'>
-                            <img src={ map } alt='map.png'/>
+                            {/*<img src={ map } alt='map.png'/>*/}
                         </div>
                     </div>
                 </div>

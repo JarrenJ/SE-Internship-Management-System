@@ -1,7 +1,7 @@
 import React, {useState} from "react"
 import { SideNav, DashboardPanel } from "components"
 
-import '../../components/SideNav/SideNav.css'
+// import '../../components/SideNav/SideNav.css'
 import "./dashboard.css"
 import "../../colors.css"
 
