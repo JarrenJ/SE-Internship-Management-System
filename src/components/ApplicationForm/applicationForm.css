@@ -1,20 +1,16 @@
-.appFormContainer {
-    height: 250vh;
-}
-.main {
-    height: auto;
+.app__form__container__component {
+    /*height: auto;*/
     padding-top: 2rem;
     padding-bottom: 2rem;
-    background-color: #ececec;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.app__form {
+.app__form__component {
     width: 100%;
     max-width: 1120px;
-    /*min-height: 550px;*/
+    min-height: 740px;
     background-color: #ffffff;
     border-radius: 3px;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
@@ -22,42 +18,45 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    margin-left: 100px;
 }
 
-.app__form__submit__btn {
-    padding-bottom: 1rem;
+.app__btns__container {
+    display: flex;
+    flex-direction: row;
+    width: 85%;
+    justify-content: flex-end;
+    padding-bottom: 2rem;
 }
 
-.app__row {
+.app__btn__prev {
+    background-color: #ececec;
+}
+
+.app__btn__next {
+    background-color: #006747;
+}
+
+.app__row__component {
     display: flex;
     width: 100%;
     margin-bottom: 1rem;
 }
 
-.app__column {
+.app__column__component {
     flex: 50%;
-    /*margin-left: 20px;*/
     margin: auto 10px;
 }
 
-.app__column__3 {
+.app__column__3__component {
     flex: 33.3%;
-    /*margin-left: 20px;*/
     margin: auto 10px;
 }
 
-.app__input {
+.app__input__component {
     width: 100%;
 }
 
-.app__input.wide {
+.app__input__component.wide__component {
     width: 1000px;
 }
-
-h1{
-    text-align: center;
-}
-h2{font-weight: 100px;
-    text-align: center;
-}
-

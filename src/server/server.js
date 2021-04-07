@@ -33,6 +33,36 @@ app.use(session({
 app.use(bodyParser.urlencoded({extended : true}))
 app.use(bodyParser.json())
 
+app.post('/api/submit', (req, res) => {
+    console.log(req.body)
+    // Will use below line most likely once we move forward with the appForm
+    // const i = req.body.values;
+    const {studentId, studentLastName, studentFirstName, studentEmail, stuAddress, studentPhoneNum} = req.body
+    console.log(`${studentId}`)
+    const startDate = req.body.startDate;
+    const endDate = req.body.endDate;
+    // const studentInfo = `"'${studentId}', 'Student', '${studentLastName}', '${studentFirstName}', '${studentEmail}', '${stuAddress}', '${studentPhoneNum}'"`;
+    let sql = `INSERT INTO Users VALUES ?`;
+    const studentRole = 'Student'
+    const values = [
+        [
+            studentId,
+            studentRole,
+            studentLastName,
+            studentFirstName,
+            studentEmail,
+            stuAddress,
+            studentPhoneNum
+        ]
+    ]
+    console.log(sql);
+    connection.query(sql, [values], function (err, data) {
+        if (err) throw err;
+        console.log("User dat is inserted successfully ");
+        res.status(200)
+    });
+});
+
 /* Endpoint to grab user specified role
  * Example: /api/admin
  * Returns: all admin accounts
