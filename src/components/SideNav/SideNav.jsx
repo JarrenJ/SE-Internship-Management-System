@@ -47,29 +47,8 @@ const StyledMenuItem = withStyles(() => ({
     },
 }))(MenuItem);
 
-export function SideNav({role, handleClick, handleClose, closeSideNav, openSideNav, anchorEl, setAnchorEl, down, setDown, navOpen, setNavOpen}) {
-
-    // const [anchorEl, setAnchorEl] = useState(null);
-    // const [down, setDown] = useState(false)
-    // const [navOpen, setNavOpen] = useState('0')
-    //
-    // const handleClick = (e) => {
-    //     setDown(!down)
-    //     setAnchorEl(e.currentTarget);
-    // };
-    //
-    // const handleClose = () => {
-    //     setAnchorEl(null);
-    //     setDown(!down)
-    // };
-    //
-    // const closeSideNav = () => {
-    //     setNavOpen('-20%')
-    // }
-    //
-    // const openSideNav = () => {
-    //     setNavOpen('0')
-    // }
+export function SideNav({role, handleClick, handleClose, closeSideNav, openSideNav, anchorEl,
+                            down, navOpen}) {
 
     return(
         <div className='container'>
