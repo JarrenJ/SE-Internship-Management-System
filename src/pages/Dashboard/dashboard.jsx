@@ -1,10 +1,6 @@
 import React, {useState} from "react"
 import { SideNav, DashboardPanel } from "components"
 
-// import '../../components/SideNav/SideNav.css'
-import "./dashboard.css"
-import "../../colors.css"
-
 const Dashboard = () => {
     const [anchorEl, setAnchorEl] = useState(null);
     const [down, setDown] = useState(false)
@@ -36,7 +32,7 @@ const Dashboard = () => {
     }
 
     return(
-        <div className='dashboard__container__1'>
+        <>
             <SideNav
                 role={userRole}
                 handleClick={handleClick}
@@ -44,18 +40,14 @@ const Dashboard = () => {
                 closeSideNav={closeSideNav}
                 openSideNav={openSideNav}
                 down={down}
-                setDown={setDown}
                 navOpen={navOpen}
-                setNavOpen={setNavOpen}
                 anchorEl={anchorEl}
-                setAnchorEl={setAnchorEl}
             />
             <DashboardPanel
+                role={userRole}
                 isOpen={isOpen}
-                closeSideNav={closeSideNav}
-                openSideNav={openSideNav}
             />
-        </div>
+        </>
     )
 
 }

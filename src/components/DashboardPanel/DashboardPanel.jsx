@@ -1,8 +1,10 @@
-import {account, airplane, Hourglass, Manlogo, map} from "assets";
 import React from "react";
+import { account, airplane, Hourglass, Manlogo } from "assets";
 
+import './DashboardPanel.css'
+import '../../colors.css'
 
-export function DashboardPanel({isOpen, openSideNav, closeSideNav}) {
+export function DashboardPanel({ isOpen }) {
 
     return (
         <>
@@ -49,17 +51,9 @@ export function DashboardPanel({isOpen, openSideNav, closeSideNav}) {
                         <div className='dashboard__Map_header'>
                             <p>Interns Map</p>
                         </div>
-                        <div className='dashboard__Map'>
-                            {/*<img src={ map } alt='map.png'/>*/}
-                        </div>
+                        <div className='dashboard__Map' />
                     </div>
                 </div>
-                {/*<div className='dashboard__Map_header'>*/}
-                {/*    <p>Interns Map</p>*/}
-                {/*</div>*/}
-                {/*<div className='dashboard__Map'>*/}
-                {/*    <img src={ map } alt='map.png'/>*/}
-                {/*</div>*/}
             </div>
         </>
     )}
