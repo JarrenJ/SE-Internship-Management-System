@@ -8,19 +8,9 @@ Internship Management System
 - Open terminal window **in the project directory** and run `yarn install`
   - This will install all the dependencies and packages
   
-## Running Local MySQL Server Windows
-###First time Setup
-- Install MySQL Server (https://dev.mysql.com/downloads/installer/) the only thing you need is MySQL server
-- Take the setup.sql file from MySQL Setup and put it in c:\
-- Run command line as administrator and navigate to `c:\Program Files\MySQL\MySQL Server 8.0\bin`
-- run `mysqld --init --console`
-- Open a second command line as administrator and navigate to `c:\Program Files\MySQL\MySQL Server 8.0\bin`
-- run `mysql -u root` to get in SQL
-- run `ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY ''`;
-- run `source c:\setup.sql` 
-###MySQL server
-- Open a command line as administrator and navigate to `c:\Program Files\MySQL\MySQL Server 8.0\bin`
-- run `mysql -u root`
+## MySQL
+- We are using a `.env` file. If you do not have this, reach out to Aaron or Jarren, they can explain what you need in it.
+- The database is currently running on a Raspberry Pi 4 with MariaDB for dev purposes.
 
 ## Setting Up Local Dev Environment
 
@@ -40,10 +30,3 @@ Internship Management System
 
 ### Option B
 - Run `yarn dev` to start both the local server and local web server
-
----
-
-#### Github Plans
-
-- Assuming we decide to work on separate features, we should each checkout a branch to work on that feature
-- Then you can open a Pull Request to merge your work into the `master` branch after it has been reviewed by other members of the group.
