@@ -4,7 +4,7 @@ import TextField from '@material-ui/core/TextField';
 
 import './applicationForm.css';
 
-const ApplicationForm1 = () => {
+const ApplicationForm = () => {
 
     const initialValues = {
         studentId: "",
@@ -521,4 +521,4 @@ const EmployerInfo = (props) => {
     )
 }
 
-export { ApplicationForm1 }
+export { ApplicationForm }
