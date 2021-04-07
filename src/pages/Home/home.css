@@ -86,7 +86,7 @@
     width: 100%;
     /*background-color: white;*/
     /* https://nwmissouri.edu/media//news/2017/09/images/administrationbuilding2017.jpg */
-    background: url("https://nwmissouri.edu/media//news/2017/09/images/administrationbuilding2017.jpg") center/cover no-repeat;
+    background: url("/src/assets/NW_ADMIN_BUILDING.jpeg") center/cover no-repeat;
     /*background: url("https://www.nwmissouri.edu/facts/image/admin-building.jpg") center center/cover no-repeat;*/
 }
 
