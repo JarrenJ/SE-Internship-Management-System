@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS Users (
     LastName varchar(25),
     FirstName VARCHAR(25),
     PersonalEmail VARCHAR(25),
-    StudentAddress VARCHAR(25),
+    StudentAddress VARCHAR(255),
     Phone VARCHAR(25),
     PRIMARY KEY (UserID)
 ) ENGINE = InnoDB;
@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS Internship (
     PointOfContact VARCHAR(25),
     EmployerEmail VARCHAR(25),
     EmployerPhone VARCHAR(25),
-    EmployerAddress VARCHAR(25),
+    EmployerAddress VARCHAR(255),
     StartDate DATETIME,
     EndDate DATETIME,
     PRIMARY KEY (InternshipID)

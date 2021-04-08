@@ -274,8 +274,8 @@ export const ApplicationForm1 = () => {
                 {
                     ...values,
                     "comments": comments,
-                    ...stuAddress,
-                    ...empAddress,
+                    "stuAddress": `${stuAddress.line1}, ${stuAddress.line2}, ${stuAddress.city}, ${stuAddress.state}, ${stuAddress.zip}`,
+                    "empAddress": `${empAddress.line1}, ${empAddress.line2}, ${empAddress.city}, ${empAddress.state}, ${empAddress.zip}`,
                     "startDate": startDate,
                     "endDate": endDate
                 }

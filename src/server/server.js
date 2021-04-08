@@ -40,11 +40,31 @@ app.post('/api/submit', (req, res) => {
 
     console.log(req.body)
     console.log('=========')
-    const {studentId, studentLastName, studentFirstName, studentEmail, stuAddress, studentPhoneNum} = req.body
+    const {
+        studentId,
+        studentLastName,
+        studentFirstName,
+        studentEmail,
+        stuAddress,
+        studentPhoneNum,
+        instructorFirstName,
+        instructorLastName,
+        instructorEmail,
+        employerName,
+        primaryContactName,
+        employerEmail,
+        employerPhone,
+        empAddress,
+        startDate,
+        endDate
+    } = req.body
 
     let sql = `INSERT INTO Users VALUES ?`;
+    let facultyInsert = `INSERT INTO Users(UserID, UserRole, Lastname, FirstName, PersonalEmail) VALUES ?`;
+    let employerInsert = `INSERT INTO Internship VALUES ?`;
     const studentRole = 'Student'
-    const values = [
+    const facultyRole = 'Faculty'
+    const studentValues = [
         [
             studentId,
             studentRole,
@@ -55,11 +75,41 @@ app.post('/api/submit', (req, res) => {
             studentPhoneNum
         ]
     ]
+    const facultyValues = [
+        [
+            instructorEmail, //using as ID for now
+            facultyRole,
+            instructorFirstName,
+            instructorLastName,
+            instructorEmail,
+        ]
+    ]
+    const employerValues = [
+        [
+            employerName, //using as ID for now
+            primaryContactName, //Point of contact on database
+            employerEmail,
+            employerPhone,
+            empAddress,
+            startDate,
+            endDate
+        ]
+    ]
     console.log(sql);
-    connection.query(sql, [values], function (err, data) {
+    connection.query(sql, [studentValues], function (err, data) {
         if (err) throw err;
-        console.log("User dat is inserted successfully ");
-        res.status(200)
+        console.log("Student user data inserted successfully...");
+        // res.status(200)
+    });
+    connection.query(facultyInsert, [facultyValues], function (err, data) {
+        if (err) throw err;
+        console.log("Faculty user data inserted successfully...");
+        // res.status(200)
+    });
+    connection.query(facultyInsert, [employerValues], function (err, data) {
+        if (err) throw err;
+        console.log("Employer data inserted successfully...");
+        // res.status(200)
     });
 });
 
