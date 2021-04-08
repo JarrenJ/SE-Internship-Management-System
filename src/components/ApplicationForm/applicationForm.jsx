@@ -1,6 +1,9 @@
 import React, {useState} from "react";
 import Button from "@material-ui/core/Button";
 import TextField from '@material-ui/core/TextField';
+// import { Grid, Row, Col } from '../../pages/Home/home'
+
+import styled from "styled-components";
 
 import './applicationForm.css';
 
@@ -158,6 +161,237 @@ const ApplicationForm = () => {
     )
 }
 
+const Form = styled.form`
+  width: 100%;
+  max-width: 80%;
+  //min-height: 740px;
+  background-color: #ffffff;
+  border-radius: 3px;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`
+
+const Container = styled.div`
+  display: flex;
+  padding-top: 2rem;
+  //padding-bottom: 2rem;
+  justify-content: center;
+  align-items: center;
+`
+
+const Row = styled.div`
+  display: flex;
+  width: 100%;
+  height: 100%;
+  min-height: ${(props) => props.minHeight};
+  max-width: ${(props) => props.maxWidth};
+  @media (max-width: 970px) {
+    flex-direction: column;
+  }
+  margin: ${(props) => props.margin};
+  //border: 5px solid red;
+`
+
+const Col = styled.div`
+  flex: ${(props) => props.size};
+  background-color: ${(props => props.bgColor)};
+  min-width: ${(props => props.minWidth)};
+  max-width: ${(props => props.maxWidth)};
+  min-height: ${(props) => props.minHeight};
+  height: 100%;
+
+  @media (max-width: 768px) {
+    min-width: 100%;
+    margin: 10px auto;
+  }
+  //margin: 0 25px;
+  margin: ${(props) => props.margin};
+  //border: 5px solid black;
+`
+
+export const ApplicationForm1 = () => {
+
+    const initialValues = {
+        studentId: "",
+        studentFirstName: "",
+        studentLastName: "",
+        studentEmail: "",
+        studentPhoneNum: "",
+        instructorFirstName: "",
+        instructorLastName: "",
+        instructorEmail: "",
+        employerName: "",
+        primaryContactName: "",
+        employerEmail: "",
+        employerPhone: "",
+        comments: "",
+    };
+
+    const initialStuAddr = {
+        line1: "",
+        line2: "",
+        city: "",
+        state: "",
+        zip: "",
+    }
+
+    const initialEmpAddr = {
+        line1: "",
+        line2: "",
+        city: "",
+        state: "",
+        zip: "",
+    }
+
+    function submitClick() {
+        alert("Form Submit")
+        console.log(values)
+        console.log(stuAddress)
+        console.log(empAddress)
+        console.log(startDate)
+        console.log(endDate)
+    }
+
+    const [currentStep, setCurrentStep] = useState(1)
+    const [startDate, setStartDate] = useState("2021-05-13")
+    const [endDate, setEndDate] = useState("2021-05-14")
+    const [values, setValues] = useState(initialValues) //will store majority of the text box inputs
+    const [comments, setComments] = useState('')
+    const [stuAddress, setStuAddress] = useState(initialStuAddr);
+    const [empAddress, setEmpAddress] = useState(initialEmpAddr);
+
+    const onSubmit = () => {
+        fetch(`/api/submit`, {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify([values, comments, stuAddress, empAddress, startDate, endDate]),
+        }).then(r => r)
+    }
+
+    const handleInputChange = (e) => {
+        const {name, value} = e.target;
+        setValues({
+            ...values,
+            [name]: value,
+        })
+    }
+    const handleAddressChangeS = (e) => {
+        const {name, value} = e.target;
+        setStuAddress({
+            ...stuAddress,
+            [name]: value,
+        })
+    }
+
+    const handleAddressChangeE = (e) => {
+        const {name, value} = e.target;
+        setEmpAddress({
+            ...empAddress,
+            [name]: value,
+        })
+    }
+
+    const next = () => {
+        setCurrentStep(currentStep >= 2 ? 3 : currentStep + 1)
+    }
+
+    const previous = () => {
+        setCurrentStep(currentStep <= 1 ? 1 : currentStep - 1)
+    }
+
+    const nextButton = () => {
+        if (currentStep < 3) {
+            return (
+                <Button
+                    // className='app__btn__next'
+                    variant='outlined'
+                    onClick={next}
+                >
+                    Next
+                </Button>
+            )
+        }
+        return (
+            <Button
+                variant='outlined'
+                onClick={onSubmit}
+            >
+                Submit
+            </Button>
+        )
+    }
+
+    const previousButton = () => {
+        if (currentStep !== 1) {
+            return (
+                <Button
+                    // className='app__btn__prev'
+                    variant='outlined'
+                    onClick={previous}
+                >
+                    Previous
+                </Button>
+            )
+        }
+        return null
+    }
+
+    return (
+        <Container>
+            <Form>
+                <Row minHeight={'700px'}>
+                    <Col size={1}>
+                        <StudentInfo
+                            currentStep={currentStep}
+                            values={values}
+                            stuAddress={stuAddress}
+                            comments={comments}
+                            setComments={setComments}
+                            handleInputChange={handleInputChange}
+                            handleAddressChangeS={handleAddressChangeS}
+                        />
+                        <InstructorInfo
+                            currentStep={currentStep}
+                            values={values}
+                            handleInputChange={handleInputChange}
+                        />
+                        <EmployerInfo
+                            currentStep={currentStep}
+                            values={values}
+                            empAddress={empAddress}
+                            startDate={startDate}
+                            endDate={endDate}
+                            setStartDate={setStartDate}
+                            setEndDate={setEndDate}
+                            submitClick={submitClick}
+                            handleInputChange={handleInputChange}
+                            handleAddressChangeE={handleAddressChangeE}
+                        />
+                    </Col>
+                </Row>
+                <Row>
+                    <Col size={1} maxWidth={'100%'} margin={'0 30px'}>
+                        <div className='app__btns__container'>
+                            <div className='app__btn__prev'>
+                                {previousButton()}
+                            </div>
+                            <div className='app__btn__next'>
+                                {nextButton()}
+                            </div>
+                        </div>
+                    </Col>
+                </Row>
+            </Form>
+        </Container>
+    )
+}
+
 const StudentInfo = (props) => {
     const {currentStep, values, handleInputChange, handleAddressChangeS, stuAddress, comments, setComments} = props
     if (currentStep !== 1) {
@@ -166,20 +400,21 @@ const StudentInfo = (props) => {
     return(
         <div className='student__info'>
             <h2>Student Information:</h2>
-            <div className='app__row__component'>
-                <div className='app__column'>
+            <Row>
+                <Col size={1} margin={'10px'}>
                     <TextField
-                        className='app__input__component wide__component'
+                        // className='app__input__component wide__component'
+                        className='wide'
                         label='Student ID'
                         variant={'outlined'}
                         value={values.studentId}
                         onChange={handleInputChange}
                         name={"studentId"}
                     />
-                </div>
-            </div>
-            <div className='app__row__component'>
-                <div className='app__column__component'>
+                </Col>
+            </Row>
+            <Row>
+                <Col size={1} margin={'10px'}>
                     <TextField
                         className='app__input__component'
                         id="normal"
@@ -189,8 +424,8 @@ const StudentInfo = (props) => {
                         onChange={handleInputChange}
                         name={"studentFirstName"}
                     />
-                </div>
-                <div className='app__column__component'>
+                </Col>
+                <Col size={1} margin={'10px'}>
                     <TextField
                         className='app__input__component'
                         id="normal"
@@ -200,10 +435,10 @@ const StudentInfo = (props) => {
                         onChange={handleInputChange}
                         name={'studentLastName'}
                     />
-                </div>
-            </div>
-            <div className='app__row__component'>
-                <div className='app__column__component'>
+                </Col>
+            </Row>
+            <Row>
+                <Col size={1} margin={'10px'}>
                     <TextField
                         className='app__input__component'
                         id="normal"
@@ -213,8 +448,8 @@ const StudentInfo = (props) => {
                         onChange={handleInputChange}
                         name={"studentEmail"}
                     />
-                </div>
-                <div className='app__column__component'>
+                </Col>
+                <Col size={1} margin={'10px'}>
                     <TextField
                         className='app__input__component'
                         id="normal"
@@ -224,12 +459,12 @@ const StudentInfo = (props) => {
                         onChange={handleInputChange}
                         name={"studentPhoneNum"}
                     />
-                </div>
-            </div>
-            <div className='app__row__component'>
-                <div className='app__column__component'>
+                </Col>
+            </Row>
+            <Row>
+                <Col size={1} margin={'10px'}>
                     <TextField
-                        className='app__input__component wide__component'
+                        className='wide'
                         id="normal"
                         label='Address Line 1'
                         variant='outlined'
@@ -237,12 +472,12 @@ const StudentInfo = (props) => {
                         onChange={handleAddressChangeS}
                         name="line1"
                     />
-                </div>
-            </div>
-            <div className='app__row__component'>
-                <div className='app__column__component'>
+                </Col>
+            </Row>
+            <Row>
+                <Col size={1} margin={'10px'}>
                     <TextField
-                        className='app__input__component wide__component'
+                        className='wide'
                         id="normal"
                         label='Address Line 2'
                         variant='outlined'
@@ -250,10 +485,10 @@ const StudentInfo = (props) => {
                         onChange={handleAddressChangeS}
                         name="line2"
                     />
-                </div>
-            </div>
-            <div className='app__row__component'>
-                <div className='app__column__3__component'>
+                </Col>
+            </Row>
+            <Row>
+                <Col size={1} margin={'10px'}>
                     <TextField
                         className='app__input__component'
                         id="normal"
@@ -263,8 +498,8 @@ const StudentInfo = (props) => {
                         onChange={handleAddressChangeS}
                         name={"city"}
                     />
-                </div>
-                <div className='app__column__3__component'>
+                </Col>
+                <Col size={1} margin={'10px'}>
                     <TextField
                         className='app__input__component'
                         id="normal"
@@ -274,8 +509,8 @@ const StudentInfo = (props) => {
                         onChange={handleAddressChangeS}
                         name={"state"}
                     />
-                </div>
-                <div className='app__column__3__component'>
+                </Col>
+                <Col size={1} margin={'10px'}>
                     <TextField
                         className='app__input__component'
                         id="normal"
@@ -285,12 +520,12 @@ const StudentInfo = (props) => {
                         onChange={handleAddressChangeS}
                         name={"zip"}
                     />
-                </div>
-            </div>
-            <div className='app__row__component'>
-                <div className='app__column__component'>
+                </Col>
+            </Row>
+            <Row>
+                <Col size={1} margin={'10px'}>
                     <TextField
-                        className='app__input__component wide__component'
+                        className='wide'
                         id="normal"
                         label="Comments"
                         multiline
@@ -299,8 +534,8 @@ const StudentInfo = (props) => {
                         value={comments}
                         onChange={(e) => setComments(e.target.value) }
                     />
-                </div>
-            </div>
+                </Col>
+            </Row>
         </div>
     )
 }
@@ -313,10 +548,10 @@ const InstructorInfo = (props) => {
     return(
         <div className='instructor__details'>
             <h2>Instructor Details:</h2>
-            <div className='app__row__component'>
-                <div className='app__column__component'>
+            <Row>
+                <Col size={1} margin={'10px'}>
                     <TextField
-                        className='app__input__component wide__component'
+                        className='wide'
                         id="normal"
                         label='Instructor First Name'
                         variant={"outlined"}
@@ -324,12 +559,12 @@ const InstructorInfo = (props) => {
                         onChange={handleInputChange}
                         name={'instructorFirstName'}
                     />
-                </div>
-            </div>
-            <div className='app__row__component'>
-                <div className='app__column__component'>
+                </Col>
+            </Row>
+            <Row>
+                <Col size={1} margin={'10px'}>
                     <TextField
-                        className='app__input__component wide__component'
+                        className='wide'
                         id="normal"
                         label='Instructor Last Name'
                         variant={'outlined'}
@@ -337,12 +572,12 @@ const InstructorInfo = (props) => {
                         onChange={handleInputChange}
                         name={"instructorLastName"}
                     />
-                </div>
-            </div>
-            <div className='app__row__component'>
-                <div className='app__column__component'>
+                </Col>
+            </Row>
+            <Row>
+                <Col size={1} margin={'10px'}>
                     <TextField
-                        className='app__input__component wide__component'
+                        className='wide'
                         id="normal"
                         label='Instructor Mail'
                         variant={'outlined'}
@@ -350,8 +585,8 @@ const InstructorInfo = (props) => {
                         onChange={handleInputChange}
                         name={"instructorEmail"}
                     />
-                </div>
-            </div>
+                </Col>
+            </Row>
         </div>
     )
 }
@@ -365,10 +600,10 @@ const EmployerInfo = (props) => {
         <>
         <div className='employer__details'>
             <h2>Employer Information:</h2>
-            <div className='app__row__component'>
-                <div className='app__column__component'>
+            <Row>
+                <Col size={1} margin={'10px'}>
                     <TextField
-                        className='app__input__component wide__component'
+                        className='wide'
                         id="normal"
                         label='Employer Name'
                         variant={'outlined'}
@@ -376,12 +611,12 @@ const EmployerInfo = (props) => {
                         onChange={handleInputChange}
                         name={"employerName"}
                     />
-                </div>
-            </div>
-            <div className='app__row__component'>
-                <div className='app__column__component'>
+                </Col>
+            </Row>
+            <Row>
+                <Col size={1} margin={'10px'}>
                     <TextField
-                        className='app__input__component wide__component'
+                        className='wide'
                         id="normal"
                         label='Primary Contact Name'
                         variant={"outlined"}
@@ -389,12 +624,12 @@ const EmployerInfo = (props) => {
                         onChange={handleInputChange}
                         name={"primaryContactName"}
                     />
-                </div>
-            </div>
-            <div className='app__row__component'>
-                <div className='app__column__component'>
+                </Col>
+            </Row>
+            <Row>
+                <Col size={1} margin={'10px'}>
                     <TextField
-                        className='app__input__component'
+                        className='wide'
                         id="normal"
                         label='Employer Email'
                         variant={'outlined'}
@@ -402,10 +637,10 @@ const EmployerInfo = (props) => {
                         onChange={handleInputChange}
                         name={"employerEmail"}
                     />
-                </div>
-                <div className='app__column__component'>
+                </Col>
+                <Col size={1} margin={'10px'}>
                     <TextField
-                        className='app__input__component'
+                        className='wide'
                         id="normal"
                         label='Employer Phone'
                         variant={'outlined'}
@@ -413,110 +648,108 @@ const EmployerInfo = (props) => {
                         onChange={handleInputChange}
                         name={"employerPhone"}
                     />
-                </div>
-            </div>
-            <div>
-                <div className='app__row__component'>
-                    <div className='app__column__component'>
-                        <TextField
-                            className='app__input__component wide__component'
-                            id="normal"
-                            label='Address Line 1'
-                            variant='outlined'
-                            value={empAddress.line1}
-                            onChange={handleAddressChangeE}
-                            name={"line1"}
-                        />
-                    </div>
-                </div>
-                <div className='app__row__component'>
-                    <div className='app__column__component'>
-                        <TextField
-                            className='app__input__component wide__component'
-                            id="normal"
-                            label='Address Line 2'
-                            variant='outlined'
-                            value={empAddress.line2}
-                            onChange={handleAddressChangeE}
-                            name={"line2"}
-                        />
-                    </div>
-                </div>
-                <div className='app__row__component'>
-                    <div className='app__column__3__component'>
-                        <TextField
-                            className='app__input__component'
-                            id="normal"
-                            label='City'
-                            variant='outlined'
-                            value={empAddress.city}
-                            onChange={handleAddressChangeE}
-                            name={"city"}
-                        />
-                    </div>
-                    <div className='app__column__3__component'>
-                        <TextField
-                            className='app__input__component'
-                            id="normal"
-                            label='State'
-                            variant='outlined'
-                            value={empAddress.state}
-                            onChange={handleAddressChangeE}
-                            name={"state"}
-                        />
-                    </div>
-                    <div className='app__column__3__component'>
-                        <TextField
-                            className='app__input__component'
-                            id="normal"
-                            label='ZIP'
-                            variant='outlined'
-                            value={empAddress.zip}
-                            onChange={handleAddressChangeE}
-                            name={"zip"}
-                        />
-                    </div>
-                </div>
-                <div className='app__row__component'>
-                    <div className='app__column__component'>
-                        <TextField
-                            className='app__input__component wide__component'
-                            id="date"
-                            label="Internship Start Date"
-                            type="date"
-                            variant='outlined'
-                            value={startDate}
-                            onChange={e => setStartDate(e.target.value)}
-                            InputLabelProps={{
-                                shrink: true,
-                            }}
-                        />
-                    </div>
-                </div>
-                <div className='app__row__component'>
-                    <div className='app__column__component'>
-                        <TextField
-                            className='app__input__component wide__component'
-                            id="date"
-                            label="Internship End Date"
-                            type="date"
-                            variant='outlined'
-                            value={endDate}
-                            onChange={e => setEndDate(e.target.value)}
-                            InputLabelProps={{
-                                shrink: true,
-                            }}
-                        />
-                    </div>
-                </div>
-            </div>
+                </Col>
+            </Row>
+            <Row>
+                <Col size={1} margin={'10px'}>
+                    <TextField
+                        className='wide'
+                        id="normal"
+                        label='Address Line 1'
+                        variant='outlined'
+                        value={empAddress.line1}
+                        onChange={handleAddressChangeE}
+                        name={"line1"}
+                    />
+                </Col>
+            </Row>
+            <Row>
+                <Col size={1} margin={'10px'}>
+                    <TextField
+                        className='wide'
+                        id="normal"
+                        label='Address Line 2'
+                        variant='outlined'
+                        value={empAddress.line2}
+                        onChange={handleAddressChangeE}
+                        name={"line2"}
+                    />
+                </Col>
+            </Row>
+            <Row>
+                <Col size={1} margin={'10px'}>
+                    <TextField
+                        className='wide'
+                        id="normal"
+                        label='City'
+                        variant='outlined'
+                        value={empAddress.city}
+                        onChange={handleAddressChangeE}
+                        name={"city"}
+                    />
+                </Col>
+                <Col size={1} margin={'10px'}>
+                    <TextField
+                        className='wide'
+                        id="normal"
+                        label='State'
+                        variant='outlined'
+                        value={empAddress.state}
+                        onChange={handleAddressChangeE}
+                        name={"state"}
+                    />
+                </Col>
+                <Col size={1} margin={'10px'}>
+                    <TextField
+                        className='wide'
+                        id="normal"
+                        label='ZIP'
+                        variant='outlined'
+                        value={empAddress.zip}
+                        onChange={handleAddressChangeE}
+                        name={"zip"}
+                    />
+                </Col>
+            </Row>
+            <Row>
+                <Col size={1} margin={'10px'}>
+                    <TextField
+                        className='wide'
+                        id="date"
+                        label="Internship Start Date"
+                        type="date"
+                        variant='outlined'
+                        value={startDate}
+                        onChange={e => setStartDate(e.target.value)}
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
+                    />
+                </Col>
+            </Row>
+            <Row>
+                <Col size={1} margin={'10px'}>
+                    <TextField
+                        className='wide'
+                        id="date"
+                        label="Internship End Date"
+                        type="date"
+                        variant='outlined'
+                        value={endDate}
+                        onChange={e => setEndDate(e.target.value)}
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
+                    />
+                </Col>
+            </Row>
         </div>
-        <Button
-            variant={"contained"}
-            onClick={submitClick}
-        >
-            Submit
-        </Button>
+        {/*<Button*/}
+        {/*    variant={"contained"}*/}
+        {/*    onClick={submitClick}*/}
+        {/*>*/}
+        {/*    Submit*/}
+        {/*</Button>*/}
     </>
     )
 }

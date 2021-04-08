@@ -3,6 +3,7 @@ import { account, airplane, Hourglass, Manlogo } from "assets";
 
 import './DashboardPanel.css'
 import '../../colors.css'
+import {ApplicationForm1} from "components";
 
 export function DashboardPanel({ isOpen }) {
 
@@ -54,6 +55,7 @@ export function DashboardPanel({ isOpen }) {
                         <div className='dashboard__Map' />
                     </div>
                 </div>
+                <ApplicationForm1 />
             </div>
         </>
     )}
