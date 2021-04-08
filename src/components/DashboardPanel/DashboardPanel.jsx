@@ -1,10 +1,13 @@
 import React from "react";
 import { account, airplane, Hourglass, Manlogo } from "assets";
-
+import USAMap from "react-usa-map";
 import './DashboardPanel.css'
 import '../../colors.css'
 
 export function DashboardPanel({ isOpen }) {
+    const mapHandler = (event) => {
+        alert(event.target.dataset.name)
+    }
 
     return (
         <>
@@ -51,7 +54,8 @@ export function DashboardPanel({ isOpen }) {
                         <div className='dashboard__Map_header'>
                             <p>Interns Map</p>
                         </div>
-                        <div className='dashboard__Map' />
+                        {/*<div className='dashboard__Map' />*/}
+                        <USAMap onClick={mapHandler} width={'65%'} height={'auto'}/>
                     </div>
                 </div>
             </div>
