@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import { NWHorizontal2Color, NWTripleStacked2Color } from 'assets'
 import styled from "styled-components"
 
@@ -47,32 +47,8 @@ const StyledMenuItem = withStyles(() => ({
     },
 }))(MenuItem);
 
-
-export function SideNav({role}) {
-    // Destructure role object
-    const { isStudent, isAdmin, isFaculty } = role
-
-    const [anchorEl, setAnchorEl] = useState(null);
-    const [down, setDown] = useState(false)
-    const [navOpen, setNavOpen] = useState('0')
-
-    const handleClick = (e) => {
-        setDown(!down)
-        setAnchorEl(e.currentTarget);
-    };
-
-    const handleClose = () => {
-        setAnchorEl(null);
-        setDown(!down)
-    };
-
-    const closeSideNav = () => {
-        setNavOpen('-300px')
-    }
-
-    const openSideNav = () => {
-        setNavOpen('0')
-    }
+export function SideNav({role, handleClick, handleClose, closeSideNav, openSideNav, anchorEl,
+                            down, navOpen}) {
 
     return(
         <div className='container'>
@@ -81,47 +57,47 @@ export function SideNav({role}) {
                     <img src={NWHorizontal2Color} alt='NW_Horizontal_2Color' />
                 </div>
                 <Divider />
-                {!isStudent &&
-                    <>
-                        <div className='sidenav__link'>
-                            <Link to='#'><i className="fas fa-tachometer-alt" /> Dashboard</Link>
-                        </div>
-                        <Divider />
-                    </>
+                {role !== 'Student' &&
+                <>
+                    <div className='sidenav__link'>
+                        <Link to='#'><i className="fas fa-tachometer-alt" /> Dashboard</Link>
+                    </div>
+                    <Divider />
+                </>
                 }
                 <div className='sidenav__popup'>
-                    {isAdmin &&
-                        <Link
-                            to='#'
-                            aria-controls="customized-menu"
-                            aria-haspopup="true"
-                            variant="contained"
-                            color="primary"
-                            onClick={handleClick}
-                        >
-                            <i className="fas fa-folder" /> Reports
-                            {
-                                down ? <i className="fas fa-chevron-down left" />
-                            :
+                    {role === 'Admin' &&
+                    <Link
+                        to='#'
+                        aria-controls="customized-menu"
+                        aria-haspopup="true"
+                        variant="contained"
+                        color="primary"
+                        onClick={handleClick}
+                    >
+                        <i className="fas fa-folder" /> Reports
+                        {
+                            down ? <i className="fas fa-chevron-down left" />
+                                :
                                 <i className="fas fa-chevron-right left" />
                         }
-                        </Link>
+                    </Link>
                     }
-                    {isFaculty &&
-                        <Link to='#'>
-                            <i className="fas fa-folder" /> Applications
-                        </Link>
+                    {role === 'Faculty' &&
+                    <Link to='#'>
+                        <i className="fas fa-folder" /> Applications
+                    </Link>
                     }
 
-                    {isStudent &&
-                        <>
-                            <Link to='#'>
-                                <i className="fas fa-plus-square" /> New Application
-                            </Link>
-                            <Link to='#'>
+                    {role === 'Student' &&
+                    <>
+                        <Link to='#'>
+                            <i className="fas fa-plus-square" /> New Application
+                        </Link>
+                        <Link to='#'>
                             <i className="fas fa-folder-open" /> Check Status
-                            </Link>
-                        </>
+                        </Link>
+                    </>
                     }
                 </div>
                 <div>
@@ -148,18 +124,18 @@ export function SideNav({role}) {
                     <button onClick={closeSideNav}><i className="fas fa-chevron-left" /></button>
                 </div>
             </div>
-            {navOpen >= '-200px' &&
+            {navOpen >= '-15%' &&
             <div className='sidenav__collapsed'>
                 <div className='sidenav__collapsed__logo'>
                     <img src={NWTripleStacked2Color} alt='NW_Horizontal_2Color' />
                 </div>
-                {!isStudent &&
-                    <div className='sidenav__collapsed__icon'>
-                        <Link to='#'><i className="fas fa-tachometer-alt" /></Link>
-                    </div>
+                {role !== 'Student' &&
+                <div className='sidenav__collapsed__icon'>
+                    <Link to='#'><i className="fas fa-tachometer-alt" /></Link>
+                </div>
                 }
                 <div className='sidenav__collapsed__icon'>
-                    {isAdmin &&
+                    {role === 'Admin' &&
                     <Link
                         to='#'
                         aria-controls="customized-menu"
@@ -171,13 +147,13 @@ export function SideNav({role}) {
                         <i className="fas fa-folder" />
                     </Link>
                     }
-                    {isFaculty &&
+                    {role === 'Faculty' &&
                     <Link to='#'>
                         <i className="fas fa-folder" />
                     </Link>
                     }
 
-                    {isStudent &&
+                    {role === 'Student' &&
                     <>
                         <Link to='#'>
                             <i className="fas fa-plus-square" />

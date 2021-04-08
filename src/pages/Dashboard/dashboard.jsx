@@ -1,15 +1,55 @@
-import React from "react";
+import React, {useState} from "react"
+import { SideNav, DashboardPanel } from "components"
 
-import { SideNav } from 'components'
+const Dashboard = () => {
+    const [anchorEl, setAnchorEl] = useState(null);
+    const [down, setDown] = useState(false)
+    const [navOpen, setNavOpen] = useState('0')
 
-import './dashboard.css'
+    const [isOpen, setIsOpen] = useState(true)
+    const userRole = sessionStorage.getItem("role")
 
-export function Dashboard({role}) {
-    return (
+    const handleClick = (e) => {
+        setDown(!down)
+        setAnchorEl(e.currentTarget);
+    };
+
+    const handleClose = () => {
+        setAnchorEl(null);
+        setDown(!down)
+    };
+
+    const closeSideNav = () => {
+        setNavOpen('-20%')
+        console.log(isOpen)
+        setIsOpen(false)
+        console.log(isOpen)
+    }
+
+    const openSideNav = () => {
+        setNavOpen('0')
+        setIsOpen(true)
+    }
+
+    return(
         <>
-            <SideNav role={role} />
-            <div className="dashboard__container">
-            </div>
+            <SideNav
+                role={userRole}
+                handleClick={handleClick}
+                handleClose={handleClose}
+                closeSideNav={closeSideNav}
+                openSideNav={openSideNav}
+                down={down}
+                navOpen={navOpen}
+                anchorEl={anchorEl}
+            />
+            <DashboardPanel
+                role={userRole}
+                isOpen={isOpen}
+            />
         </>
     )
+
 }
+
+export { Dashboard }
