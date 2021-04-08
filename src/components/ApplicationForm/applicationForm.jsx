@@ -270,17 +270,6 @@ export const ApplicationForm1 = () => {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json'
             },
-            // body: JSON.stringify([values, comments, stuAddress, empAddress, startDate, endDate]),
-            // body: JSON.stringify(
-            //     {
-            //         "values": values,
-            //         "comments": comments,
-            //         "stuAddress": stuAddress,
-            //         "EmpAddress": empAddress,
-            //         "startDate": startDate,
-            //         "endDate": endDate
-            //     }
-            // ),
             body: JSON.stringify(
                 {
                     ...values,
@@ -290,7 +279,7 @@ export const ApplicationForm1 = () => {
                     "startDate": startDate,
                     "endDate": endDate
                 }
-            )
+            ),
         }).then(r => r)
     }
 
@@ -329,7 +318,6 @@ export const ApplicationForm1 = () => {
         if (currentStep < 3) {
             return (
                 <Button
-                    // className='app__btn__next'
                     variant='outlined'
                     onClick={next}
                 >
@@ -351,7 +339,6 @@ export const ApplicationForm1 = () => {
         if (currentStep !== 1) {
             return (
                 <Button
-                    // className='app__btn__prev'
                     variant='outlined'
                     onClick={previous}
                 >
@@ -412,8 +399,7 @@ export const ApplicationForm1 = () => {
     )
 }
 
-const StudentInfo = (props) => {
-    const {currentStep, values, handleInputChange, handleAddressChangeS, stuAddress, comments, setComments} = props
+const StudentInfo = ({ currentStep, values, handleInputChange, handleAddressChangeS, stuAddress, comments, setComments }) => {
     if (currentStep !== 1) {
         return null
     }
@@ -423,7 +409,6 @@ const StudentInfo = (props) => {
             <Row>
                 <Col size={1} margin={'10px'}>
                     <TextField
-                        // className='app__input__component wide__component'
                         className='wide'
                         label='Student ID'
                         variant={'outlined'}
@@ -560,8 +545,7 @@ const StudentInfo = (props) => {
     )
 }
 
-const InstructorInfo = (props) => {
-    const {currentStep, values, handleInputChange} = props
+const InstructorInfo = ({ currentStep, values, handleInputChange }) => {
     if (currentStep !== 2) {
         return null
     }
@@ -611,8 +595,7 @@ const InstructorInfo = (props) => {
     )
 }
 
-const EmployerInfo = (props) => {
-    const {currentStep, values, handleInputChange, handleAddressChangeE, empAddress, endDate, startDate, setEndDate, setStartDate, submitClick} = props
+const EmployerInfo = ({ currentStep, values, handleInputChange, handleAddressChangeE, empAddress, endDate, startDate, setEndDate, setStartDate }) => {
     if (currentStep !== 3) {
         return null
     }
