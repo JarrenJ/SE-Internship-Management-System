@@ -35,27 +35,12 @@ app.use(bodyParser.json())
 
 app.post('/api/submit', (req, res) => {
 
-    /* OBJECT STRUCTURE IS A BIT MESSY AND WILL BE CLEANED UP LATER
-     * To access values...
-     * req.body[0] == values object from form
-     * req.body[1] == comments field from Student Info Form
-     * req.body[2] == student address info
-     * req.body[3] == employer address info
-     * req.body[4] == internship start date
-     * req.body[5] == internship end date
-     */
-
     // Link for multiple insert statements
     // https://stackoverflow.com/questions/35007263/insert-into-two-dependent-tables-in-mysql-with-node-js
 
-    const {studentId, studentLastName, studentFirstName, studentEmail, stuAddress, studentPhoneNum} = req.body[0]
-    console.log(`${studentId}`)
-    console.log('----------')
-    console.log(req.body[1])
-    console.log(req.body[2])
-    console.log(req.body[3])
-    console.log(req.body[4])
-    console.log(req.body[5])
+    console.log(req.body)
+    console.log('=========')
+    const {studentId, studentLastName, studentFirstName, studentEmail, stuAddress, studentPhoneNum} = req.body
 
     let sql = `INSERT INTO Users VALUES ?`;
     const studentRole = 'Student'

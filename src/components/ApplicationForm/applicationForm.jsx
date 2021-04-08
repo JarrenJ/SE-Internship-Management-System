@@ -270,7 +270,27 @@ export const ApplicationForm1 = () => {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json'
             },
-            body: JSON.stringify([values, comments, stuAddress, empAddress, startDate, endDate]),
+            // body: JSON.stringify([values, comments, stuAddress, empAddress, startDate, endDate]),
+            // body: JSON.stringify(
+            //     {
+            //         "values": values,
+            //         "comments": comments,
+            //         "stuAddress": stuAddress,
+            //         "EmpAddress": empAddress,
+            //         "startDate": startDate,
+            //         "endDate": endDate
+            //     }
+            // ),
+            body: JSON.stringify(
+                {
+                    ...values,
+                    "comments": comments,
+                    ...stuAddress,
+                    ...empAddress,
+                    "startDate": startDate,
+                    "endDate": endDate
+                }
+            )
         }).then(r => r)
     }
 
