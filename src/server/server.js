@@ -37,9 +37,6 @@ app.post('/api/submit', (req, res) => {
 
     // Link for multiple insert statements
     // https://stackoverflow.com/questions/35007263/insert-into-two-dependent-tables-in-mysql-with-node-js
-
-    console.log(req.body)
-    console.log('=========')
     const {
         studentId,
         studentLastName,
@@ -56,14 +53,30 @@ app.post('/api/submit', (req, res) => {
         employerPhone,
         empAddress,
         startDate,
-        endDate
+        endDate,
+        submitDate
     } = req.body
 
     let sql = `INSERT INTO Users VALUES ?`;
     let facultyInsert = `INSERT INTO Users(UserID, UserRole, Lastname, FirstName, PersonalEmail) VALUES ?`;
     let employerInsert = `INSERT INTO Internship VALUES ?`;
+    let applicationInsert = `INSERT INTO Applications VALUES ?`;
+    let getInternId = `SELECT * FROM Internship ORDER BY InternshipID DESC LIMIT 0,1`
+
+    // const getInternID = () => {
+    //     const intern = ''
+    //     connection.query(getInternId, function (err, data) {
+    //         if (err) throw err;
+    //         console.log("Pls work");
+    //         console.log(data[0].InternshipID)
+    //         const intern = data[0].InternshipID
+    //     });
+    //     return intern
+    // }
+
     const studentRole = 'Student'
     const facultyRole = 'Faculty'
+    const facultyID = instructorEmail.substr(0, instructorEmail.indexOf('@'));
     const studentValues = [
         [
             studentId,
@@ -77,7 +90,7 @@ app.post('/api/submit', (req, res) => {
     ]
     const facultyValues = [
         [
-            instructorEmail, //using as ID for now
+            facultyID,
             facultyRole,
             instructorFirstName,
             instructorLastName,
@@ -86,6 +99,7 @@ app.post('/api/submit', (req, res) => {
     ]
     const employerValues = [
         [
+            null, //InternshipID
             employerName, //using as ID for now
             primaryContactName, //Point of contact on database
             employerEmail,
@@ -95,6 +109,19 @@ app.post('/api/submit', (req, res) => {
             endDate
         ]
     ]
+
+    // const applicationValues = [
+    //     [
+    //         null, //ApplicationID
+    //         'Submitted', //applicationStatus - using string for now until we determine a proper method for this
+    //         'dummy date', //Date application was submitted
+    //         getInternID(), //Get latest InternshipID
+    //         studentId,
+    //         instructorEmail, //FacultyID for now
+    //         startDate,
+    //         endDate
+    //     ]
+    // ]
     console.log(sql);
     connection.query(sql, [studentValues], function (err, data) {
         if (err) throw err;
@@ -106,11 +133,37 @@ app.post('/api/submit', (req, res) => {
         console.log("Faculty user data inserted successfully...");
         // res.status(200)
     });
-    connection.query(facultyInsert, [employerValues], function (err, data) {
+    connection.query(employerInsert, [employerValues], function (err, data) {
         if (err) throw err;
         console.log("Employer data inserted successfully...");
         // res.status(200)
     });
+
+    connection.query(getInternId, function (err, data) {
+        if (err) throw err;
+        console.log("Getting Latest Internship ID...");
+        console.log(data[0].InternshipID)
+        const ID = data[0].InternshipID
+
+        const applicationValues = [
+            [
+                null, //ApplicationID
+                'Submitted', //applicationStatus - using string for now until we determine a proper method for this
+                submitDate, //Date application was submitted
+                ID, //Get latest InternshipID
+                studentId,
+                facultyID, //FacultyID for now
+            ]
+        ]
+
+        connection.query(applicationInsert, [applicationValues], function (err, data) {
+            if (err) throw err;
+            console.log("Application data inserted successfully...");
+            // res.status(200)
+        });
+
+    });
+
 });
 
 /* Endpoint to grab user specified role

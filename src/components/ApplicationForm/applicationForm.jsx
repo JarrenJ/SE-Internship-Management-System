@@ -7,159 +7,159 @@ import styled from "styled-components";
 
 import './applicationForm.css';
 
-const ApplicationForm = () => {
-
-    const initialValues = {
-        studentId: "",
-        studentFirstName: "",
-        studentLastName: "",
-        studentEmail: "",
-        studentPhoneNum: "",
-        instructorFirstName: "",
-        instructorLastName: "",
-        instructorEmail: "",
-        employerName: "",
-        primaryContactName: "",
-        employerEmail: "",
-        employerPhone: "",
-        comments: "",
-    };
-
-    const initialStuAddr = {
-        line1: "",
-        line2: "",
-        city: "",
-        state: "",
-        zip: "",
-    }
-
-    const initialEmpAddr = {
-        line1: "",
-        line2: "",
-        city: "",
-        state: "",
-        zip: "",
-    }
-
-    function submitClick() {
-        alert("Form Submit")
-        console.log(values)
-        console.log(stuAddress)
-        console.log(empAddress)
-        console.log(startDate)
-        console.log(endDate)
-    }
-
-    const [currentStep, setCurrentStep] = useState(1)
-    const [startDate, setStartDate] = useState("2021-05-13")
-    const [endDate, setEndDate] = useState("2021-05-14")
-    const [values, setValues] = useState(initialValues) //will store majority of the text box inputs
-    const [comments, setComments] = useState('')
-    const [stuAddress, setStuAddress] = useState(initialStuAddr);
-    const [empAddress, setEmpAddress] = useState(initialEmpAddr);
-
-    const handleInputChange = (e) => {
-        const {name, value} = e.target;
-        setValues({
-            ...values,
-            [name]: value,
-        })
-    }
-    const handleAddressChangeS = (e) => {
-        const {name, value} = e.target;
-        setStuAddress({
-            ...stuAddress,
-            [name]: value,
-        })
-    }
-
-    const handleAddressChangeE = (e) => {
-        const {name, value} = e.target;
-        setEmpAddress({
-            ...empAddress,
-            [name]: value,
-        })
-    }
-
-    const next = () => {
-        setCurrentStep(currentStep >= 2 ? 3 : currentStep + 1)
-    }
-
-    const previous = () => {
-        setCurrentStep(currentStep <= 1 ? 1 : currentStep - 1)
-    }
-
-    const nextButton = () => {
-        if (currentStep < 3) {
-            return (
-                <Button
-                    className='app__btn__next'
-                    variant='outlined'
-                    onClick={next}
-                >
-                    Next
-                </Button>
-            )
-        }
-        return null
-    }
-
-    const previousButton = () => {
-        if (currentStep !== 1) {
-            return (
-                <Button
-                    className='app__btn__prev'
-                    variant='outlined'
-                    onClick={previous}
-                >
-                    Previous
-                </Button>
-            )
-        }
-        return null
-    }
-
-    return (
-        <div className='app__form__container__component'>
-            <form className='app__form__component'>
-                <StudentInfo
-                    currentStep={currentStep}
-                    values={values}
-                    stuAddress={stuAddress}
-                    comments={comments}
-                    setComments={setComments}
-                    handleInputChange={handleInputChange}
-                    handleAddressChangeS={handleAddressChangeS}
-                />
-                <InstructorInfo
-                    currentStep={currentStep}
-                    values={values}
-                    handleInputChange={handleInputChange}
-                />
-                <EmployerInfo
-                    currentStep={currentStep}
-                    values={values}
-                    empAddress={empAddress}
-                    startDate={startDate}
-                    endDate={endDate}
-                    setStartDate={setStartDate}
-                    setEndDate={setEndDate}
-                    submitClick={submitClick}
-                    handleInputChange={handleInputChange}
-                    handleAddressChangeE={handleAddressChangeE}
-                />
-                <div className='app__btns__container'>
-                    <div className='app__btn__prev'>
-                        {previousButton()}
-                    </div>
-                    <div className='app__btn__next'>
-                        {nextButton()}
-                    </div>
-                </div>
-            </form>
-        </div>
-    )
-}
+// const ApplicationForm = () => {
+//
+//     const initialValues = {
+//         studentId: "",
+//         studentFirstName: "",
+//         studentLastName: "",
+//         studentEmail: "",
+//         studentPhoneNum: "",
+//         instructorFirstName: "",
+//         instructorLastName: "",
+//         instructorEmail: "",
+//         employerName: "",
+//         primaryContactName: "",
+//         employerEmail: "",
+//         employerPhone: "",
+//         comments: "",
+//     };
+//
+//     const initialStuAddr = {
+//         line1: "",
+//         line2: "",
+//         city: "",
+//         state: "",
+//         zip: "",
+//     }
+//
+//     const initialEmpAddr = {
+//         line1: "",
+//         line2: "",
+//         city: "",
+//         state: "",
+//         zip: "",
+//     }
+//
+//     function submitClick() {
+//         alert("Form Submit")
+//         console.log(values)
+//         console.log(stuAddress)
+//         console.log(empAddress)
+//         console.log(startDate)
+//         console.log(endDate)
+//     }
+//
+//     const [currentStep, setCurrentStep] = useState(1)
+//     const [startDate, setStartDate] = useState("2021-05-13")
+//     const [endDate, setEndDate] = useState("2021-05-14")
+//     const [values, setValues] = useState(initialValues) //will store majority of the text box inputs
+//     const [comments, setComments] = useState('')
+//     const [stuAddress, setStuAddress] = useState(initialStuAddr);
+//     const [empAddress, setEmpAddress] = useState(initialEmpAddr);
+//
+//     const handleInputChange = (e) => {
+//         const {name, value} = e.target;
+//         setValues({
+//             ...values,
+//             [name]: value,
+//         })
+//     }
+//     const handleAddressChangeS = (e) => {
+//         const {name, value} = e.target;
+//         setStuAddress({
+//             ...stuAddress,
+//             [name]: value,
+//         })
+//     }
+//
+//     const handleAddressChangeE = (e) => {
+//         const {name, value} = e.target;
+//         setEmpAddress({
+//             ...empAddress,
+//             [name]: value,
+//         })
+//     }
+//
+//     const next = () => {
+//         setCurrentStep(currentStep >= 2 ? 3 : currentStep + 1)
+//     }
+//
+//     const previous = () => {
+//         setCurrentStep(currentStep <= 1 ? 1 : currentStep - 1)
+//     }
+//
+//     const nextButton = () => {
+//         if (currentStep < 3) {
+//             return (
+//                 <Button
+//                     className='app__btn__next'
+//                     variant='outlined'
+//                     onClick={next}
+//                 >
+//                     Next
+//                 </Button>
+//             )
+//         }
+//         return null
+//     }
+//
+//     const previousButton = () => {
+//         if (currentStep !== 1) {
+//             return (
+//                 <Button
+//                     className='app__btn__prev'
+//                     variant='outlined'
+//                     onClick={previous}
+//                 >
+//                     Previous
+//                 </Button>
+//             )
+//         }
+//         return null
+//     }
+//
+//     return (
+//         <div className='app__form__container__component'>
+//             <form className='app__form__component'>
+//                 <StudentInfo
+//                     currentStep={currentStep}
+//                     values={values}
+//                     stuAddress={stuAddress}
+//                     comments={comments}
+//                     setComments={setComments}
+//                     handleInputChange={handleInputChange}
+//                     handleAddressChangeS={handleAddressChangeS}
+//                 />
+//                 <InstructorInfo
+//                     currentStep={currentStep}
+//                     values={values}
+//                     handleInputChange={handleInputChange}
+//                 />
+//                 <EmployerInfo
+//                     currentStep={currentStep}
+//                     values={values}
+//                     empAddress={empAddress}
+//                     startDate={startDate}
+//                     endDate={endDate}
+//                     setStartDate={setStartDate}
+//                     setEndDate={setEndDate}
+//                     submitClick={submitClick}
+//                     handleInputChange={handleInputChange}
+//                     handleAddressChangeE={handleAddressChangeE}
+//                 />
+//                 <div className='app__btns__container'>
+//                     <div className='app__btn__prev'>
+//                         {previousButton()}
+//                     </div>
+//                     <div className='app__btn__next'>
+//                         {nextButton()}
+//                     </div>
+//                 </div>
+//             </form>
+//         </div>
+//     )
+// }
 
 const Form = styled.form`
   width: 100%;
@@ -212,7 +212,7 @@ const Col = styled.div`
   //border: 5px solid black;
 `
 
-export const ApplicationForm1 = () => {
+export const ApplicationForm = () => {
 
     const initialValues = {
         studentId: "",
@@ -263,6 +263,9 @@ export const ApplicationForm1 = () => {
     const [stuAddress, setStuAddress] = useState(initialStuAddr);
     const [empAddress, setEmpAddress] = useState(initialEmpAddr);
 
+    const submitDate = new Date(),
+        date = submitDate.getFullYear() + '-' + (submitDate.getMonth() + 1) + '-' + submitDate.getDate();
+
     const onSubmit = () => {
         fetch(`/api/submit`, {
             method: "POST",
@@ -277,7 +280,8 @@ export const ApplicationForm1 = () => {
                     "stuAddress": `${stuAddress.line1}, ${stuAddress.line2}, ${stuAddress.city}, ${stuAddress.state}, ${stuAddress.zip}`,
                     "empAddress": `${empAddress.line1}, ${empAddress.line2}, ${empAddress.city}, ${empAddress.state}, ${empAddress.zip}`,
                     "startDate": startDate,
-                    "endDate": endDate
+                    "endDate": endDate,
+                    "submitDate": date
                 }
             ),
         }).then(r => r)
@@ -747,14 +751,6 @@ const EmployerInfo = ({ currentStep, values, handleInputChange, handleAddressCha
                 </Col>
             </Row>
         </div>
-        {/*<Button*/}
-        {/*    variant={"contained"}*/}
-        {/*    onClick={submitClick}*/}
-        {/*>*/}
-        {/*    Submit*/}
-        {/*</Button>*/}
     </>
     )
 }
-
-export { ApplicationForm }

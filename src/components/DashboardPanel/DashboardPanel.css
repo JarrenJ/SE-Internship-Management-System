@@ -10,7 +10,7 @@
     transition: .75s ease;
     overflow-y: auto;
 }
-.dashboard__container > p{
+.dashboard__title{
     margin-left: 25px;
     font-size: larger;
 }
@@ -50,6 +50,7 @@
     display: flex;
     flex: 1 0 auto;
     width: 100%;
+    /*max-height: 65px;*/
 }
 
 .dashboard__column__no__margin {
@@ -59,6 +60,7 @@
 .dashboard__column {
     margin: 0 25px;
     flex: 50%;
+    /*max-height: 65px;*/
 }
 
 .dashboard__column__4 {
