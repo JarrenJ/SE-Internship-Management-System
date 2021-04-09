@@ -57,22 +57,11 @@ app.post('/api/submit', (req, res) => {
         submitDate
     } = req.body
 
-    let sql = `INSERT INTO Users VALUES ?`;
+    let userInsert = `INSERT INTO Users VALUES ?`;
     let facultyInsert = `INSERT INTO Users(UserID, UserRole, Lastname, FirstName, PersonalEmail) VALUES ?`;
     let employerInsert = `INSERT INTO Internship VALUES ?`;
     let applicationInsert = `INSERT INTO Applications VALUES ?`;
     let getInternId = `SELECT * FROM Internship ORDER BY InternshipID DESC LIMIT 0,1`
-
-    // const getInternID = () => {
-    //     const intern = ''
-    //     connection.query(getInternId, function (err, data) {
-    //         if (err) throw err;
-    //         console.log("Pls work");
-    //         console.log(data[0].InternshipID)
-    //         const intern = data[0].InternshipID
-    //     });
-    //     return intern
-    // }
 
     const studentRole = 'Student'
     const facultyRole = 'Faculty'
@@ -109,21 +98,7 @@ app.post('/api/submit', (req, res) => {
             endDate
         ]
     ]
-
-    // const applicationValues = [
-    //     [
-    //         null, //ApplicationID
-    //         'Submitted', //applicationStatus - using string for now until we determine a proper method for this
-    //         'dummy date', //Date application was submitted
-    //         getInternID(), //Get latest InternshipID
-    //         studentId,
-    //         instructorEmail, //FacultyID for now
-    //         startDate,
-    //         endDate
-    //     ]
-    // ]
-    console.log(sql);
-    connection.query(sql, [studentValues], function (err, data) {
+    connection.query(userInsert, [studentValues], function (err, data) {
         if (err) throw err;
         console.log("Student user data inserted successfully...");
         // res.status(200)
@@ -159,11 +134,33 @@ app.post('/api/submit', (req, res) => {
         connection.query(applicationInsert, [applicationValues], function (err, data) {
             if (err) throw err;
             console.log("Application data inserted successfully...");
-            // res.status(200)
+            res.status(201)
         });
 
     });
+    res.end();
 
+});
+
+app.get('/api/getUser/:username', (req, res) => {
+    const username = req.params.username
+    console.log(username)
+    connection.query(`SELECT * FROM accounts WHERE username = ?`, [username], (err, data) => {
+        if (err) { res.send(err) }
+
+        if (data.length > 0) {
+            // res.status(200)
+            // console.log(data[0].username)
+            res.send({
+                "username": data[0].username,
+                "role": data[0].role
+            })
+        } else {
+                res.statusMessage = "User Not Found"
+                res.status(404)
+                res.send(err)
+        }
+    });
 });
 
 /* Endpoint to grab user specified role
@@ -220,12 +217,14 @@ app.post('/api/auth', (request, response) => {
             );
 
             const role = results[0].role
+            const userID = results[0].username
 
             response.header("auth-token", token).json({
                 error: null,
                 data: {
                     token,
                     role,
+                    userID
                 },
             });
             response.status(200)

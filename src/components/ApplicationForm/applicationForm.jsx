@@ -176,8 +176,7 @@ const Form = styled.form`
 
 const Container = styled.div`
   display: flex;
-  padding-top: 2rem;
-  //padding-bottom: 2rem;
+  padding: 2rem 0;
   justify-content: center;
   align-items: center;
 `

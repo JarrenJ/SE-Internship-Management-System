@@ -84,8 +84,8 @@ export function Home() {
                 setTimeout(() => {
                     // set JWT here - for login session and to guard routes so only authenticated users can access them
                     sessionStorage.setItem("token", data.token);
-                    sessionStorage.setItem("role", data.role);
-
+                    // sessionStorage.setItem("role", data.role);
+                    sessionStorage.setItem("userID", data.userID);
                     // PUSH new url onto history so create a new entry
                     history.push("/dashboard");
                 }, 3000);

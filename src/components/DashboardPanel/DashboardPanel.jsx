@@ -1,11 +1,27 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import { account, airplane, Hourglass, Manlogo } from "assets";
 import { ApplicationForm } from "components";
 
 import './DashboardPanel.css'
 import '../../colors.css'
 
-export function DashboardPanel({ isOpen, role }) {
+export function DashboardPanel({ isOpen, role, isAppFormVisible, username }) {
+
+    // const [user, setUser] = useState('')
+    //
+    // useEffect(() => {
+    //     fetch(`/api/getUser/${userID}`)
+    //         .then(response => response.json())
+    //         .then(data => setUser(data.username));
+    // }, []);
+
+    // const getUser = () => {
+    //     fetch(`/api/getUser/admin`)
+    //         .then(res => {
+    //         console.log(res)
+    //     })
+    // }
+
     return (
         <>
             <div className="dashboard__container" style={{left: isOpen ? '20%' : '3.5%', width: isOpen ? `calc(100% - 20%)` : `calc(100% - 3.5%)`}}>
@@ -16,7 +32,7 @@ export function DashboardPanel({ isOpen, role }) {
                                 <div className='dashboard__column'>
                                     <img src={ account } alt='account.png'/>
                                     <div className="Header_Namebox">
-                                        <p>Cindy Tu</p>
+                                        <p>{username}</p>
                                     </div>
                                 </div>
                             </div>
@@ -61,9 +77,9 @@ export function DashboardPanel({ isOpen, role }) {
                             </div>
                         </div>
                     </>
-
                 }
-                {role === "Student" && <ApplicationForm /> }
+                {/*{role === "Student" && <ApplicationForm /> }*/}
+                {isAppFormVisible && <ApplicationForm /> }
             </div>
         </>
     )}
