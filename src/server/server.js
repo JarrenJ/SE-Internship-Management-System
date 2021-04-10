@@ -35,8 +35,6 @@ app.use(bodyParser.json())
 
 app.post('/api/submit', (req, res) => {
 
-    // Link for multiple insert statements
-    // https://stackoverflow.com/questions/35007263/insert-into-two-dependent-tables-in-mysql-with-node-js
     const {
         studentId,
         studentLastName,
@@ -57,8 +55,10 @@ app.post('/api/submit', (req, res) => {
         submitDate
     } = req.body
 
-    let userInsert = `INSERT INTO Users VALUES ?`;
-    let facultyInsert = `INSERT INTO Users(UserID, UserRole, Lastname, FirstName, PersonalEmail) VALUES ?`;
+    let userInsert = `
+        INSERT INTO Users VALUES ? ON DUPLICATE KEY UPDATE LastName = VALUES(LastName), FirstName = VALUES(FirstName), PersonalEmail = VALUES(PersonalEmail), StudentAddress = VALUES(StudentAddress), Phone = VALUES(Phone)`;
+
+    let facultyInsert = `INSERT INTO Users(UserID, UserRole, Lastname, FirstName, PersonalEmail) VALUES ? ON DUPLICATE KEY UPDATE LastName = VALUES(Lastname), FirstName = VALUES(FirstName), PersonalEmail = VALUES(PersonalEmail)`;
     let employerInsert = `INSERT INTO Internship VALUES ?`;
     let applicationInsert = `INSERT INTO Applications VALUES ?`;
     let getInternId = `SELECT * FROM Internship ORDER BY InternshipID DESC LIMIT 0,1`
@@ -88,7 +88,7 @@ app.post('/api/submit', (req, res) => {
     ]
     const employerValues = [
         [
-            null, //InternshipID
+            null, //InternshipID - set to null because the field on DB is AUTO_INCREMENT
             employerName, //using as ID for now
             primaryContactName, //Point of contact on database
             employerEmail,
@@ -141,6 +141,32 @@ app.post('/api/submit', (req, res) => {
     res.end();
 
 });
+
+app.get('/api/getApplications/:user', (req, res) => {
+    const user = req.params.user
+    console.log(user)
+    connection.query(`SELECT * FROM Applications WHERE StuID = ?`, [user], (err, data) => {
+        if (err) { res.send(err) }
+
+        if (data.length > 0) {
+
+            connection.query(`SELECT * FROM Internship WHERE InternshipID IN (SELECT InternID FROM Applications WHERE StuID = ?)`, [user], (err, data2) => {
+                if (data2.length > 0) {
+                    res.send({ "applications": data, "internships": data2 })
+                }
+            })
+
+        } else {
+            res.statusMessage = "User / Application Not Found"
+            res.status(404)
+            res.send({ "applications": data })
+        }
+
+
+    })
+
+    }
+)
 
 app.get('/api/getUser/:username', (req, res) => {
     const username = req.params.username

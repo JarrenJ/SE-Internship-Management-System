@@ -10,11 +10,16 @@ const Dashboard = () => {
     // const userRole = sessionStorage.getItem("role")
     const userID = sessionStorage.getItem("userID")
     const [isAppFormVisible, setIsAppFormVisible] = useState(false)
+    const [tableError, setTableError] = useState({
+        "error": new Error
+    })
 
     const [user, setUser] = useState({
         "username": '',
         "role": ''
     })
+    const [applications, setApplications] = useState([])
+    const [internships, setInternships] = useState([])
 
     useEffect(() => {
         fetch(`/api/getUser/${userID}`)
@@ -27,6 +32,30 @@ const Dashboard = () => {
             );
     }, []);
 
+    useEffect(() => {
+        fetch(`/api/getApplications/${userID}`)
+            .then(res => {
+                if (res.ok) {
+                    // api returned status 200, so we return the response
+                    return res.json()
+                } else {
+                    // api returned code 400, so we throw an error to catch later
+                    throw new Error('Something went wrong fetching your data...')
+                }
+            })
+            .then((data) => {
+                // console.log(error)
+                console.log(data)
+                setApplications(data.applications)
+                setInternships(data.internships)
+            }).catch((error) => {
+            console.log(error)
+            setTableError({error: error})
+        });
+    }, []);
+
+    console.log(applications)
+    console.log(internships)
     const handleClick = (e) => {
         setDown(!down)
         setAnchorEl(e.currentTarget);
@@ -70,6 +99,9 @@ const Dashboard = () => {
             <DashboardPanel
                 role={user.role}
                 username={user.username}
+                applications={applications}
+                internships={internships}
+                tableError={tableError}
                 isOpen={isOpen}
                 isAppFormVisible={isAppFormVisible}
             />

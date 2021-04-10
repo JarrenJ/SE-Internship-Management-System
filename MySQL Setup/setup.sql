@@ -14,7 +14,7 @@ INSERT INTO `accounts` (`id`, `username`, `password`, `role`) VALUES (2, 'facult
 INSERT INTO `accounts` (`id`, `username`, `password`, `role`) VALUES (3, 'student', 'student', 'Student');
 
 CREATE TABLE IF NOT EXISTS Users (
-    UserID VARCHAR(25) ,
+    UserID VARCHAR(25),
     UserRole VARCHAR(25),
     LastName varchar(25),
     FirstName VARCHAR(25),
@@ -31,8 +31,8 @@ CREATE TABLE IF NOT EXISTS Internship (
     EmployerEmail VARCHAR(25),
     EmployerPhone VARCHAR(25),
     EmployerAddress VARCHAR(255),
-    StartDate DATETIME,
-    EndDate DATETIME,
+    StartDate DATE,
+    EndDate DATE,
     PRIMARY KEY (InternshipID)
 )ENGINE = InnoDB;
 
