@@ -127,7 +127,7 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible, username, appli
                     <Row>
                         <Col size={1}>
                             <div className='dashboard__student__default__image'>
-                                <img src={NWDoubleStackedGreen} />
+                                <img src={NWDoubleStackedGreen} alt='Northwest Stacked Logo Green'/>
                             </div>
                         </Col>
                     </Row>
