@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import { account, airplane, Hourglass, Manlogo } from "assets";
 import { ApplicationForm } from "components";
 import styled from "styled-components";
@@ -9,6 +9,14 @@ import './DashboardPanel.css'
 import '../../colors.css'
 
 import { NWDoubleStackedGreen } from "assets"
+
+
+import Button from '@material-ui/core/Button';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 
 const Container = styled.div`
   display: flex;
@@ -57,6 +65,16 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible, username, appli
 
     // Planning to change this to be called StyledDetailButton and return it from function above...
 
+    const [open, setOpen] = React.useState(false);
+
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+
     const DetailButton = styled.button`
       border-radius: 5px;
       padding: 10px;
@@ -65,49 +83,139 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible, username, appli
       color: white;
     `
 
+    const [applicationData, setApplicationData] = useState({})
+
+    const DetailsDialog = () => {
+        // const [open, setOpen] = React.useState(false);
+        //
+        // const handleClickOpen = () => {
+        //     setOpen(true);
+        // };
+        //
+        // const handleClose = () => {
+        //     setOpen(false);
+        // };
+
+        return (
+            <div>
+                {/*<Button variant="outlined" color="primary" onClick={handleClickOpen}>*/}
+                {/*    Open alert dialog*/}
+                {/*</Button>*/}
+                <Dialog
+                    open={open}
+                    onClose={handleClose}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description"
+                    fullWidth="true"
+                >
+                    <DialogTitle id="alert-dialog-title">{"Details"}</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText id="alert-dialog-description">
+                            <Row>
+                                <Col size={1}>
+                                    <b>Data from table only...</b>
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col size={1}>
+                                    <p>Employer Name: {applicationData.EmployerName}</p>
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col size={1}>
+                                    <p>Start Date: {applicationData.StartDate}</p>
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col size={1}>
+                                    <p>End Date: {applicationData.EndDate}</p>
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col size={1}>
+                                    <p>Date Submitted: {applicationData.DateSubmitted}</p>
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col size={1}>
+                                    <p>Status: {applicationData.Status}</p>
+                                </Col>
+                            </Row>
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={handleClose} color="primary">
+                            Disagree
+                        </Button>
+                        <Button onClick={handleClose} color="primary" autoFocus>
+                            Agree
+                        </Button>
+                    </DialogActions>
+                </Dialog>
+            </div>
+        );
+    }
 
     const columns = [
-        { field: 'employerName', headerName: 'Employer Name', width: 200 },
-        { field: 'employmentStartDate', headerName: 'Employment Start Date', width: 200 },
-        { field: 'employmentEndDate', headerName: 'Employment End Date', width: 200 },
-        { field: 'applicationDate', headerName: 'Application Date', width: 160 },
+        { field: 'employerName', headerName: 'Employer Name', flex: 1 },
+        { field: 'employmentStartDate', headerName: 'Employment Start Date', flex: 1 },
+        { field: 'employmentEndDate', headerName: 'Employment End Date', flex: 1 },
+        { field: 'applicationDate', headerName: 'Application Date', flex: 1 },
         {
             field: 'status',
             headerName: 'Status',
-            width: 100,
+            flex: .5,
         },
         {
             field: "",
             headerName: "Action",
             sortable: false,
-            width: 100,
+            flex: 1,
             disableClickEventBubbling: true,
-            renderCell: () => {
+            renderCell: (params) => {
                 const onClick = () => {
-                    // const api: GridApi = params.api;
-                    // const fields = api
-                    //     .getAllColumns()
-                    //     .map((c) => c.field)
-                    //     .filter((c) => c !== "__check__" && !!c);
-                    // const thisRow = {};
-                    //
-                    // fields.forEach((f) => {
-                    //     thisRow[f] = params.getValue(f);
-                    // });
-                    //
-                    // return alert(JSON.stringify(thisRow, null, 4));
-                    return alert('YEET');
+                    // Open DetailsDialog
+                    handleClickOpen()
+                    const api = params.api;
+                    const fields = api
+                        .getAllColumns()
+                        .map((c) => c.field)
+                        .filter((c) => c !== "__check__" && !!c);
+                    const row = {};
+
+                    fields.forEach((f) => {
+                        row[f] = params.getValue(f);
+                    });
+                    // const cleanStartDate = row.employmentStartDate.substr(0, row.employmentStartDate.indexOf('T'));
+                    // const cleanEndDate = row.employmentEndDate.substr(0, row.employmentEndDate.indexOf('T'));
+                    setApplicationData({
+                        "EmployerName": row.employerName,
+                        "StartDate": row.employmentStartDate,
+                        "EndDate": row.employmentEndDate,
+                        "DateSubmitted": row.applicationDate,
+                        "Status": row.status
+                    })
+                    // return row.employerName
+                    // return alert(JSON.stringify(row, null, 4));
                 };
 
-                return <DetailButton onClick={onClick}>Details</DetailButton>;
+                return (
+                    <div>
+                        <DetailButton onClick={onClick}>
+                            Details
+                        </DetailButton>
+                    </div>
+                );
             }
         },
     ];
 
     const rows =  applications.length > 0 && applications.map((app, idx) => {
         console.log(app)
+        const cleanStartDate = internships[idx].StartDate.substr(0, internships[idx].StartDate.indexOf('T'));
+        const cleanEndDate = internships[idx].EndDate.substr(0, internships[idx].EndDate.indexOf('T'));
         return(
-            {id: idx, employerName: internships.length > 0 && internships[idx].EmployerName, employmentStartDate: internships.length > 0 && internships[idx].StartDate, employmentEndDate: internships.length > 0 && internships[idx].EndDate, applicationDate: app.ApplicationDate, status: app.ApplicationStatus }
+            {id: idx, employerName: internships.length > 0 && internships[idx].EmployerName, employmentStartDate: internships.length > 0 && cleanStartDate, employmentEndDate: internships.length > 0 && cleanEndDate, applicationDate: app.ApplicationDate, status: app.ApplicationStatus }
         )
     })
 
@@ -175,6 +283,11 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible, username, appli
                         </Col>
                     </Row>
                 </Container>
+                <Row>
+                    <Col size={1}>
+                        <DetailsDialog/>
+                    </Col>
+                </Row>
             </>
         )
     }
