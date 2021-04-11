@@ -284,7 +284,7 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible, username, appli
                 </Row>
                 <Container>
                     <Row>
-                        <Col size={1} bgColor='white' margin='0 20px' maxWidth='1200px'>
+                        <Col size={1} bgColor='white' margin='0 20px' /*maxWidth='1200px' */>
 
                             {/* Something went wrong -- code below -- currently breaks things*/}
 
@@ -314,20 +314,6 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible, username, appli
     return (
         <>
             <div className="dashboard__container" style={{left: isOpen ? '20%' : '3.5%', width: isOpen ? `calc(100% - 20%)` : `calc(100% - 3.5%)`}}>
-                {/*<div className="dashboard__row">*/}
-                {/*    <div className="dashboard__column__no__margin">*/}
-                {/*        <div className="dashboard__Header">*/}
-                {/*            <div className='dashboard__row'>*/}
-                {/*                <div className='dashboard__column'>*/}
-                {/*                    <img src={ account } alt='account.png'/>*/}
-                {/*                    <div className="Header_Namebox">*/}
-                {/*                        <p>{username}</p>*/}
-                {/*                    </div>*/}
-                {/*                </div>*/}
-                {/*            </div>*/}
-                {/*        </div>*/}
-                {/*    </div>*/}
-                {/*</div>*/}
                 <Row maxHeight='65px'>
                     <Col size={1} maxHeight='65px'>
                         <div className="dashboard__Header">
