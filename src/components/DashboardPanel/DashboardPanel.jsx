@@ -26,8 +26,9 @@ const Container = styled.div`
 const Row = styled.div`
   display: flex;
   width: 100%;
-  height: 100%;
+  height: auto;
   min-height: ${(props) => props.minHeight};
+  max-height: ${(props) => props.maxHeight};
   max-width: ${(props) => props.maxWidth};
   //@media (max-width: 970px) {
   //  flex-direction: column;
@@ -35,6 +36,20 @@ const Row = styled.div`
   margin: ${(props) => props.margin};
   //border: 5px solid red;
 `
+const CollpasedRow = styled.div`
+  display: flex;
+  width: 100%;
+  height: auto;
+  min-height: ${(props) => props.minHeight};
+  max-height: ${(props) => props.maxHeight};
+  max-width: ${(props) => props.maxWidth};
+  @media (max-width: 1500px) {
+    flex-direction: column;
+  }
+  margin: ${(props) => props.margin};
+  //border: 5px solid red;
+`
+
 
 const Col = styled.div`
   flex: ${(props) => props.size};
@@ -43,6 +58,7 @@ const Col = styled.div`
   max-width: ${(props => props.maxWidth)};
   min-height: ${(props) => props.minHeight};
   height: 100%;
+  max-height: ${(props) => props.maxHeight};
 
   //@media (max-width: 768px) {
   //  min-width: 100%;
@@ -53,15 +69,24 @@ const Col = styled.div`
   //border: 5px solid black;
 `
 
+const CollapsedCol = styled.div`
+  flex: ${(props) => props.size};
+  background-color: ${(props => props.bgColor)};
+  min-width: ${(props => props.minWidth)};
+  max-width: ${(props => props.maxWidth)};
+  min-height: ${(props) => props.minHeight};
+  height: 100%;
+  max-height: ${(props) => props.maxHeight};
+
+  @media (max-width: 1500px) {
+    margin: 10px 25px;
+  }
+  //margin: 0 25px;
+  margin: ${(props) => props.margin};
+  //border: 5px solid black;
+`
+
 export function DashboardPanel({ isOpen, role, isAppFormVisible, username, applications, internships, tableError }) {
-
-    // const DetailButton = () => {
-    //     return(
-    //         <button style={{color: 'darkblue'}}>Details</button>
-    //     )
-    // }
-
-    // Planning to change this to be called StyledDetailButton and return it from function above...
 
     const [open, setOpen] = React.useState(false);
 
@@ -79,6 +104,7 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible, username, appli
       background-color: royalblue;
       border: 1px solid royalblue;
       color: white;
+      cursor: pointer;
     `
 
     const [applicationData, setApplicationData] = useState({})
@@ -184,8 +210,6 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible, username, appli
                     fields.forEach((f) => {
                         row[f] = params.getValue(f);
                     });
-                    // const cleanStartDate = row.employmentStartDate.substr(0, row.employmentStartDate.indexOf('T'));
-                    // const cleanEndDate = row.employmentEndDate.substr(0, row.employmentEndDate.indexOf('T'));
                     setApplicationData({
                         "EmployerName": row.employerName,
                         "StartDate": row.employmentStartDate,
@@ -193,8 +217,6 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible, username, appli
                         "DateSubmitted": row.applicationDate,
                         "Status": row.status
                     })
-                    // return row.employerName
-                    // return alert(JSON.stringify(row, null, 4));
                 };
 
                 return (
@@ -256,13 +278,11 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible, username, appli
     const StudentView = () => {
         return(
             <>
-                <Container>
-                    <Row>
-                        <Col margin='0 0 0 15px'>
-                            <p>Applications</p>
-                        </Col>
-                    </Row>
-                </Container>
+                <Row>
+                    <Col margin='0 0 0 15px'>
+                        <p>Applications</p>
+                    </Col>
+                </Row>
                 <Container>
                     <Row>
                         <Col size={1} bgColor='white' margin='0 20px' maxWidth='1200px'>
@@ -295,59 +315,70 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible, username, appli
     return (
         <>
             <div className="dashboard__container" style={{left: isOpen ? '20%' : '3.5%', width: isOpen ? `calc(100% - 20%)` : `calc(100% - 3.5%)`}}>
-                <div className="dashboard__row">
-                    <div className="dashboard__column__no__margin">
+                {/*<div className="dashboard__row">*/}
+                {/*    <div className="dashboard__column__no__margin">*/}
+                {/*        <div className="dashboard__Header">*/}
+                {/*            <div className='dashboard__row'>*/}
+                {/*                <div className='dashboard__column'>*/}
+                {/*                    <img src={ account } alt='account.png'/>*/}
+                {/*                    <div className="Header_Namebox">*/}
+                {/*                        <p>{username}</p>*/}
+                {/*                    </div>*/}
+                {/*                </div>*/}
+                {/*            </div>*/}
+                {/*        </div>*/}
+                {/*    </div>*/}
+                {/*</div>*/}
+                <Row maxHeight='65px'>
+                    <Col size={1} maxHeight='65px'>
                         <div className="dashboard__Header">
-                            <div className='dashboard__row'>
-                                <div className='dashboard__column'>
-                                    <img src={ account } alt='account.png'/>
-                                    <div className="Header_Namebox">
-                                        <p>{username}</p>
-                                    </div>
-                                </div>
+                            <img className='dashboard__profile__pic' src={ account } alt='account.png'/>
+                            <div className="Header_Namebox">
+                                <p>{username}</p>
                             </div>
                         </div>
-                    </div>
-                </div>
+                    </Col>
+                </Row>
                 {role === "Admin" &&
                     <>
-                        <div className='dashboard__row'>
-                            <div className='dashboard__column'>
+                        <Row>
+                            <Col>
                                 <p className='dashboard__title'>Dashboard</p>
-                            </div>
-                        </div>
-                        <div className='dashboard__row'>
-                            <div className='dashboard__column__4'>
+                            </Col>
+                        </Row>
+                        <CollpasedRow>
+                            <CollapsedCol size={1} margin='0 25px'>
                                 <div className="dashboard__Button1">
                                     <p>Total Interns</p><img src={ Manlogo } alt='Manlogo.png'/><p>4</p>
                                 </div>
-                            </div>
-                            <div className='dashboard__column__4'>
+                            </CollapsedCol>
+                            <CollapsedCol size={1} margin='0 25px'>
                                 <div className="dashboard__Button2">
                                     <p>Active Interns</p><img src={ Manlogo } alt='Manlogo.png'/><p>2</p>
                                 </div>
-                            </div>
-                            <div className='dashboard__column__4'>
+                            </CollapsedCol>
+                            <CollapsedCol size={1} margin='0 25px'>
                                 <div className="dashboard__Button3">
                                     <p>Pending Approvals</p><img src={ Hourglass } alt='Hourglass.png'/><p>1</p>
                                 </div>
-                            </div>
-                            <div className='dashboard__column__4'>
+                            </CollapsedCol>
+                            <CollapsedCol size={1} margin='0 25px'>
                                 <div className="dashboard__Button4">
                                     <p>Out of State</p><img src ={ airplane } alt='airplace.png'/><p>3</p>
                                 </div>
-                            </div>
-                        </div>
-                        <div className='dashboard__row'>
-                            <div className='dashboard__column'>
+                            </CollapsedCol>
+                        </CollpasedRow>
+                        <Row>
+                            <Col size={1}>
                                 <div className='dashboard__Map_header'>
                                     <p>Interns Map</p>
                                 </div>
                                 <div className='dashboard__Map' />
-                            </div>
-                        </div>
+                            </Col>
+                        </Row>
                     </>
                 }
+                {isAppFormVisible && <ApplicationForm /> }
                 {
                     role === "Student"
                     &&
@@ -356,7 +387,6 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible, username, appli
                         {applications.length > 0 && <StudentView />}
                     </>
                 }
-                {isAppFormVisible && <ApplicationForm /> }
             </div>
         </>
     )}

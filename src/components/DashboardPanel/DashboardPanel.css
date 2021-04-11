@@ -23,7 +23,7 @@
     width: 100%;
 
 }
-.dashboard__Header .dashboard__row .dashboard__column > img {
+.dashboard__profile__pic {
     height: 50px;
     position: absolute;
     top: 5px;
@@ -91,7 +91,7 @@
     background-color: var(--white);
     padding: 50px;
     width: 150px;
-    min-width: 150px;
+    /*min-width: 150px;*/
     border-radius: 10px;
     /*margin-left: 20px;*/
     text-align: center;

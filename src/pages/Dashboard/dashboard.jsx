@@ -7,7 +7,6 @@ const Dashboard = () => {
     const [navOpen, setNavOpen] = useState('0')
 
     const [isOpen, setIsOpen] = useState(true)
-    // const userRole = sessionStorage.getItem("role")
     const userID = sessionStorage.getItem("userID")
     const [isAppFormVisible, setIsAppFormVisible] = useState(false)
     const [tableError, setTableError] = useState({
