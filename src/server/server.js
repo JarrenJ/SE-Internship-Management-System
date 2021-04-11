@@ -34,17 +34,39 @@ app.use(bodyParser.urlencoded({extended : true}))
 app.use(bodyParser.json())
 
 app.post('/api/submit', (req, res) => {
-    console.log(req.body)
-    // Will use below line most likely once we move forward with the appForm
-    // const i = req.body.values;
-    const {studentId, studentLastName, studentFirstName, studentEmail, stuAddress, studentPhoneNum} = req.body
-    console.log(`${studentId}`)
-    const startDate = req.body.startDate;
-    const endDate = req.body.endDate;
-    // const studentInfo = `"'${studentId}', 'Student', '${studentLastName}', '${studentFirstName}', '${studentEmail}', '${stuAddress}', '${studentPhoneNum}'"`;
-    let sql = `INSERT INTO Users VALUES ?`;
+
+    const {
+        studentId,
+        studentLastName,
+        studentFirstName,
+        studentEmail,
+        stuAddress,
+        studentPhoneNum,
+        instructorFirstName,
+        instructorLastName,
+        instructorEmail,
+        employerName,
+        primaryContactName,
+        employerEmail,
+        employerPhone,
+        empAddress,
+        startDate,
+        endDate,
+        submitDate
+    } = req.body
+
+    let userInsert = `
+        INSERT INTO Users VALUES ? ON DUPLICATE KEY UPDATE LastName = VALUES(LastName), FirstName = VALUES(FirstName), PersonalEmail = VALUES(PersonalEmail), StudentAddress = VALUES(StudentAddress), Phone = VALUES(Phone)`;
+
+    let facultyInsert = `INSERT INTO Users(UserID, UserRole, Lastname, FirstName, PersonalEmail) VALUES ? ON DUPLICATE KEY UPDATE LastName = VALUES(Lastname), FirstName = VALUES(FirstName), PersonalEmail = VALUES(PersonalEmail)`;
+    let employerInsert = `INSERT INTO Internship VALUES ?`;
+    let applicationInsert = `INSERT INTO Applications VALUES ?`;
+    let getInternId = `SELECT * FROM Internship ORDER BY InternshipID DESC LIMIT 0,1`
+
     const studentRole = 'Student'
-    const values = [
+    const facultyRole = 'Faculty'
+    const facultyID = instructorEmail.substr(0, instructorEmail.indexOf('@'));
+    const studentValues = [
         [
             studentId,
             studentRole,
@@ -55,11 +77,115 @@ app.post('/api/submit', (req, res) => {
             studentPhoneNum
         ]
     ]
-    console.log(sql);
-    connection.query(sql, [values], function (err, data) {
+    const facultyValues = [
+        [
+            facultyID,
+            facultyRole,
+            instructorFirstName,
+            instructorLastName,
+            instructorEmail,
+        ]
+    ]
+    const employerValues = [
+        [
+            null, //InternshipID - set to null because the field on DB is AUTO_INCREMENT
+            employerName, //using as ID for now
+            primaryContactName, //Point of contact on database
+            employerEmail,
+            employerPhone,
+            empAddress,
+            startDate,
+            endDate
+        ]
+    ]
+    connection.query(userInsert, [studentValues], function (err, data) {
         if (err) throw err;
-        console.log("User dat is inserted successfully ");
-        res.status(200)
+        console.log("Student user data inserted successfully...");
+        // res.status(200)
+    });
+    connection.query(facultyInsert, [facultyValues], function (err, data) {
+        if (err) throw err;
+        console.log("Faculty user data inserted successfully...");
+        // res.status(200)
+    });
+    connection.query(employerInsert, [employerValues], function (err, data) {
+        if (err) throw err;
+        console.log("Employer data inserted successfully...");
+        // res.status(200)
+    });
+
+    connection.query(getInternId, function (err, data) {
+        if (err) throw err;
+        console.log("Getting Latest Internship ID...");
+        console.log(data[0].InternshipID)
+        const ID = data[0].InternshipID
+
+        const applicationValues = [
+            [
+                null, //ApplicationID
+                'Submitted', //applicationStatus - using string for now until we determine a proper method for this
+                submitDate, //Date application was submitted
+                ID, //Get latest InternshipID
+                studentId,
+                facultyID, //FacultyID for now
+            ]
+        ]
+
+        connection.query(applicationInsert, [applicationValues], function (err, data) {
+            if (err) throw err;
+            console.log("Application data inserted successfully...");
+            res.status(201)
+        });
+
+    });
+    res.end();
+
+});
+
+app.get('/api/getApplications/:user', (req, res) => {
+    const user = req.params.user
+    console.log(user)
+    connection.query(`SELECT * FROM Applications WHERE StuID = ?`, [user], (err, data) => {
+        if (err) { res.send(err) }
+
+        if (data.length > 0) {
+
+            connection.query(`SELECT * FROM Internship WHERE InternshipID IN (SELECT InternID FROM Applications WHERE StuID = ?)`, [user], (err, data2) => {
+                if (data2.length > 0) {
+                    res.send({ "applications": data, "internships": data2 })
+                }
+            })
+
+        } else {
+            res.statusMessage = "User / Application Not Found"
+            res.status(404)
+            res.send({ "applications": data })
+        }
+
+
+    })
+
+    }
+)
+
+app.get('/api/getUser/:username', (req, res) => {
+    const username = req.params.username
+    console.log(username)
+    connection.query(`SELECT * FROM accounts WHERE username = ?`, [username], (err, data) => {
+        if (err) { res.send(err) }
+
+        if (data.length > 0) {
+            // res.status(200)
+            // console.log(data[0].username)
+            res.send({
+                "username": data[0].username,
+                "role": data[0].role
+            })
+        } else {
+                res.statusMessage = "User Not Found"
+                res.status(404)
+                res.send(err)
+        }
     });
 });
 
@@ -117,12 +243,14 @@ app.post('/api/auth', (request, response) => {
             );
 
             const role = results[0].role
+            const userID = results[0].username
 
             response.header("auth-token", token).json({
                 error: null,
                 data: {
                     token,
                     role,
+                    userID
                 },
             });
             response.status(200)

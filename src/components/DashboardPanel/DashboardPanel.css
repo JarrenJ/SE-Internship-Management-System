@@ -10,7 +10,7 @@
     transition: .75s ease;
     overflow-y: auto;
 }
-.dashboard__container > p{
+.dashboard__title{
     margin-left: 25px;
     font-size: larger;
 }
@@ -23,7 +23,7 @@
     width: 100%;
 
 }
-.dashboard__Header .dashboard__row .dashboard__column > img {
+.dashboard__profile__pic {
     height: 50px;
     position: absolute;
     top: 5px;
@@ -50,15 +50,34 @@
     display: flex;
     flex: 1 0 auto;
     width: 100%;
+    max-height: 65px;
 }
 
 .dashboard__column__no__margin {
     flex: 50%;
+    max-height: 65px;
 }
+
+.dashboard__student__default__title {
+    text-align: center;
+}
+
+.dashboard__student__default__image {
+    align-content: center;
+}
+
+.dashboard__student__default__image img {
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    height: 100px;
+}
+
 
 .dashboard__column {
     margin: 0 25px;
     flex: 50%;
+    /*max-height: 65px;*/
 }
 
 .dashboard__column__4 {
@@ -72,7 +91,7 @@
     background-color: var(--white);
     padding: 50px;
     width: 150px;
-    min-width: 150px;
+    /*min-width: 150px;*/
     border-radius: 10px;
     /*margin-left: 20px;*/
     text-align: center;

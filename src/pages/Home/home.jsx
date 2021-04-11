@@ -10,7 +10,7 @@ import '../../colors.css';
 import './home.css';
 
 
-const Grid = styled.div`
+export const Grid = styled.div`
   display: flex;
   height: 100%;
   margin: 0 100px;
@@ -24,7 +24,7 @@ const Grid = styled.div`
   }
 `
 
-const Row = styled.div`
+export const Row = styled.div`
   display: flex;
   width: 100%;
   max-width: ${(props) => props.maxWidth};
@@ -33,7 +33,7 @@ const Row = styled.div`
   }
 `
 
-const Col = styled.div`
+export const Col = styled.div`
   flex: ${(props) => props.size};
   background-color: ${(props => props.bgColor)};
   min-width: ${(props => props.minWidth)};
@@ -84,8 +84,8 @@ export function Home() {
                 setTimeout(() => {
                     // set JWT here - for login session and to guard routes so only authenticated users can access them
                     sessionStorage.setItem("token", data.token);
-                    sessionStorage.setItem("role", data.role);
-
+                    // sessionStorage.setItem("role", data.role);
+                    sessionStorage.setItem("userID", data.userID);
                     // PUSH new url onto history so create a new entry
                     history.push("/dashboard");
                 }, 3000);

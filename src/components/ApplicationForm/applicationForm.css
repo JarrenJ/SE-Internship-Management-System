@@ -24,7 +24,7 @@
 .app__btns__container {
     display: flex;
     flex-direction: row;
-    width: 85%;
+    width: 100%;
     justify-content: flex-end;
     padding-bottom: 2rem;
 }
@@ -35,6 +35,10 @@
 
 .app__btn__next {
     background-color: #006747;
+}
+
+.wide {
+    width: 100%;
 }
 
 .app__row__component {

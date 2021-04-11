@@ -1,4 +1,4 @@
-import React, {useState} from "react"
+import React, {useEffect, useState} from "react"
 import { SideNav, DashboardPanel } from "components"
 
 const Dashboard = () => {
@@ -7,7 +7,53 @@ const Dashboard = () => {
     const [navOpen, setNavOpen] = useState('0')
 
     const [isOpen, setIsOpen] = useState(true)
-    const userRole = sessionStorage.getItem("role")
+    const userID = sessionStorage.getItem("userID")
+    const [isAppFormVisible, setIsAppFormVisible] = useState(false)
+    const [tableError, setTableError] = useState({
+        "error": new Error
+    })
+
+    const [user, setUser] = useState({
+        "username": '',
+        "role": ''
+    })
+    const [applications, setApplications] = useState([])
+    const [internships, setInternships] = useState([])
+
+    const [isLoaded, setIsLoaded] = useState(false)
+
+    useEffect(() => {
+        fetch(`/api/getUser/${userID}`)
+            .then(response => response.json())
+            .then(data =>
+                setUser({
+                    "username": data.username,
+                    "role": data.role
+                })
+            );
+    }, []);
+
+    useEffect(() => {
+        fetch(`/api/getApplications/${userID}`)
+            .then(res => {
+                if (res.ok) {
+                    // api returned status 200, so we return the response
+                    return res.json()
+                } else {
+                    // api returned code 400, so we throw an error to catch later
+                    throw new Error('Something went wrong fetching your data...')
+                }
+            })
+            .then((data) => {
+                setIsLoaded(true)
+                setApplications(data.applications)
+                setInternships(data.internships)
+            }).catch((error) => {
+                setIsLoaded(true)
+                console.log(error)
+                setTableError({error: error})
+            });
+    }, []);
 
     const handleClick = (e) => {
         setDown(!down)
@@ -31,10 +77,14 @@ const Dashboard = () => {
         setIsOpen(true)
     }
 
+    const showAppForm = () => {
+        setIsAppFormVisible(!isAppFormVisible)
+    }
+
     return(
         <>
             <SideNav
-                role={userRole}
+                role={user.role}
                 handleClick={handleClick}
                 handleClose={handleClose}
                 closeSideNav={closeSideNav}
@@ -42,14 +92,20 @@ const Dashboard = () => {
                 down={down}
                 navOpen={navOpen}
                 anchorEl={anchorEl}
+                showAppForm={showAppForm}
+                isAppFormVisible={isAppFormVisible}
             />
-            <DashboardPanel
-                role={userRole}
+            {isLoaded && <DashboardPanel
+                role={user.role}
+                username={user.username}
+                applications={applications}
+                internships={internships}
+                tableError={tableError}
                 isOpen={isOpen}
-            />
+                isAppFormVisible={isAppFormVisible}
+            />}
         </>
     )
-
 }
 
 export { Dashboard }
