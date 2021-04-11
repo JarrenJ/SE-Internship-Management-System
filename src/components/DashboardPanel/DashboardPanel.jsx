@@ -1,20 +1,19 @@
 import React, {useState} from "react";
 import {account, airplane, Hourglass, Manlogo, NWDoubleStackedGreen} from "assets";
 import {ApplicationForm} from "components";
-import styled from "styled-components";
-
-import {DataGrid} from '@material-ui/data-grid';
-
-import './DashboardPanel.css'
-import '../../colors.css'
-
 
 import Button from '@material-ui/core/Button';
+import { DataGrid } from '@material-ui/data-grid';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import styled from "styled-components";
+
+import './DashboardPanel.css'
+import '../../colors.css'
+
 
 const Container = styled.div`
   display: flex;
