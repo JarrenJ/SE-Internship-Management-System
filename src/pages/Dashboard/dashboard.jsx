@@ -21,6 +21,8 @@ const Dashboard = () => {
     const [applications, setApplications] = useState([])
     const [internships, setInternships] = useState([])
 
+    const [isLoaded, setIsLoaded] = useState(false)
+
     useEffect(() => {
         fetch(`/api/getUser/${userID}`)
             .then(response => response.json())
@@ -44,18 +46,16 @@ const Dashboard = () => {
                 }
             })
             .then((data) => {
-                // console.log(error)
-                console.log(data)
+                setIsLoaded(true)
                 setApplications(data.applications)
                 setInternships(data.internships)
             }).catch((error) => {
-            console.log(error)
-            setTableError({error: error})
-        });
+                setIsLoaded(true)
+                console.log(error)
+                setTableError({error: error})
+            });
     }, []);
 
-    console.log(applications)
-    console.log(internships)
     const handleClick = (e) => {
         setDown(!down)
         setAnchorEl(e.currentTarget);
@@ -96,7 +96,7 @@ const Dashboard = () => {
                 showAppForm={showAppForm}
                 isAppFormVisible={isAppFormVisible}
             />
-            <DashboardPanel
+            {isLoaded && <DashboardPanel
                 role={user.role}
                 username={user.username}
                 applications={applications}
@@ -104,10 +104,9 @@ const Dashboard = () => {
                 tableError={tableError}
                 isOpen={isOpen}
                 isAppFormVisible={isAppFormVisible}
-            />
+            />}
         </>
     )
-
 }
 
 export { Dashboard }

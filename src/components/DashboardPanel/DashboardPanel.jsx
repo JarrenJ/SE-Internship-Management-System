@@ -1,14 +1,12 @@
 import React, {useState} from "react";
-import { account, airplane, Hourglass, Manlogo } from "assets";
-import { ApplicationForm } from "components";
+import {account, airplane, Hourglass, Manlogo, NWDoubleStackedGreen} from "assets";
+import {ApplicationForm} from "components";
 import styled from "styled-components";
 
-import { DataGrid } from '@material-ui/data-grid';
+import {DataGrid} from '@material-ui/data-grid';
 
 import './DashboardPanel.css'
 import '../../colors.css'
-
-import { NWDoubleStackedGreen } from "assets"
 
 
 import Button from '@material-ui/core/Button';
@@ -106,7 +104,7 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible, username, appli
                     onClose={handleClose}
                     aria-labelledby="alert-dialog-title"
                     aria-describedby="alert-dialog-description"
-                    fullWidth="true"
+                    fullWidth
                 >
                     <DialogTitle id="alert-dialog-title">{"Details"}</DialogTitle>
                     <DialogContent>
@@ -210,10 +208,12 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible, username, appli
         },
     ];
 
-    const rows =  applications.length > 0 && applications.map((app, idx) => {
+    const rows = applications.length > 0 && applications.map((app, idx) => {
         console.log(app)
-        const cleanStartDate = internships[idx].StartDate.substr(0, internships[idx].StartDate.indexOf('T'));
-        const cleanEndDate = internships[idx].EndDate.substr(0, internships[idx].EndDate.indexOf('T'));
+        console.log(internships)
+
+        const cleanStartDate = internships.length > 0 && internships[idx].StartDate.substr(0, internships[idx].StartDate.indexOf('T'));
+        const cleanEndDate = internships.length > 0 && internships[idx].EndDate.substr(0, internships[idx].EndDate.indexOf('T'));
         return(
             {id: idx, employerName: internships.length > 0 && internships[idx].EmployerName, employmentStartDate: internships.length > 0 && cleanStartDate, employmentEndDate: internships.length > 0 && cleanEndDate, applicationDate: app.ApplicationDate, status: app.ApplicationStatus }
         )
@@ -275,9 +275,9 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible, username, appli
                                 rows={rows}
                                 columns={columns}
                                 pageSize={5}
-                                autoHeight='true'
-                                disableExtendRowFullWidth='true'
-                                disableSelectionOnClick='true'
+                                autoHeight
+                                // disableExtendRowFullWidth
+                                disableSelectionOnClick
                                 /*checkboxSelection*/
                             />
                         </Col>
