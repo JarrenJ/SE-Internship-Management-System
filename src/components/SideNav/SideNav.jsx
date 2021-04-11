@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import { NWHorizontal2Color, NWTripleStacked2Color } from 'assets'
 import styled from "styled-components"
@@ -48,7 +48,7 @@ const StyledMenuItem = withStyles(() => ({
 }))(MenuItem);
 
 export function SideNav({role, handleClick, handleClose, closeSideNav, openSideNav, anchorEl,
-                            down, navOpen, isAppFormVisible, showAppForm}) {
+                            down, navOpen, showAppForm}) {
 
     return(
         <div className='container'>
@@ -156,7 +156,7 @@ export function SideNav({role, handleClick, handleClose, closeSideNav, openSideN
                     {role === 'Student' &&
                     <>
                         <Link to='#'>
-                            <i className="fas fa-plus-square" />
+                            <i className="fas fa-plus-square" onClick={showAppForm} />
                         </Link>
                         <Link to='#'>
                             <i className="fas fa-folder-open" />
