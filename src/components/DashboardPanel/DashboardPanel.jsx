@@ -209,11 +209,6 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible, username, appli
                                     <p>Status: {applicationData.Status}</p>
                                 </Col>
                             </Row>
-                            <Row>
-                                <Col size={1}>
-                                    <p>Status: {applicationData.ID}</p>
-                                </Col>
-                            </Row>
                         </DialogContentText>
                     </DialogContent>
                     <DialogActions>
