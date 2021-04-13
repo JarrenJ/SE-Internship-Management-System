@@ -201,6 +201,11 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible, username, appli
                                     <p>Status: {applicationData.Status}</p>
                                 </Col>
                             </Row>
+                            <Row>
+                                <Col size={1}>
+                                    <p>Status: {applicationData.ID}</p>
+                                </Col>
+                            </Row>
                         </DialogContentText>
                     </DialogContent>
                     <DialogActions>
@@ -223,6 +228,7 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible, username, appli
     }
 
     const columns = [
+        { field: 'appID', headerName: 'Application ID', flex: 1, hide: true },
         { field: 'employerName', headerName: 'Employer Name', flex: 1 },
         { field: 'employmentStartDate', headerName: 'Employment Start Date', flex: 1 },
         { field: 'employmentEndDate', headerName: 'Employment End Date', flex: 1 },
@@ -257,18 +263,19 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible, username, appli
                         "StartDate": row.employmentStartDate,
                         "EndDate": row.employmentEndDate,
                         "DateSubmitted": row.applicationDate,
-                        "Status": row.status
+                        "Status": row.status,
+                        "ID": row.appID
                     })
                 };
 
-                    return (
-                        <div>
-                            <DetailButton onClick={onClick}>
-                                Details
-                            </DetailButton>
-                        </div>
-                    );
-                }
+                return (
+                    <div>
+                        <DetailButton onClick={onClick}>
+                            Details
+                        </DetailButton>
+                    </div>
+                );
+            }
         }
     ];
 
@@ -279,7 +286,7 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible, username, appli
         const cleanStartDate = internships.length > 0 && internships[idx].StartDate.substr(0, internships[idx].StartDate.indexOf('T'));
         const cleanEndDate = internships.length > 0 && internships[idx].EndDate.substr(0, internships[idx].EndDate.indexOf('T'));
         return(
-            {id: idx, employerName: internships.length > 0 && internships[idx].EmployerName, employmentStartDate: internships.length > 0 && cleanStartDate, employmentEndDate: internships.length > 0 && cleanEndDate, applicationDate: app.ApplicationDate, status: app.ApplicationStatus }
+            {id: idx, appID: app.ApplicationID, employerName: internships.length > 0 && internships[idx].EmployerName, employmentStartDate: internships.length > 0 && cleanStartDate, employmentEndDate: internships.length > 0 && cleanEndDate, applicationDate: app.ApplicationDate, status: app.ApplicationStatus }
         )
     })
 
