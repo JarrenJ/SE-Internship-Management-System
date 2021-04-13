@@ -14,7 +14,7 @@ INSERT INTO `accounts` (`id`, `username`, `password`, `role`) VALUES (2, 'facult
 INSERT INTO `accounts` (`id`, `username`, `password`, `role`) VALUES (3, 'student', 'student', 'Student');
 
 CREATE TABLE IF NOT EXISTS Users (
-    UserID VARCHAR(25),
+    UserID VARCHAR(25) UNIQUE,
     UserRole VARCHAR(25),
     LastName varchar(25),
     FirstName VARCHAR(25),
