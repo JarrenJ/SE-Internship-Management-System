@@ -17,38 +17,23 @@ import '../../colors.css'
 
 const Container = styled.div`
   display: flex;
-  //padding: 2rem 0;
-  //justify-content: center;
-  //align-items: center;
 `
 
 const Row = styled.div`
   display: flex;
-  width: 100%;
+  width: ${(props) => props.width ? props.width : '100%'};
   height: auto;
   min-height: ${(props) => props.minHeight};
   max-height: ${(props) => props.maxHeight};
   max-width: ${(props) => props.maxWidth};
-  //@media (max-width: 970px) {
-  //  flex-direction: column;
-  //}
-  margin: ${(props) => props.margin};
-  //border: 5px solid red;
-`
-const CollpasedRow = styled.div`
-  display: flex;
-  width: 100%;
-  height: auto;
-  min-height: ${(props) => props.minHeight};
-  max-height: ${(props) => props.maxHeight};
-  max-width: ${(props) => props.maxWidth};
-  @media (max-width: 1500px) {
+  flex-direction: ${(props) => props.direction ? props.direction : 'row'} ;
+  @media (max-width: ${(props) => props.breakpoint}) {
     flex-direction: column;
+    margin: ${(props) => props.breakpointMargin ? props.breakpointMargin : 0};
   }
   margin: ${(props) => props.margin};
   //border: 5px solid red;
 `
-
 
 const Col = styled.div`
   flex: ${(props) => props.size};
@@ -58,34 +43,77 @@ const Col = styled.div`
   min-height: ${(props) => props.minHeight};
   height: 100%;
   max-height: ${(props) => props.maxHeight};
-
-  //@media (max-width: 768px) {
-  //  min-width: 100%;
-  //  margin: 10px auto;
-  //}
-  //margin: 0 25px;
-  margin: ${(props) => props.margin};
-  //border: 5px solid black;
-`
-
-const CollapsedCol = styled.div`
-  flex: ${(props) => props.size};
-  background-color: ${(props => props.bgColor)};
-  min-width: ${(props => props.minWidth)};
-  max-width: ${(props => props.maxWidth)};
-  min-height: ${(props) => props.minHeight};
-  height: 100%;
-  max-height: ${(props) => props.maxHeight};
-
-  @media (max-width: 1500px) {
-    margin: 10px 25px;
+  @media (max-width: ${(props) => props.breakpoint}) {
+    margin: ${(props) => props.breakpointMargin ? props.breakpointMargin : 0};
   }
-  //margin: 0 25px;
   margin: ${(props) => props.margin};
   //border: 5px solid black;
 `
 
-export function DashboardPanel({ isOpen, role, isAppFormVisible, username, applications, internships, tableError }) {
+const StyledPanel = styled.div`
+  display: flex;
+  height: 100%;
+  background-color: white;
+  width: 80%;
+  border-radius: 10px;
+  margin: 0 25px;
+  padding: .5rem;
+  color: ${(props) => props.color};
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  border-left: 5px solid;
+
+  .man-icon{
+    height: 75px;
+  }
+  
+  .large-icon{
+    height: 50px;
+    padding-top: 1rem;
+  }
+  
+  .title {
+    font-size: 1.2rem;
+    margin-top: 0;
+  }
+  .info {
+    font-size: 1.1rem;
+    margin: 0 auto;
+  }
+
+  @media (max-width: 1205px) {
+    .title {
+      font-size: 1.1rem;
+    }
+    
+    .info {
+      font-size: .9rem;
+    }
+  }
+
+  @media (max-width: 1024px) {
+    max-width: 250px;
+  }
+`
+
+const Panel = ({ color, title, info, image, imgClass }) => {
+    return(
+        <StyledPanel color={color}>
+            <Row direction='column'>
+                <Col size={1}>
+                    <p className='title'>{title}</p>
+                </Col>
+                <Col size={1}>
+                    <p className='info'>{info}</p>
+                </Col>
+            </Row>
+            <img className={imgClass} src={image} alt='Icon for dashboard panels' />
+        </StyledPanel>
+    )
+}
+
+export function DashboardPanel({ isOpen, role, isAppFormVisible, username, applications,
+                                   internships, tableError, totalInterns, pendingApprovals,
+                                   activeInterns, outOfStateInterns }) {
 
     const [open, setOpen] = React.useState(false);
 
@@ -331,28 +359,20 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible, username, appli
                                 <p className='dashboard__title'>Dashboard</p>
                             </Col>
                         </Row>
-                        <CollpasedRow>
-                            <CollapsedCol size={1} margin='0 25px'>
-                                <div className="dashboard__Button1">
-                                    <p>Total Interns</p><img src={ Manlogo } alt='Manlogo.png'/><p>4</p>
-                                </div>
-                            </CollapsedCol>
-                            <CollapsedCol size={1} margin='0 25px'>
-                                <div className="dashboard__Button2">
-                                    <p>Active Interns</p><img src={ Manlogo } alt='Manlogo.png'/><p>2</p>
-                                </div>
-                            </CollapsedCol>
-                            <CollapsedCol size={1} margin='0 25px'>
-                                <div className="dashboard__Button3">
-                                    <p>Pending Approvals</p><img src={ Hourglass } alt='Hourglass.png'/><p>1</p>
-                                </div>
-                            </CollapsedCol>
-                            <CollapsedCol size={1} margin='0 25px'>
-                                <div className="dashboard__Button4">
-                                    <p>Out of State</p><img src ={ airplane } alt='airplace.png'/><p>3</p>
-                                </div>
-                            </CollapsedCol>
-                        </CollpasedRow>
+                        <Row breakpoint='1024px'>
+                            <Col size={1} breakpoint='1024px' breakpointMargin='25px 0'>
+                                <Panel color='blue' info={totalInterns} title='Total Interns' image={Manlogo} imgClass='man-icon' />
+                            </Col>
+                            <Col size={1} breakpoint='1024px' breakpointMargin='25px 0'>
+                                <Panel color='green' info={activeInterns} title='Active Internships' image={Manlogo} imgClass='man-icon' />
+                            </Col>
+                            <Col size={1} breakpoint='1024px' breakpointMargin='25px 0'>
+                                <Panel color='rgb(55, 165, 238)' info={pendingApprovals} title='Pending Approvals' image={Hourglass} imgClass='large-icon' />
+                            </Col>
+                            <Col size={1} breakpoint='1024px' breakpointMargin='25px 0'>
+                                <Panel color='red' info={outOfStateInterns} title='Out of State' image={airplane} imgClass='large-icon'/>
+                            </Col>
+                        </Row>
                         <Row>
                             <Col size={1}>
                                 <div className='dashboard__Map_header'>
