@@ -24,6 +24,7 @@ const Dashboard = () => {
     const [totalInterns, setTotalInterns] = useState(0)
     const [pendingApprovals, setPendingApprovals] = useState(0)
     const [activeInterns, setActiveInterns] = useState(0)
+    const [outOfStateInterns, setOutOfStateInterns] = useState(0)
 
     useEffect(() => {
         fetch(`/api/getUser/${userID}`)
@@ -84,6 +85,15 @@ const Dashboard = () => {
             })
     }, [activeInterns])
 
+    useEffect(() => {
+        fetch(`/api/getOutOfStateInterns`)
+            .then(response => response.json())
+            .then(data => {
+                console.log(data)
+                setOutOfStateInterns(data.outOfStateInterns)
+            })
+    }, [])
+
     const handleClick = (e) => {
         setDown(!down)
         setAnchorEl(e.currentTarget);
@@ -133,6 +143,7 @@ const Dashboard = () => {
                 totalInterns={totalInterns}
                 pendingApprovals={pendingApprovals}
                 activeInterns={activeInterns}
+                outOfStateInterns={outOfStateInterns}
                 isOpen={isOpen}
                 isAppFormVisible={isAppFormVisible}
             />}

@@ -111,7 +111,9 @@ const Panel = ({ color, title, info, image, imgClass }) => {
     )
 }
 
-export function DashboardPanel({ isOpen, role, isAppFormVisible, username, applications, internships, tableError, totalInterns, pendingApprovals, activeInterns }) {
+export function DashboardPanel({ isOpen, role, isAppFormVisible, username, applications,
+                                   internships, tableError, totalInterns, pendingApprovals,
+                                   activeInterns, outOfStateInterns }) {
 
     const [open, setOpen] = React.useState(false);
 
@@ -362,13 +364,13 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible, username, appli
                                 <Panel color='blue' info={totalInterns} title='Total Interns' image={Manlogo} imgClass='man-icon' />
                             </Col>
                             <Col size={1} breakpoint='1024px' breakpointMargin='25px 0'>
-                                <Panel color='green' info={activeInterns} title='Active Interns' image={Manlogo} imgClass='man-icon' />
+                                <Panel color='green' info={activeInterns} title='Active Internships' image={Manlogo} imgClass='man-icon' />
                             </Col>
                             <Col size={1} breakpoint='1024px' breakpointMargin='25px 0'>
                                 <Panel color='rgb(55, 165, 238)' info={pendingApprovals} title='Pending Approvals' image={Hourglass} imgClass='large-icon' />
                             </Col>
                             <Col size={1} breakpoint='1024px' breakpointMargin='25px 0'>
-                                <Panel color='red' info='{Dummy Value}' title='Out of State' image={airplane} imgClass='large-icon'/>
+                                <Panel color='red' info={outOfStateInterns} title='Out of State' image={airplane} imgClass='large-icon'/>
                             </Col>
                         </Row>
                         <Row>

@@ -197,6 +197,17 @@ app.get('/api/getActiveInterns', (req, res) => {
     })
 })
 
+app.get('/api/getOutOfStateInterns', (req, res) => {
+    const today = new Date(),
+        date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+    connection.query(`SELECT Count(EndDate) as 'OutOfStateInterns' FROM Internship WHERE EndDate >= ? AND EmployerAddress NOT LIKE '%MO%' OR EmployerAddress NOT LIKE '%Missouri%'`, [date], (err, data) => {
+        if (err) { res.send(err) }
+        console.log(data[0].OutOfStateInterns)
+        const outOfStateInterns = data[0].OutOfStateInterns
+        res.send({ outOfStateInterns } )
+    })
+})
+
 app.get('/api/getUser/:username', (req, res) => {
     const username = req.params.username
     console.log(username)
