@@ -125,6 +125,15 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible, username, appli
         setOpen(false);
     };
 
+    const Approve = () => {
+        handleClose()
+    }
+
+    const Deny = () => {
+        handleClose()
+    }
+}
+
     const DetailButton = styled.button`
       border-radius: 5px;
       padding: 10px;
@@ -195,12 +204,18 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible, username, appli
                         </DialogContentText>
                     </DialogContent>
                     <DialogActions>
-                        <Button onClick={handleClose} color="primary">
-                            Disagree
+                        {role == 'Student' && <>
+                        <Button onClick={Approve} color="primary">
+                            Deny
                         </Button>
+                        <Button onClick={Deny} color="primary" autoFocus>
+                            Approve
+                        </Button>
+                        </>}
                         <Button onClick={handleClose} color="primary" autoFocus>
-                            Agree
+                            Close
                         </Button>
+
                     </DialogActions>
                 </Dialog>
             </div>
@@ -244,7 +259,6 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible, username, appli
                         "DateSubmitted": row.applicationDate,
                         "Status": row.status
                     })
-                };
 
                 return (
                     <div>
