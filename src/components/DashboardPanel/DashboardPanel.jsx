@@ -132,7 +132,7 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible, username, appli
     const Deny = () => {
         handleClose()
     }
-}
+
 
     const DetailButton = styled.button`
       border-radius: 5px;
@@ -204,7 +204,7 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible, username, appli
                         </DialogContentText>
                     </DialogContent>
                     <DialogActions>
-                        {role == 'Student' && <>
+                        {role === 'Student' && <>
                         <Button onClick={Approve} color="primary">
                             Deny
                         </Button>
@@ -259,16 +259,17 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible, username, appli
                         "DateSubmitted": row.applicationDate,
                         "Status": row.status
                     })
+                };
 
-                return (
-                    <div>
-                        <DetailButton onClick={onClick}>
-                            Details
-                        </DetailButton>
-                    </div>
-                );
-            }
-        },
+                    return (
+                        <div>
+                            <DetailButton onClick={onClick}>
+                                Details
+                            </DetailButton>
+                        </div>
+                    );
+                }
+        }
     ];
 
     const rows = applications.length > 0 && applications.map((app, idx) => {
