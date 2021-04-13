@@ -126,6 +126,7 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible, username, appli
     };
 
     const Approve = () => {
+        fetch()
         handleClose()
     }
 

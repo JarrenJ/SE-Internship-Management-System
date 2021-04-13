@@ -33,6 +33,14 @@ app.use(session({
 app.use(bodyParser.urlencoded({extended : true}))
 app.use(bodyParser.json())
 
+app.post('/api/applicationstatus/:applicationID/:applicationStatus', (req, res) => {
+    const applicationID = req.params.applicationID
+    const applicationStatus = req.params.applicationStatus
+    console.log(applicationID)
+    connection.query(`SELECT * FROM Applications WHERE ApplicationID = ? SET ApplicationStatus = ?`, [applicationID, applicationStatus], (err, data) => {
+        if (err) { res.send(err) }
+}
+
 app.post('/api/submit', (req, res) => {
 
     const {
