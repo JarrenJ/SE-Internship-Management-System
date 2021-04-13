@@ -125,14 +125,23 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible, username, appli
         setOpen(false);
     };
 
-    const Approve = () => {
-        fetch()
+    const updateStatus = (appID, status) => {
+        console.log(appID)
+        console.log(status)
+        fetch(`/api/updateStatus`, {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify({
+                "appID": appID,
+                "status": status
+            }),
+        }).then(r => r)
         handleClose()
     }
 
-    const Deny = () => {
-        handleClose()
-    }
 }
 
     const DetailButton = styled.button`
@@ -206,10 +215,10 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible, username, appli
                     </DialogContent>
                     <DialogActions>
                         {role == 'Student' && <>
-                        <Button onClick={Approve} color="primary">
+                        <Button onClick={() => updateStatus(applicationData.ID, 'Deny')} color="primary">
                             Deny
                         </Button>
-                        <Button onClick={Deny} color="primary" autoFocus>
+                        <Button onClick={() => updateStatus(applicationData.ID, 'Approve')} color="primary" autoFocus>
                             Approve
                         </Button>
                         </>}
