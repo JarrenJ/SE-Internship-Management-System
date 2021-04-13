@@ -21,6 +21,9 @@ const Dashboard = () => {
     const [internships, setInternships] = useState([])
 
     const [isLoaded, setIsLoaded] = useState(false)
+    const [totalInterns, setTotalInterns] = useState(0)
+    const [pendingApprovals, setPendingApprovals] = useState(0)
+    const [activeInterns, setActiveInterns] = useState(0)
 
     useEffect(() => {
         fetch(`/api/getUser/${userID}`)
@@ -54,6 +57,32 @@ const Dashboard = () => {
                 setTableError({error: error})
             });
     }, []);
+
+    // For below 3 codeblocks, I am planning on hitting one endpoint eventually to grab all necessary data
+
+    useEffect(() => {
+        fetch(`/api/getTotalInterns`)
+            .then(response => response.json())
+            .then(data => {
+                setTotalInterns(data.totalInterns)
+            })
+    }, [totalInterns])
+
+    useEffect(() => {
+        fetch(`/api/getPendingApprovals`)
+            .then(response => response.json())
+            .then(data => {
+                setPendingApprovals(data.pendingApprovals)
+            })
+    }, [pendingApprovals])
+
+    useEffect(() => {
+        fetch(`/api/getActiveInterns`)
+            .then(response => response.json())
+            .then(data => {
+                setActiveInterns(data.activeInterns)
+            })
+    }, [activeInterns])
 
     const handleClick = (e) => {
         setDown(!down)
@@ -101,6 +130,9 @@ const Dashboard = () => {
                 applications={applications}
                 internships={internships}
                 tableError={tableError}
+                totalInterns={totalInterns}
+                pendingApprovals={pendingApprovals}
+                activeInterns={activeInterns}
                 isOpen={isOpen}
                 isAppFormVisible={isAppFormVisible}
             />}

@@ -168,6 +168,35 @@ app.get('/api/getApplications/:user', (req, res) => {
     }
 )
 
+app.get('/api/getTotalInterns', (req, res) => {
+    connection.query(`SELECT COUNT(ApplicationStatus) as 'TotalInterns' FROM Applications WHERE ApplicationStatus = 'Approved'`, (err, data) => {
+        if (err) { res.send(err) }
+        console.log(data[0].TotalInterns)
+        const totalInterns = data[0].TotalInterns
+        res.send({ totalInterns } )
+    })
+})
+
+app.get('/api/getPendingApprovals', (req, res) => {
+    connection.query(`SELECT COUNT(ApplicationStatus) as 'PendingApprovals' FROM Applications WHERE ApplicationStatus != 'Approved'`, (err, data) => {
+        if (err) { res.send(err) }
+        console.log(data[0].PendingApprovals)
+        const pendingApprovals = data[0].PendingApprovals
+        res.send({ pendingApprovals } )
+    })
+})
+
+app.get('/api/getActiveInterns', (req, res) => {
+    const today = new Date(),
+        date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+    connection.query(`SELECT COUNT(EndDate) as 'ActiveInterns' FROM Internship WHERE EndDate >= ?`, [date], (err, data) => {
+        if (err) { res.send(err) }
+        console.log(data[0].ActiveInterns)
+        const activeInterns = data[0].ActiveInterns
+        res.send({ activeInterns } )
+    })
+})
+
 app.get('/api/getUser/:username', (req, res) => {
     const username = req.params.username
     console.log(username)
