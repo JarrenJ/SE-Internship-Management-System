@@ -189,6 +189,41 @@ app.get('/api/getApplications/:user', (req, res) => {
     }
 )
 
+app.get('/api/getFullApplication/:applicationID', (req, res) => {
+        const applicationID = req.params.applicationID
+        let response = {"applications": "", "internship" : "", "student": "", "faculty": "" }
+        let internshipInfo = 0
+        console.log(applicationID)
+        connection.query(`SELECT * FROM Applications WHERE ApplicationID = ?`, [applicationID], (err, application) => {
+            if (err) { res.send(err) }
+
+            if (application.length > 0) {
+
+                response.applications = application[0]
+                connection.query(`SELECT * FROM Internship WHERE InternshipID = ?`, [application[0].InternID], (err, internship) => {
+                    response.internship = internship
+                })
+                connection.query(`SELECT * FROM Users WHERE UserID = ?`, [application[0].StuID], (err, student) => {
+                    response.student = student
+                })
+                connection.query(`SELECT * FROM Users WHERE UserID = ?`, [application[0].FacID], (err, faculty) => {
+                    response.faculty = faculty
+                })
+                console.log(response)
+                res.send(response)
+            } else {
+                res.statusMessage = "User / Application Not Found"
+                res.status(404)
+                res.send({ "applications": application })
+            }
+
+
+        })
+
+    }
+)
+
+
 app.get('/api/getTotalInterns', (req, res) => {
     connection.query(`SELECT COUNT(ApplicationStatus) as 'TotalInterns' FROM Applications WHERE ApplicationStatus = 'Approved'`, (err, data) => {
         if (err) { res.send(err) }

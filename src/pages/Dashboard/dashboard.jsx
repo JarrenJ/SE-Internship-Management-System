@@ -92,7 +92,7 @@ const Dashboard = () => {
                 console.log(data)
                 setOutOfStateInterns(data.outOfStateInterns)
             })
-    }, [])
+    }, [outOfStateInterns])
 
     const handleClick = (e) => {
         setDown(!down)

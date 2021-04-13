@@ -285,14 +285,25 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible, username, appli
                     fields.forEach((f) => {
                         row[f] = params.getValue(f);
                     });
-                    setApplicationData({
-                        "EmployerName": row.employerName,
-                        "StartDate": row.employmentStartDate,
-                        "EndDate": row.employmentEndDate,
-                        "DateSubmitted": row.applicationDate,
-                        "Status": row.status,
-                        "ID": row.appID
-                    })
+                    fetch(`/api/getFullApplication/${row.appID}`)
+                        .then(res => {
+                            if (res.ok) {
+                                // api returned status 200, so we return the response
+                                return res.json()
+                            } else {
+                                // api returned code 400, so we throw an error to catch later
+                                throw new Error('Something went wrong fetching your data...')
+                            }
+                        })
+                        .then((data) => {
+                            setApplicationData({
+
+                                "EmployerName": data.employerName
+                            })
+                        }).catch((error) => {
+
+                    });
+
                 };
 
 
