@@ -34,11 +34,16 @@ app.use(bodyParser.urlencoded({extended : true}))
 app.use(bodyParser.json())
 
 app.post('/api/updateStatus', (req, res) => {
-    const {appID, status} = req.body
-    console.log(applicationID)
-    connection.query(`SELECT * FROM Applications WHERE ApplicationID = ? SET ApplicationStatus = ?`, [appID, status], (err, data) => {
-        if (err) { res.send(err) }
-}
+    const {status, appID} = req.body
+    console.log(appID)
+    console.log(status)
+    connection.query(`UPDATE Applications SET ApplicationStatus = '${status}' WHERE ApplicationID = ?`, [appID], (err, data) => {
+        if (err) {
+            res.send(err)
+        }
+        res.sendStatus(200)
+    })
+})
 
 app.post('/api/submit', (req, res) => {
 
