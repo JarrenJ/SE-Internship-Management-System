@@ -145,9 +145,9 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible, username, appli
     const DetailButton = styled.button`
       border-radius: 5px;
       padding: 10px;
-      background-color: royalblue;
-      border: 1px solid royalblue;
-      color: white;
+      background-color: ${(props => props.bgColor ? props.bgColor : 'royalblue')};
+      border: 1px solid ${(props => props.bgColor ? props.bgColor : 'royalblue')};
+      color: ${(props => props.color ? props.color : 'white')};;
       cursor: pointer;
     `
 
@@ -212,17 +212,19 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible, username, appli
                         </DialogContentText>
                     </DialogContent>
                     <DialogActions>
-                        {role === 'Student' && <>
-                        <Button onClick={() => updateStatus('Deny', applicationData.ID)} color="primary">
-                            Deny
-                        </Button>
-                        <Button onClick={() => updateStatus('Approved', applicationData.ID)} color="primary" autoFocus>
-                            Approve
-                        </Button>
-                        </>}
-                        <Button onClick={handleClose} color="primary" autoFocus>
+                        {role === 'Student' &&
+                            <>
+                                <DetailButton bgColor='#4BB543' onClick={() => updateStatus('Approved', applicationData.ID)}>
+                                    Approve
+                                </DetailButton>
+                                <DetailButton bgColor='#BD0037' onClick={() => updateStatus('Denied', applicationData.ID)} autoFocus>
+                                    Deny
+                                </DetailButton>
+                            </>
+                        }
+                        <DetailButton bgColor='gray' onClick={handleClose}>
                             Close
-                        </Button>
+                        </DetailButton>
                     </DialogActions>
                 </Dialog>
             </div>
