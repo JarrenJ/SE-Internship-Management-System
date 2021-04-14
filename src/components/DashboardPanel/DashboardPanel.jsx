@@ -329,6 +329,12 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible, username, appli
                         <DetailButton onClick={onClick}>
                             Details
                         </DetailButton>
+                        
+                        {role == 'Student' &&
+                        <DetailButton onClick={onClick}>
+                            Details
+                        </DetailButton>
+                        }
                     </div>
                 );
             }
