@@ -264,7 +264,11 @@ const StudentInfo = ({ currentStep, values, handleInputChange, handleAddressChan
     }
     return(
         <div className='student__info'>
-            <h2>Student Information:</h2>
+            <Row>
+                <Col size={1} margin='0 10px'>
+                    <h2>Student Information:</h2>
+                </Col>
+            </Row>
             <Row>
                 <Col size={1} margin={'10px'}>
                     <TextField
@@ -410,7 +414,11 @@ const InstructorInfo = ({ currentStep, values, handleInputChange }) => {
     }
     return(
         <div className='instructor__details'>
-            <h2>Instructor Details:</h2>
+            <Row>
+                <Col size={1} margin='0 10px'>
+                    <h2>Instructor Details:</h2>
+                </Col>
+            </Row>
             <Row>
                 <Col size={1} margin={'10px'}>
                     <TextField
@@ -461,7 +469,11 @@ const EmployerInfo = ({ currentStep, values, handleInputChange, handleAddressCha
     return (
         <>
             <div className='employer__details'>
-                <h2>Employer Information:</h2>
+                <Row>
+                    <Col size={1} margin='0 10px'>
+                        <h2>Employer Information:</h2>
+                    </Col>
+                </Row>
                 <Row>
                     <Col size={1} margin={'10px'}>
                         <TextField
