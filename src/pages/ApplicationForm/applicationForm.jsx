@@ -61,6 +61,7 @@ export function ApplicationForm() {
         console.log(endDate)
     }
 
+    const [Date, setDate] = useState("2021-05-1")
     const [startDate, setStartDate] = useState("2021-05-13")
     const [endDate, setEndDate] = useState("2021-05-14")
     const [values, setValues] = useState(initialValues) //will store majority of the text box inputs
@@ -453,7 +454,20 @@ export function ApplicationForm() {
                         <ul>Notify the employer prior to any absence.</ul>  
                         <ul>Keep records of the work experience and complete all reports the school and employer require</ul> 
                         <ul>Report to the University Supervisor any problem, in regard to the training, prior to any termination</ul>
-                    </li>             
+                    </li>
+                    <TextField>label="Student Stignature"</TextField>
+                    <TextField>
+                        id="date"  
+                        label="Date"
+                        type="date"
+                        variant='outlined'
+                        value={Date}
+                        onChange={e => setDate(e.target.value)}
+                        // defaultValue="2021-05-1"
+                        InputLabelProps={{
+                            shrink: true, 
+                        }} 
+                    </TextField>            
                 </div>
             </form>
         </div>
