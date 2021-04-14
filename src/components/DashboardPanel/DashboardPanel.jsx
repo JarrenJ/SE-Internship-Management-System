@@ -212,7 +212,7 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible, username, appli
                         </DialogContentText>
                     </DialogContent>
                     <DialogActions>
-                        {role === 'Student' &&
+                        {role !== 'Student' &&
                             <>
                                 <DetailButton bgColor='#4BB543' onClick={() => updateStatus('Approved', applicationData.ID)}>
                                     Approve
