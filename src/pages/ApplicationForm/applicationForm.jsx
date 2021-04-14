@@ -438,6 +438,23 @@ export function ApplicationForm() {
                         Submit
                     </Button>
                 </div>
+                <div>
+                    <h2>Internship Agreement:</h2>
+                    <h3>The Student agrees to:</h3>
+                    <li>
+                        <ul>Do an honest day’s work, 
+                           recognizing that the employer must profit 
+                           from the student’s labor in order to justify providing the internship experience.</ul> 
+                        <ul>Keep the employer’s interest in mind and be punctual, dependable, and loyal.</ul>
+                        <ul>Follow instructions, avoid unsafe acts, and be alert to unsafe conditions.</ul>
+                        <ul>Be courteous and considerate of the employer, co-workers, and customers.</ul> 
+                        <ul>Do all jobs assigned to the best of one’s ability.</ul> 
+                        <ul>Be alert to perform unassigned tasks which promote the welfare of the business.</ul> 
+                        <ul>Notify the employer prior to any absence.</ul>  
+                        <ul>Keep records of the work experience and complete all reports the school and employer require</ul> 
+                        <ul>Report to the University Supervisor any problem, in regard to the training, prior to any termination</ul>
+                    </li>             
+                </div>
             </form>
         </div>
     )
