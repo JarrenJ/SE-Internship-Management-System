@@ -13,6 +13,7 @@ import styled from "styled-components";
 
 import './DashboardPanel.css'
 import '../../colors.css'
+import {InputLabel, TextField} from "@material-ui/core";
 
 
 const Container = styled.div`
@@ -193,6 +194,11 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible, username, appli
                                 </Col>
                             </Row>
                         </DialogContentText>
+                        {role !== "Student" &&
+                            <>
+                                <TextField variant={"outlined"} label={"Comments"}/>
+                            </>
+                        }
                     </DialogContent>
                     <DialogActions>
                         <Button onClick={handleClose} color="primary">
@@ -245,6 +251,7 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible, username, appli
                         "Status": row.status
                     })
                 };
+
 
                 return (
                     <div>
