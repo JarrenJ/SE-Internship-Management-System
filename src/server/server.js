@@ -63,8 +63,8 @@ app.post('/api/submit', (req, res) => {
         studentEmail,
         stuAddress,
         studentPhoneNum,
-        instructorFirstName,
         instructorLastName,
+        instructorFirstName,
         instructorEmail,
         employerName,
         primaryContactName,
@@ -191,26 +191,29 @@ app.get('/api/getApplications/:user', (req, res) => {
 
 app.get('/api/getFullApplication/:applicationID', (req, res) => {
         const applicationID = req.params.applicationID
-        let response = {"applications": "", "internship" : "", "student": "", "faculty": "" }
-        let internshipInfo = 0
         console.log(applicationID)
         connection.query(`SELECT * FROM Applications WHERE ApplicationID = ?`, [applicationID], (err, application) => {
             if (err) { res.send(err) }
 
             if (application.length > 0) {
 
-                response.applications = application[0]
+                // console.log(application[0].InternID)
                 connection.query(`SELECT * FROM Internship WHERE InternshipID = ?`, [application[0].InternID], (err, internship) => {
-                    response.internship = internship
+                    if (err) throw err;
+                    // console.log(internship)
+                    connection.query(`SELECT * FROM Users WHERE UserID = ?`, [application[0].StuID], (err, student) => {
+                        if (err) throw err;
+                        // console.log(student)
+                        connection.query(`SELECT * FROM Users WHERE UserID = ?`, [application[0].FacID], (err, faculty) => {
+                            if (err) throw err;
+                            // console.log(faculty)
+                            console.log("reached bottom")
+                            res.send({"applications": application, "internship": internship, "student": student, "faculty": faculty})
+                        })
+                    })
                 })
-                connection.query(`SELECT * FROM Users WHERE UserID = ?`, [application[0].StuID], (err, student) => {
-                    response.student = student
-                })
-                connection.query(`SELECT * FROM Users WHERE UserID = ?`, [application[0].FacID], (err, faculty) => {
-                    response.faculty = faculty
-                })
-                console.log(response)
-                res.send(response)
+
+                // res.send(response)
             } else {
                 res.statusMessage = "User / Application Not Found"
                 res.status(404)

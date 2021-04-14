@@ -159,6 +159,17 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible, username, appli
 
     const [applicationData, setApplicationData] = useState({})
 
+    const DetailsRow = ({ label, info }) => {
+        console.log(info)
+        return (
+            <Row>
+                <Col size={1}>
+                    {label}: {info}
+                </Col>
+            </Row>
+        )
+    }
+
     const DetailsDialog = () => {
         // const [open, setOpen] = React.useState(false);
         //
@@ -175,82 +186,56 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible, username, appli
         }
 
         return (
-            <div>
-                {/*<Button variant="outlined" color="primary" onClick={handleClickOpen}>*/}
-                {/*    Open alert dialog*/}
-                {/*</Button>*/}
-                <Dialog
-                    open={open}
-                    onClose={handleClose}
-                    aria-labelledby="alert-dialog-title"
-                    aria-describedby="alert-dialog-description"
-                    fullWidth
-                >
-                    <DialogTitle id="alert-dialog-title">{"Details"}</DialogTitle>
-                    <DialogContent>
-                        <DialogContentText id="alert-dialog-description">
-                            <Row>
-                                <Col size={1}>
-                                    <b>Data from table only...</b>
-                                </Col>
-                            </Row>
-                            <Row>
-                                <Col size={1}>
-                                    <p>Employer Name: {applicationData.EmployerName}</p>
-                                </Col>
-                            </Row>
-                            <Row>
-                                <Col size={1}>
-                                    <p>Start Date: {applicationData.StartDate}</p>
-                                </Col>
-                            </Row>
-                            <Row>
-                                <Col size={1}>
-                                    <p>End Date: {applicationData.EndDate}</p>
-                                </Col>
-                            </Row>
-                            <Row>
-                                <Col size={1}>
-                                    <p>Date Submitted: {applicationData.DateSubmitted}</p>
-                                </Col>
-                            </Row>
-                            <Row>
-                                <Col size={1}>
-                                    <p>Status: {applicationData.Status}</p>
-                                </Col>
-                            </Row>
-                        </DialogContentText>
-                        {role === "Student" &&
-                            <>
-                                <TextField
-                                    variant={"outlined"}
-                                    value={comment}
-                                    label={"Comments"}
-                                    multiline={true}
-                                    rows={2}
-                                    onChange={handleCommentChange}
-                                    fullWidth
-                                />
-                            </>
-                        }
-                    </DialogContent>
-                    <DialogActions>
-                        {role === 'Student' &&
-                            <>
-                                <DetailButton bgColor='#4BB543' onClick={() => updateStatus('Approved', applicationData.ID, comment)}>
-                                    Approve
-                                </DetailButton>
-                                <DetailButton bgColor='#BD0037' onClick={() => updateStatus('Denied', applicationData.ID, comment)}>
+                <div>
+                    {/*<Button variant="outlined" color="primary" onClick={handleClickOpen}>*/}
+                    {/*    Open alert dialog*/}
+                    {/*</Button>*/}
+                    <Dialog
+                        open={open}
+                        onClose={handleClose}
+                        aria-labelledby="alert-dialog-title"
+                        aria-describedby="alert-dialog-description"
+                        fullWidth
+                    >
+                        <DialogTitle id="alert-dialog-title">{"Details"}</DialogTitle>
+                        <DialogContent>
+                            <DialogContentText id="alert-dialog-description">
+                                <DetailsRow label="Student" info={`${applicationData.StudentFirstName} ${applicationData.StudentLastName}`}/>
+                                <DetailsRow label="Student Personal Email" info={applicationData.StudentPersonalEmail}/>
+                                <DetailsRow label="Student Phone" info={applicationData.StudentPhone}/>
+                                <DetailsRow label="Student Address" info={applicationData.StudentAddress}/>
+                                <br />
+                                <DetailsRow label="Application Date" info={applicationData.ApplicationDate}/>
+                                <DetailsRow label="Application Status" info={applicationData.ApplicationStatus}/>
+                                <br />
+                                <DetailsRow label="Faculty" info={`${applicationData.FacultyFirstName} ${applicationData.FacultyLastName}`}/>
+                                <DetailsRow label="Faculty Email" info={applicationData.FacultyPersonalEmail}/>
+                                <br />  
+                                <DetailsRow label="Employer Name" info={applicationData.EmployerName}/>
+                                <DetailsRow label="Employer Address" info={applicationData.EmployerAddress}/>
+                                <DetailsRow label="Start Date" info={applicationData.StartDate}/>
+                                <DetailsRow label="End Date" info={applicationData.EndDate}/>
+                                <DetailsRow label="Point Of Contact" info={applicationData.PointOfContact}/>
+                                <DetailsRow label="Employer Email" info={applicationData.EmployerEmail}/>
+                                <DetailsRow label="Employer Phone" info={applicationData.EmployerPhone}/>
+                            </DialogContentText>
+                        </DialogContent>
+                        <DialogActions>
+                            {role === 'Student' && <>
+                                <Button onClick={Approve} color="primary">
                                     Deny
-                                </DetailButton>
-                            </>
-                        }
-                        <DetailButton bgColor='gray' onClick={handleClose}>
-                            Close
-                        </DetailButton>
-                    </DialogActions>
-                </Dialog>
-            </div>
+                                </Button>
+                                <Button onClick={Deny} color="primary" autoFocus>
+                                    Approve
+                                </Button>
+                            </>}
+                            <Button onClick={handleClose} color="primary" autoFocus>
+                                Close
+                            </Button>
+
+                        </DialogActions>
+                    </Dialog>
+                </div>
         );
     }
 
@@ -298,9 +283,41 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible, username, appli
                         .then((data) => {
                             setApplicationData({
 
-                                "EmployerName": data.employerName
+                                "ApplicationDate": data.applications[0].ApplicationDate,
+                                "ApplicationID": data.applications[0].ApplicationID,
+                                "ApplicationStatus": data.applications[0].ApplicationStatus,
+                                "FacID": data.applications[0].FacID,
+                                "InternID": data.applications[0].InternID,
+                                "StuID": data.applications[0].StuID,
+
+                                "FacultyFirstName": data.faculty[0].LastName,
+                                "FacultyLastName": data.faculty[0].FirstName,
+                                "FacultyPersonalEmail": data.faculty[0].PersonalEmail,
+                                "FacultyPhone": data.faculty[0].Phone,
+                                "FacultyStudentAddress": data.faculty[0].StudentAddress,
+                                "FacultyUserID": data.faculty[0].UserID,
+                                "FacultyUserRole": data.faculty[0].UserRole,
+
+                                "EmployerAddress": data.internship[0].EmployerAddress,
+                                "EmployerEmail": data.internship[0].EmployerEmail,
+                                "EmployerName": data.internship[0].EmployerName,
+                                "EmployerPhone": data.internship[0].EmployerPhone,
+                                "InternshipID": data.internship[0].InternshipID,
+                                "PointOfContact": data.internship[0].PointOfContact,
+                                "StartDate": row.employmentStartDate,
+                                "EndDate": row.employmentEndDate,
+
+                                "StudentFirstName": data.student[0].FirstName,
+                                "StudentLastName": data.student[0].LastName,
+                                "StudentPersonalEmail": data.student[0].PersonalEmail,
+                                "StudentPhone": data.student[0].Phone,
+                                "StudentAddress": data.student[0].StudentAddress,
+                                "StudentUserID": data.student[0].UserID,
+                                "StudentUserRole": data.student[0].UserRole
                             })
-                        }).catch((error) => {
+
+                        })
+                        .catch((error) => {
 
                     });
 
@@ -319,8 +336,8 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible, username, appli
     ];
 
     const rows = applications.length > 0 && applications.map((app, idx) => {
-        console.log(app)
-        console.log(internships)
+        // console.log(app)
+        // console.log(internships)
 
         const cleanStartDate = internships.length > 0 && internships[idx].StartDate.substr(0, internships[idx].StartDate.indexOf('T'));
         const cleanEndDate = internships.length > 0 && internships[idx].EndDate.substr(0, internships[idx].EndDate.indexOf('T'));
