@@ -126,12 +126,29 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible, username, appli
         setOpen(false);
     };
 
+    const updateStatus = (status, appID) => {
+        console.log(status)
+        console.log(appID)
+        fetch('/api/updateStatus', {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify({
+                "status": status,
+                "appID": appID
+            }),
+        }).then(r => window.location.reload(true))
+        handleClose()
+    }
+
     const DetailButton = styled.button`
       border-radius: 5px;
       padding: 10px;
-      background-color: royalblue;
-      border: 1px solid royalblue;
-      color: white;
+      background-color: ${(props => props.bgColor ? props.bgColor : 'royalblue')};
+      border: 1px solid ${(props => props.bgColor ? props.bgColor : 'royalblue')};
+      color: ${(props => props.color ? props.color : 'white')};;
       cursor: pointer;
     `
 
@@ -201,12 +218,19 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible, username, appli
                         }
                     </DialogContent>
                     <DialogActions>
-                        <Button onClick={handleClose} color="primary">
-                            Disagree
-                        </Button>
-                        <Button onClick={handleClose} color="primary" autoFocus>
-                            Agree
-                        </Button>
+                        {role !== 'Student' &&
+                            <>
+                                <DetailButton bgColor='#4BB543' onClick={() => updateStatus('Approved', applicationData.ID)}>
+                                    Approve
+                                </DetailButton>
+                                <DetailButton bgColor='#BD0037' onClick={() => updateStatus('Denied', applicationData.ID)} autoFocus>
+                                    Deny
+                                </DetailButton>
+                            </>
+                        }
+                        <DetailButton bgColor='gray' onClick={handleClose}>
+                            Close
+                        </DetailButton>
                     </DialogActions>
                 </Dialog>
             </div>
@@ -214,6 +238,7 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible, username, appli
     }
 
     const columns = [
+        { field: 'appID', headerName: 'Application ID', flex: 1, hide: true },
         { field: 'employerName', headerName: 'Employer Name', flex: 1 },
         { field: 'employmentStartDate', headerName: 'Employment Start Date', flex: 1 },
         { field: 'employmentEndDate', headerName: 'Employment End Date', flex: 1 },
@@ -248,7 +273,8 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible, username, appli
                         "StartDate": row.employmentStartDate,
                         "EndDate": row.employmentEndDate,
                         "DateSubmitted": row.applicationDate,
-                        "Status": row.status
+                        "Status": row.status,
+                        "ID": row.appID
                     })
                 };
 
@@ -261,7 +287,7 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible, username, appli
                     </div>
                 );
             }
-        },
+        }
     ];
 
     const rows = applications.length > 0 && applications.map((app, idx) => {
@@ -271,7 +297,7 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible, username, appli
         const cleanStartDate = internships.length > 0 && internships[idx].StartDate.substr(0, internships[idx].StartDate.indexOf('T'));
         const cleanEndDate = internships.length > 0 && internships[idx].EndDate.substr(0, internships[idx].EndDate.indexOf('T'));
         return(
-            {id: idx, employerName: internships.length > 0 && internships[idx].EmployerName, employmentStartDate: internships.length > 0 && cleanStartDate, employmentEndDate: internships.length > 0 && cleanEndDate, applicationDate: app.ApplicationDate, status: app.ApplicationStatus }
+            {id: idx, appID: app.ApplicationID, employerName: internships.length > 0 && internships[idx].EmployerName, employmentStartDate: internships.length > 0 && cleanStartDate, employmentEndDate: internships.length > 0 && cleanEndDate, applicationDate: app.ApplicationDate, status: app.ApplicationStatus }
         )
     })
 
