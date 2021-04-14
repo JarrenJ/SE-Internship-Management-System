@@ -73,6 +73,7 @@ export const ApplicationForm = () => {
         employerEmail: "",
         employerPhone: "",
         comments: "",
+        signature: "",
     };
 
     const initialStuAddr = {
@@ -100,6 +101,7 @@ export const ApplicationForm = () => {
         console.log(endDate)
     }
 
+    const [Date, setDate] = useState("2021-05-1")
     const [currentStep, setCurrentStep] = useState(1)
     const [startDate, setStartDate] = useState("2021-05-13")
     const [endDate, setEndDate] = useState("2021-05-14")
@@ -148,6 +150,13 @@ export const ApplicationForm = () => {
     }
 
     const handleAddressChangeE = (e) => {
+        const {name, value} = e.target;
+        setEmpAddress({
+            ...empAddress,
+            [name]: value,
+        })
+    }
+    const handleSignatureChange = (e) => {
         const {name, value} = e.target;
         setEmpAddress({
             ...empAddress,
@@ -596,6 +605,55 @@ const EmployerInfo = ({ currentStep, values, handleInputChange, handleAddressCha
                 </Col>
             </Row>
         </div>
-    </>
     )
+const Agreement = ({ currentStep, values, Date, setDate }) => {
+    return(
+        <div>
+                    <h2>Internship Agreement:</h2>
+                    <h3>The Student agrees to:</h3>
+                    <li>
+                        <ul>Do an honest day’s work, 
+                           recognizing that the employer must profit 
+                           from the student’s labor in order to justify providing the internship experience.</ul> 
+                        <ul>Keep the employer’s interest in mind and be punctual, dependable, and loyal.</ul>
+                        <ul>Follow instructions, avoid unsafe acts, and be alert to unsafe conditions.</ul>
+                        <ul>Be courteous and considerate of the employer, co-workers, and customers.</ul> 
+                        <ul>Do all jobs assigned to the best of one’s ability.</ul> 
+                        <ul>Be alert to perform unassigned tasks which promote the welfare of the business.</ul> 
+                        <ul>Notify the employer prior to any absence.</ul>  
+                        <ul>Keep records of the work experience and complete all reports the school and employer require</ul> 
+                        <ul>Report to the University Supervisor any problem, in regard to the training, prior to any termination</ul>
+                    </li>
+                    <TextField>label="Student Stignature"</TextField>
+                    <TextField>
+                        id="date"  
+                        label="Date"
+                        type="date"
+                        variant='outlined'
+                        value={Date}
+                        onChange={e => setDate(e.target.value)}
+                        // defaultValue="2021-05-1"
+                        InputLabelProps={{
+                            shrink: true, 
+                        }} 
+                    </TextField>            
+                </div>
+                <div className='app__agree__submit__btn'>
+                    <Button
+                        variant={"contained"}
+                        onClick={submitCLick}
+                    >
+                        Submit
+                    </Button>
+                </div>
+                render() {
+                    return <div>
+                    <input name="signature" value={this.state.email} onChange={this.handleChangeEmail}/>
+                    <input name="date" value={this.state.Date} onChange={e => setDate(e.target.value)}/>
+                    <button type="button" disabled={this.state.submitDisabled}>Button</button>
+                    </div>
+                }
+    )
+    </>
+
 }
