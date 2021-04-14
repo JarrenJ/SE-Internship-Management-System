@@ -125,21 +125,29 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible, username, appli
         setOpen(false);
     };
 
-    const Approve = () => {
+    const updateStatus = (status, appID) => {
+        console.log(status)
+        console.log(appID)
+        fetch('/api/updateStatus', {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify({
+                "status": status,
+                "appID": appID
+            }),
+        }).then(r => window.location.reload(true))
         handleClose()
     }
-
-    const Deny = () => {
-        handleClose()
-    }
-
 
     const DetailButton = styled.button`
       border-radius: 5px;
       padding: 10px;
-      background-color: royalblue;
-      border: 1px solid royalblue;
-      color: white;
+      background-color: ${(props => props.bgColor ? props.bgColor : 'royalblue')};
+      border: 1px solid ${(props => props.bgColor ? props.bgColor : 'royalblue')};
+      color: ${(props => props.color ? props.color : 'white')};;
       cursor: pointer;
     `
 
@@ -201,26 +209,22 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible, username, appli
                                     <p>Status: {applicationData.Status}</p>
                                 </Col>
                             </Row>
-                            <Row>
-                                <Col size={1}>
-                                    <p>Status: {applicationData.ID}</p>
-                                </Col>
-                            </Row>
                         </DialogContentText>
                     </DialogContent>
                     <DialogActions>
-                        {role === 'Student' && <>
-                        <Button onClick={Approve} color="primary">
-                            Deny
-                        </Button>
-                        <Button onClick={Deny} color="primary" autoFocus>
-                            Approve
-                        </Button>
-                        </>}
-                        <Button onClick={handleClose} color="primary" autoFocus>
+                        {role !== 'Student' &&
+                            <>
+                                <DetailButton bgColor='#4BB543' onClick={() => updateStatus('Approved', applicationData.ID)}>
+                                    Approve
+                                </DetailButton>
+                                <DetailButton bgColor='#BD0037' onClick={() => updateStatus('Denied', applicationData.ID)} autoFocus>
+                                    Deny
+                                </DetailButton>
+                            </>
+                        }
+                        <DetailButton bgColor='gray' onClick={handleClose}>
                             Close
-                        </Button>
-
+                        </DetailButton>
                     </DialogActions>
                 </Dialog>
             </div>
