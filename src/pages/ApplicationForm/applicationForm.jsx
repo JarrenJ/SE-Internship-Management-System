@@ -34,6 +34,7 @@ export function ApplicationForm() {
         employerEmail: "",
         employerPhone: "",
         comments: "",
+        signature: "",
     };
 
     const initialStuAddr = {
@@ -85,6 +86,13 @@ export function ApplicationForm() {
     }
 
     const handleAddressChangeE = (e) => {
+        const {name, value} = e.target;
+        setEmpAddress({
+            ...empAddress,
+            [name]: value,
+        })
+    }
+    const handleSignatureChange = (e) => {
         const {name, value} = e.target;
         setEmpAddress({
             ...empAddress,
@@ -469,6 +477,21 @@ export function ApplicationForm() {
                         }} 
                     </TextField>            
                 </div>
+                <div className='app__agree__submit__btn'>
+                    <Button
+                        variant={"contained"}
+                        onClick={submitCLick}
+                    >
+                        Submit
+                    </Button>
+                </div>
+                render() {
+                    return <div>
+                    <input name="signature" value={this.state.email} onChange={this.handleChangeEmail}/>
+                    <input name="date" value={this.state.Date} onChange={e => setDate(e.target.value)}/>
+                    <button type="button" disabled={this.state.submitDisabled}>Button</button>
+                    </div>
+                }
             </form>
         </div>
     )
