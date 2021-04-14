@@ -9,6 +9,7 @@ const Dashboard = () => {
     const [isOpen, setIsOpen] = useState(true)
     const userID = sessionStorage.getItem("userID")
     const [isAppFormVisible, setIsAppFormVisible] = useState(false)
+    const [isApplicationTableVisible, setIsApplicationTableVisible] = useState(true)
     const [tableError, setTableError] = useState({
         "error": new Error
     })
@@ -120,6 +121,10 @@ const Dashboard = () => {
         setIsAppFormVisible(!isAppFormVisible)
     }
 
+    const showApplicationTable = () => {
+        setIsApplicationTableVisible(!isApplicationTableVisible)
+    }
+
     return(
         <>
             <SideNav
@@ -133,6 +138,8 @@ const Dashboard = () => {
                 anchorEl={anchorEl}
                 showAppForm={showAppForm}
                 isAppFormVisible={isAppFormVisible}
+                showApplicationTable={showApplicationTable}
+                isApplicationTableVisible={isApplicationTableVisible}
             />
             {isLoaded && <DashboardPanel
                 role={user.role}
@@ -146,6 +153,7 @@ const Dashboard = () => {
                 outOfStateInterns={outOfStateInterns}
                 isOpen={isOpen}
                 isAppFormVisible={isAppFormVisible}
+                isApplicationTableVisible={isApplicationTableVisible}
             />}
         </>
     )
