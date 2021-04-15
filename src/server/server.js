@@ -43,12 +43,6 @@ app.post('/api/updateStatus', (req, res) => {
             res.send(err)
         }
         console.log(`Status has been updated for AppID: ${appID}`)
-        // connection.query(`UPDATE Applications SET Comments = comment WHERE ApplicationID = ?`, [comment, appID], (err, data) => {
-        //     console.log("Pls help him")
-        //     if (err) {
-        //         res.send(err)
-        //     }
-        // })
     })
     connection.query(`UPDATE Applications SET Comments = ? WHERE ApplicationID = ?`, [comment, appID], (err, data) => {
         if (err) {
@@ -59,16 +53,6 @@ app.post('/api/updateStatus', (req, res) => {
     res.sendStatus(200)
 })
 
-app.get('/api/getComment/:appID', (req, res) => {
-    const appID = req.params.appID
-    connection.query(`SELECT Comments from Applications WHERE ApplicationID = ?`, [appID], (err, data) => {
-        if (err) {
-            res.send(err)
-        }
-        console.log(data[0].Comments)
-        res.send(data[0].Comments)
-    })
-})
 
 app.post('/api/submit', (req, res) => {
 
