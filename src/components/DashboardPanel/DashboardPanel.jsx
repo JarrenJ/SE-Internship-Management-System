@@ -120,11 +120,6 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible, username, appli
 
     const [open, setOpen] = React.useState(false);
     const initial_Comment = "";
-    const [comment, set_comment] = useState(initial_Comment);
-
-    const handleCommentChange = (e) => {
-        set_comment(e.target.value)
-    }
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -174,6 +169,10 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible, username, appli
         // const handleClose = () => {
         //     setOpen(false);
         // };
+        const [comment, set_comment] = useState(initial_Comment);
+        const handleCommentChange = (e) => {
+            set_comment(e.target.value)
+        }
 
         return (
             <div>
@@ -230,17 +229,18 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible, username, appli
                                     multiline={true}
                                     rows={2}
                                     onChange={handleCommentChange}
+                                    fullWidth
                                 />
                             </>
                         }
                     </DialogContent>
                     <DialogActions>
-                        {role !== 'Student' &&
+                        {role === 'Student' &&
                             <>
                                 <DetailButton bgColor='#4BB543' onClick={() => updateStatus('Approved', applicationData.ID, comment)}>
                                     Approve
                                 </DetailButton>
-                                <DetailButton bgColor='#BD0037' onClick={() => updateStatus('Denied', applicationData.ID, comment)} autoFocus>
+                                <DetailButton bgColor='#BD0037' onClick={() => updateStatus('Denied', applicationData.ID, comment)}>
                                     Deny
                                 </DetailButton>
                             </>

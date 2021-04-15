@@ -34,15 +34,23 @@ app.use(bodyParser.urlencoded({extended : true}))
 app.use(bodyParser.json())
 
 app.post('/api/updateStatus', (req, res) => {
-    const {status, appID} = req.body
+    const {status, appID, comment} = req.body
     console.log(appID)
     console.log(status)
+    console.log(comment)
     connection.query(`UPDATE Applications SET ApplicationStatus = '${status}' WHERE ApplicationID = ?`, [appID], (err, data) => {
+        console.log("A man has fallen into the river in lego city")
         if (err) {
             res.send(err)
         }
-        res.sendStatus(200)
+        connection.query(`UPDATE Applications SET Comment = '${comment}' WHERE ApplicationID = ?`, [appID], (err, data) => {
+            console.log("Pls help him")
+            if (err) {
+                res.send(err)
+            }
+        })
     })
+    res.send(200)
 })
 
 app.post('/api/submit', (req, res) => {
