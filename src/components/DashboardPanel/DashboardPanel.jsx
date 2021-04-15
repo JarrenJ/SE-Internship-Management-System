@@ -144,7 +144,7 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible, username, appli
                 "appID": appID,
                 "comment": comment
             }),
-        }).then(r => window.location.reload(true))
+        }).then(() => window.location.reload(true))
         handleClose()
     }
 

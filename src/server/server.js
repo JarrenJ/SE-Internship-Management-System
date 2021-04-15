@@ -38,19 +38,36 @@ app.post('/api/updateStatus', (req, res) => {
     console.log(appID)
     console.log(status)
     console.log(comment)
-    connection.query(`UPDATE Applications SET ApplicationStatus = '${status}' WHERE ApplicationID = ?`, [appID], (err, data) => {
-        console.log("A man has fallen into the river in lego city")
+    connection.query(`UPDATE Applications SET ApplicationStatus = ? WHERE ApplicationID = ?`, [status, appID], (err, data) => {
         if (err) {
             res.send(err)
         }
-        connection.query(`UPDATE Applications SET Comment = '${comment}' WHERE ApplicationID = ?`, [appID], (err, data) => {
-            console.log("Pls help him")
-            if (err) {
-                res.send(err)
-            }
-        })
+        console.log(`Status has been updated for AppID: ${appID}`)
+        // connection.query(`UPDATE Applications SET Comments = comment WHERE ApplicationID = ?`, [comment, appID], (err, data) => {
+        //     console.log("Pls help him")
+        //     if (err) {
+        //         res.send(err)
+        //     }
+        // })
     })
-    res.send(200)
+    connection.query(`UPDATE Applications SET Comments = ? WHERE ApplicationID = ?`, [comment, appID], (err, data) => {
+        if (err) {
+            res.send(err)
+        }
+        console.log(`Comment has been updated for AppID: ${appID}`)
+    })
+    res.sendStatus(200)
+})
+
+app.get('/api/getComment/:appID', (req, res) => {
+    const appID = req.params.appID
+    connection.query(`SELECT Comments from Applications WHERE ApplicationID = ?`, [appID], (err, data) => {
+        if (err) {
+            res.send(err)
+        }
+        console.log(data[0].Comments)
+        res.send(data[0].Comments)
+    })
 })
 
 app.post('/api/submit', (req, res) => {
