@@ -4,6 +4,7 @@ const session = require('express-session');
 const bodyParser = require('body-parser');
 const cors = require("cors");
 const jwt = require("jsonwebtoken");
+const e = require('express');
 
 // Create connection to mySQL database
 const connection = mysql.createConnection({
@@ -163,34 +164,35 @@ app.post('/api/submit', (req, res) => {
 
 });
 
-app.get('/api/getApplications/:user', (req, res) => {
-    const user = req.params.user
-    console.log(user)
-    connection.query(`SELECT * FROM Applications WHERE StuID = ?`, [user], (err, data) => {
-        if (err) { res.send(err) }
+// app.get('/api/getApplications/:user', (req, res) => {
+//     const user = req.params.user
+//     console.log(user)
+//     connection.query(`SELECT * FROM Applications WHERE StuID = ?`, [user], (err, data) => {
+//         if (err) { res.send(err) }
 
-        if (data.length > 0) {
+//         if (data.length > 0) {
 
-            connection.query(`SELECT * FROM Internship WHERE InternshipID IN (SELECT InternID FROM Applications WHERE StuID = ?)`, [user], (err, data2) => {
-                if (data2.length > 0) {
-                    res.send({ "applications": data, "internships": data2 })
-                }
-            })
+//             connection.query(`SELECT * FROM Internship WHERE InternshipID IN (SELECT InternID FROM Applications WHERE StuID = ?)`, [user], (err, data2) => {
+//                 if (data2.length > 0) {
+//                     res.send({ "applications": data, "internships": data2 })
+//                 }
+//             })
 
-        } else {
-            res.statusMessage = "User / Application Not Found"
-            res.status(404)
-            res.send({ "applications": data })
-        }
+//         } else {
+//             res.statusMessage = "User / Application Not Found"
+//             res.status(404)
+//             res.send({ "applications": data })
+//         }
 
 
-    })
+//     })
 
-    }
-)
+//     }
+// )
 
 app.get('/api/getFullApplication/:applicationID', (req, res) => {
         const applicationID = req.params.applicationID
+        const applications = []
         console.log(applicationID)
         connection.query(`SELECT * FROM Applications WHERE ApplicationID = ?`, [applicationID], (err, application) => {
             if (err) { res.send(err) }
@@ -200,7 +202,9 @@ app.get('/api/getFullApplication/:applicationID', (req, res) => {
                 // console.log(application[0].InternID)
                 connection.query(`SELECT * FROM Internship WHERE InternshipID = ?`, [application[0].InternID], (err, internship) => {
                     if (err) throw err;
-                    // console.log(internship)
+                    
+                    
+
                     connection.query(`SELECT * FROM Users WHERE UserID = ?`, [application[0].StuID], (err, student) => {
                         if (err) throw err;
                         // console.log(student)
@@ -208,7 +212,17 @@ app.get('/api/getFullApplication/:applicationID', (req, res) => {
                             if (err) throw err;
                             // console.log(faculty)
                             console.log("reached bottom")
+                            application.map(app => {
+                                internship.map(intern =>{
+                                    return({
+                                        
+                                    })
+                                })
+                            })
+
+                            
                             res.send({"applications": application, "internship": internship, "student": student, "faculty": faculty})
+                        
                         })
                     })
                 })
@@ -224,6 +238,57 @@ app.get('/api/getFullApplication/:applicationID', (req, res) => {
         })
 
     }
+)
+app.get('/api/getFullApplications/:userRole/:userID', (req, res) => {
+    const userID = req.params.userID
+    if (req.params.userRole === 'Admin'){
+        applicationSQL = `SELECT * FROM Applications`
+        userSQL = `SELECT * FROM Users`
+        internSQL = `SELECT * FROM Internship`
+    } else if (req.params.userRole === 'Faculty'){
+        applicationSQL = `SELECT * FROM Applications WHERE FacID = ?`
+        userSQL = `SELECT * FROM Users WHERE UserID = ?`
+        internSQL = `SELECT * FROM Internship WHERE InternshipID IN (SELECT InternID FROM Applications WHERE FacID = ?)`
+    } else if (req.params.userRole === 'Student'){
+        applicationSQL = `SELECT * FROM Applications WHERE StuID = ?`
+        userSQL = `SELECT * FROM Users WHERE UserID = ?`
+        internSQL = `SELECT * FROM Internship WHERE InternshipID IN (SELECT InternID FROM Applications WHERE StuID = ?)`
+    }
+    console.log(applicationSQL)
+    connection.query(applicationSQL, [userID], (err, application) => {
+        if (err) { res.send(err) }
+        console.log(application)
+
+        if (application.length > 0) {
+
+            connection.query(internSQL, [userID], (err, internship) => {
+                if (err) throw err;
+                // console.log(internship)
+
+                connection.query(userSQL, [userID], (err, users) => {
+                    if (err) throw err;
+                    // console.log(student)
+                    
+                            let allInternships = Object.assign({}, ...internship.map((x) => ({[x.InternshipID]: x})))
+                            let allUsers = Object.assign({}, ...users.map((x) => ({[x.UserID]: x})))  
+
+                        res.send({"applications": application, "internships": allInternships, "users": allUsers})
+                    
+                    })
+                })
+            
+
+            // res.send(response)
+        } else {
+            res.statusMessage = "User / Application Not Found"
+            res.status(404)
+            res.send({ "applications": application })
+        }
+
+
+    })
+
+}
 )
 
 

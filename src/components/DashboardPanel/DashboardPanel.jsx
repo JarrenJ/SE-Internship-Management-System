@@ -114,14 +114,10 @@ const Panel = ({ color, title, info, image, imgClass }) => {
     )
 }
 
-export function DashboardPanel({ isOpen, role, isAppFormVisible, isApplicationTableVisible, 
-                                username, faculty, student, applications,
-                                internships, tableError, totalInterns, pendingApprovals,
-                                activeInterns, outOfStateInterns }) {
+export function DashboardPanel({ isOpen, role, isAppFormVisible, isApplicationTableVisible, username, users, applications,
+                                   internships, tableError, totalInterns, pendingApprovals,
+                                   activeInterns, outOfStateInterns }) {
 
-
-
-    
     const [open, setOpen] = React.useState(false);
     const initial_Comment = "";
                                 
@@ -168,8 +164,7 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible, isApplicationTa
                                 role={role}
                                 isApplicationTableVisible={isApplicationTableVisible}
                                 username={username}
-                                faculty={faculty}
-                                student={student}
+                                users={users}
                                 applications={applications}
                                 internships={internships}
                                 tableError={tableError}

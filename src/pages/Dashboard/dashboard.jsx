@@ -18,9 +18,10 @@ const Dashboard = () => {
         "username": '',
         "role": ''
     })
+
     const [applications, setApplications] = useState([])
     const [internships, setInternships] = useState([])
-
+    const [users, setUsers] = useState([])
     const [isLoaded, setIsLoaded] = useState(false)
     const [totalInterns, setTotalInterns] = useState(0)
     const [pendingApprovals, setPendingApprovals] = useState(0)
@@ -38,8 +39,30 @@ const Dashboard = () => {
             );
     }, []);
 
-    useEffect(() => {
-        fetch(`/api/getApplications/${userID}`)
+    // useEffect(() => {
+    //     fetch(`/api/getApplications/${userID}`)
+    //         .then(res => {
+    //             if (res.ok) {
+    //                 // api returned status 200, so we return the response
+    //                 return res.json()
+    //             } else {
+    //                 // api returned code 400, so we throw an error to catch later
+    //                 throw new Error('Something went wrong fetching your data...')
+    //             }
+    //         })
+    //         .then((data) => {
+    //             setIsLoaded(true)
+    //             setApplications(data.applications)
+    //             setInternships(data.internships)
+    //             console.log(data)
+    //         }).catch((error) => {
+    //             setIsLoaded(true)
+    //             console.log(error)
+    //             setTableError({error: error})
+    //         });
+    // }, []);
+        useEffect(() => {
+        fetch(`/api/getFullApplications/Student/S528544`)
             .then(res => {
                 if (res.ok) {
                     // api returned status 200, so we return the response
@@ -50,15 +73,18 @@ const Dashboard = () => {
                 }
             })
             .then((data) => {
-                setIsLoaded(true)
+                console.log(data)
                 setApplications(data.applications)
                 setInternships(data.internships)
+                setUsers(data.users)
+                setIsLoaded(true)
             }).catch((error) => {
                 setIsLoaded(true)
                 console.log(error)
                 setTableError({error: error})
             });
     }, []);
+    
 
     // For below 3 codeblocks, I am planning on hitting one endpoint eventually to grab all necessary data
 
@@ -144,6 +170,7 @@ const Dashboard = () => {
             {isLoaded && <DashboardPanel
                 role={user.role}
                 username={user.username}
+                users={users}
                 applications={applications}
                 internships={internships}
                 tableError={tableError}

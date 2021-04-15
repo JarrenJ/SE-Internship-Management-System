@@ -32,7 +32,7 @@ const DetailsRow = ({ label, info }) => {
 }
 
 
-export function ApplicationTable({ role, isApplicationTableVisible, username, faculty, student, applications, internships, tableError}){
+export function ApplicationTable({ role, isApplicationTableVisible, username, users, applications, internships, tableError}){
     const [applicationData, setApplicationData] = useState({})
     const [open, setOpen] = React.useState(false);
     const handleClickOpen = () => {
@@ -58,15 +58,20 @@ export function ApplicationTable({ role, isApplicationTableVisible, username, fa
         }).then(r => window.location.reload(true))
         handleClose()
         }
-    const studentColumns =[]
+    const facultyColumns = [
+        { field: 'firstName', headerName: 'First name', width: 130, hide: true },
+        
+        // {field: 'major', headerName: 'Major', flex 1}
+    ]
+    // let showappid = role === 'Student'; 
     const getColumns = (roleColumns) => {
         return (
             [
-                { field: 'appID', headerName: 'Application ID', flex: 1, hide: true },
+                { field: 'appID', headerName: 'Application ID', flex: 1, hide: true},
                 ...roleColumns,
                 { field: 'employerName', headerName: 'Employer Name', flex: 1 },
-                { field: 'employmentStartDate', headerName: 'Employment Start Date', flex: 1 },
-                { field: 'employmentEndDate', headerName: 'Employment End Date', flex: 1 },
+                { field: 'startDate', headerName: 'Employment Start Date', flex: 1 },
+                { field: 'endDate', headerName: 'Employment End Date', flex: 1 },
                 {
                     field: 'status',
                     headerName: 'Status',
@@ -165,14 +170,26 @@ export function ApplicationTable({ role, isApplicationTableVisible, username, fa
         )
     }
     const rows = applications.length > 0 && applications.map((app, idx) => {
-        console.log(app)
-        console.log(internships)
-    
-        const cleanStartDate = internships.length > 0 && internships[idx].StartDate.substr(0, internships[idx].StartDate.indexOf('T'));
-        const cleanEndDate = internships.length > 0 && internships[idx].EndDate.substr(0, internships[idx].EndDate.indexOf('T'));
-        return(
-            {id: idx, appID: app.ApplicationID, employerName: internships.length > 0 && internships[idx].EmployerName, employmentStartDate: internships.length > 0 && cleanStartDate, employmentEndDate: internships.length > 0 && cleanEndDate, applicationDate: app.ApplicationDate, status: app.ApplicationStatus }
-        )
+        const studentName = `${users[app.StuID].FirstName} ${users[app.StuID].LastName}`
+        // const facultyName = `${users[app.FacID].FirstName} ${users[app.FacID].LastName}`
+        const cleanStartDate = internships[app.InternID].StartDate.substr(0, internships[app.InternID].StartDate.indexOf('T'));
+        const cleanEndDate = internships[app.InternID].EndDate.substr(0, internships[app.InternID].EndDate.indexOf('T'));
+        // console.log(results)
+        return({
+            id:idx,
+            appID: app.ApplicationID, 
+            studentName: studentName,
+            // facultyName: facultyName,
+            employerName: internships[app.InternID].EmployerName,
+            startDate: cleanStartDate,
+            endDate: cleanEndDate,
+            applicationDate: app.ApplicationDate,
+            status: app.ApplicationStatus
+
+        })
+        // return(
+        //     {id: idx, firstName: applicationData.StudentFirstName, lastName: applicationData.StudentLastName, appID: app.ApplicationID, employerName: internships.length > 0 && internships[idx].EmployerName, employmentStartDate: internships.length > 0 && cleanStartDate, employmentEndDate: internships.length > 0 && cleanEndDate, applicationDate: app.ApplicationDate, status: app.ApplicationStatus }
+        // )
         // firstName: student.FirstName, lastName: student.LastName,
     })
     const DetailsDialog = () => {
@@ -256,12 +273,15 @@ export function ApplicationTable({ role, isApplicationTableVisible, username, fa
                         {/*{console.log(tableError.error)}*/}
                         <DataGrid
                             rows={rows}
-                            columns={getColumns(studentColumns)}
+                            columns={getColumns(facultyColumns)}
                             pageSize={5}
                             autoHeight
                             // disableExtendRowFullWidth
                             disableSelectionOnClick
                             /*checkboxSelection*/
+                            components={{
+                                Toolbar: GridToolbar,
+                            }}
                         />
                     </Col>
                 </Row>
