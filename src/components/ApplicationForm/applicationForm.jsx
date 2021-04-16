@@ -682,17 +682,10 @@ const Agreement = ({ currentStep, values, agreementDate, setAgreementDate, handl
                     </TextField>
                 </Col>
             </Row>
-                {/*<div className='app__agree__submit__btn'>*/}
-                {/*    <Button*/}
-                {/*        variant={"contained"}*/}
-                {/*        onClick={submitCLick}*/}
-                {/*    >*/}
-                {/*        Submit*/}
-                {/*    </Button>*/}
-                {/*</div>*/}
-                {/*<input name="signature" value={this.state.email} onChange={this.handleChangeEmail}/>*/}
-                {/*<input name="date" value={this.state.Date} onChange={e => setDate(e.target.value)}/>*/}
-                {/*<button type="button" disabled={this.state.submitDisabled}>Button</button>*/}
+               
+                {<input name="signature" value={values.signature} onChange={handleInputChange}/>}
+                {<input name="date" value={this.state.Date} onChange={e => setAgreementDate(e.target.value)}/>}
+                {<button type="button" disabled={this.state.submitDisabled}>Button</button>}
         </div>
     )
 }
