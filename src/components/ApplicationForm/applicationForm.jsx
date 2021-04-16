@@ -630,7 +630,7 @@ const Agreement = ({ currentStep, values, agreementDate, setAgreementDate, handl
     if (currentStep !== 4) {
         return null
     }
-
+    const isEnabled = signature.length > 0 && date.length > 0;
     return(
         <div className='Internship Agreement'>
             <form onSubmit={this.handleSubmit}>
