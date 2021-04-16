@@ -627,7 +627,7 @@ const EmployerInfo = ({ currentStep, values, handleInputChange, handleAddressCha
     )
 }
 
-const Agreement = ({ currentStep, values, agreementDate, setAgreementDate, handleInputChange }) => {
+const Agreement = ({ currentStep, values, signature, setSignature, agreementDate, setAgreementDate, handleInputChange }) => {
     if (currentStep !== 4) {
         return null
     }
