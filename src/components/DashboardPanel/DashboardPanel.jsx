@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import {account, airplane, Hourglass, Manlogo, NWDoubleStackedGreen} from "assets";
 import {ApplicationForm} from "components";
 
+import AutoLogout from "../AutoLogout/AutoLogout";
 import Button from '@material-ui/core/Button';
 import { DataGrid } from '@material-ui/data-grid';
 import Dialog from '@material-ui/core/Dialog';
@@ -65,12 +66,12 @@ const StyledPanel = styled.div`
   .man-icon{
     height: 75px;
   }
-  
+
   .large-icon{
     height: 50px;
     padding-top: 1rem;
   }
-  
+
   .title {
     font-size: 1.2rem;
     margin-top: 0;
@@ -84,7 +85,7 @@ const StyledPanel = styled.div`
     .title {
       font-size: 1.1rem;
     }
-    
+
     .info {
       font-size: .9rem;
     }
@@ -124,6 +125,19 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible, username, appli
     const handleClose = () => {
         setOpen(false);
     };
+
+    const timer = AutoLogout(20)
+
+    const Log = () => {
+      if(timer == 0){
+        return <p>Logged Out</p>
+      }
+      if (timer < 20) {
+        console.log(timer)
+        return <p>Hello</p>
+    }
+    return <p>Nothing</p>
+    }
 
     const updateStatus = (status, appID) => {
         console.log(status)
@@ -374,6 +388,7 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible, username, appli
                             <img className='dashboard__profile__pic' src={ account } alt='account.png'/>
                             <div className="Header_Namebox">
                                 <p>{username}</p>
+                                <Log />
                             </div>
                         </div>
                     </Col>
