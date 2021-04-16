@@ -74,6 +74,7 @@ export const ApplicationForm = () => {
         employerPhone: "",
         comments: "",
         signature: "",
+        submitDisabled: true
     };
 
     const initialStuAddr = {
@@ -685,7 +686,7 @@ const Agreement = ({ currentStep, values, agreementDate, setAgreementDate, handl
                
                 {<input name="signature" value={values.signature} onChange={handleInputChange}/>}
                 {<input name="agreementDate" value={Date()} onChange={e => setAgreementDate(e.target.value)}/>}
-                {<button type="button" disabled={!values.signature}>Button</button>}
+                {<button type="button" disabled={submitDisabled}>Button</button>}
         </div>
     )
 }
