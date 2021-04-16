@@ -113,10 +113,10 @@ export const ApplicationForm = () => {
 
     const submitDate = new Date(),
         date = submitDate.getFullYear() + '-' + (submitDate.getMonth() + 1) + '-' + submitDate.getDate();
-    handleSubmit = () => {
+    const handleSubmit = () => {
         const { signature, date } = this.state;
         alert(`Sign: ${signature} date: ${date}`);
-    };
+    }
     const onSubmit = () => {
         fetch(`/api/submit`, {
             method: "POST",
