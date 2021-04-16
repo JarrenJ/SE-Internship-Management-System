@@ -690,8 +690,8 @@ const Agreement = ({ currentStep, values, agreementDate, setAgreementDate, handl
             </Row>
                
                 {<input name="signature" value={values.signature} onChange={handleInputChange}/>}
-                {<input name="agreementDate" value={Date()} onChange={e => setAgreementDate(e.target.value)}/>}
-                {<button type="button" disabled={!isEnabled}>Button</button>}
+                {<input name="agreementDate" value={agreementDate} onChange={e => setAgreementDate(e.target.value)}/>}
+                {<button type="button" disabled={values.signature.length < 3} >Button</button>}
             </form>
         </div>
     )
