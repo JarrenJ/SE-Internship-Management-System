@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from "react"
 import { SideNav, DashboardPanel } from "components"
-import IdleTimer from 'react-idle-timer';
 
 const Dashboard = () => {
     const [anchorEl, setAnchorEl] = useState(null);
@@ -26,10 +25,6 @@ const Dashboard = () => {
     const [pendingApprovals, setPendingApprovals] = useState(0)
     const [activeInterns, setActiveInterns] = useState(0)
     const [outOfStateInterns, setOutOfStateInterns] = useState(0)
-
-    const [timeout, setTimeout] = useState(1000*5*1)
-    const [userLoggedIn, setUserLoggedIn] = useState(false)
-    const [isTimedOut, setIsTimedOut] = useState(false)
 
     useEffect(() => {
         fetch(`/api/getUser/${userID}`)

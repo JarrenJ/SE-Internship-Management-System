@@ -126,17 +126,32 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible, username, appli
         setOpen(false);
     };
 
-    const timer = AutoLogout(20)
 
-    const Log = () => {
-      if(timer == 0){
-        return <p>Logged Out</p>
-      }
-      if (timer < 20) {
-        console.log(timer)
-        return <p>Hello</p>
-    }
-    return <p>Nothing</p>
+    const AutoLogOut = () => {
+        // 600 seconds => 10 minutes
+        const timer = AutoLogout(600)
+        // If timer is 0, logout the user
+        if(timer === 0){
+            sessionStorage.removeItem("token")
+            sessionStorage.removeItem("userID")
+            window.location.reload(true)
+        }
+        return (
+            <Dialog
+                // Only open dialog if timer is less than 30 seconds
+                open={timer < 30}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+            >
+                <DialogTitle id="auto-logout-dialog-title">Are You Still There?</DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                        <p>Move your mouse or click a key to avoid being logged out.</p>
+                        <p>You will be logged out in <b>{timer}</b> seconds</p>
+                    </DialogContentText>
+                </DialogContent>
+            </Dialog>
+        )
     }
 
     const updateStatus = (status, appID) => {
@@ -381,6 +396,8 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible, username, appli
 
     return (
         <>
+            {/* Call AutoLogOut function here */}
+            <AutoLogOut />
             <div className="dashboard__container" style={{left: isOpen ? '20%' : '3.5%', width: isOpen ? `calc(100% - 20%)` : `calc(100% - 3.5%)`}}>
                 <Row maxHeight='65px'>
                     <Col size={1} maxHeight='65px'>
@@ -388,7 +405,6 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible, username, appli
                             <img className='dashboard__profile__pic' src={ account } alt='account.png'/>
                             <div className="Header_Namebox">
                                 <p>{username}</p>
-                                <Log />
                             </div>
                         </div>
                     </Col>
