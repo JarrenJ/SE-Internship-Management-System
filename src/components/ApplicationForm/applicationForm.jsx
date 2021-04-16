@@ -102,6 +102,7 @@ export const ApplicationForm = () => {
         console.log(endDate)
     }
 
+    const [signature, setSignature] = useState("signature")
     const [agreementDate, setAgreementDate] = useState("2021-05-1")
     const [currentStep, setCurrentStep] = useState(1)
     const [startDate, setStartDate] = useState("2021-05-13")
