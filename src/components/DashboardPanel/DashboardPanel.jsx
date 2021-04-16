@@ -1,9 +1,7 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import {account, airplane, Hourglass, Manlogo, NWDoubleStackedGreen} from "assets";
-import {ApplicationForm} from "components";
+import { ApplicationForm, AutoLogOut } from "components";
 
-import AutoLogout from "../AutoLogout/AutoLogout";
-import Button from '@material-ui/core/Button';
 import { DataGrid } from '@material-ui/data-grid';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -129,35 +127,7 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible, username, appli
     const handleClose = () => {
         setOpen(false);
     };
-
-
-    const AutoLogOut = () => {
-        // 600 seconds => 10 minutes
-        const timer = AutoLogout(600)
-        // If timer is 0, logout the user
-        if(timer === 0){
-            sessionStorage.removeItem("token")
-            sessionStorage.removeItem("userID")
-            window.location.reload(true)
-        }
-        return (
-            <Dialog
-                // Only open dialog if timer is less than 30 seconds
-                open={timer < 30}
-                aria-labelledby="alert-dialog-title"
-                aria-describedby="alert-dialog-description"
-            >
-                <DialogTitle id="auto-logout-dialog-title">Are You Still There?</DialogTitle>
-                <DialogContent>
-                    <DialogContentText id="alert-dialog-description">
-                        <p>Move your mouse or click a key to avoid being logged out.</p>
-                        <p>You will be logged out in <b>{timer}</b> seconds</p>
-                    </DialogContentText>
-                </DialogContent>
-            </Dialog>
-        )
-    }
-
+    
     const updateStatus = (status, appID, comment) => {
         console.log(status)
         console.log(appID)
