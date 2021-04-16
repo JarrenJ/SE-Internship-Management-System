@@ -74,7 +74,6 @@ export const ApplicationForm = () => {
         employerPhone: "",
         comments: "",
         signature: "",
-        submitDisabled: true
     };
 
     const initialStuAddr = {
@@ -243,8 +242,7 @@ export const ApplicationForm = () => {
                             agreementDate={agreementDate}
                             setAgreementDate={setAgreementDate}
                             handleInputChange={handleInputChange}
-                            value={signature}
-                            onChange={e => setSignature(e.target.value)}
+                            
                         />
                     </Col>
                 </Row>
@@ -669,8 +667,8 @@ const Agreement = ({ currentStep, values, agreementDate, setAgreementDate, handl
                         className='wide'
                         type="text"
                         variant='outlined'
-                        value={values.signature}
-                        onChange={handleInputChange}
+                        value={signature}
+                        onChange={e => setSignature(e.target.value)}
                     />
                 </Col>
                 <Col size={1} margin='10px'>
