@@ -183,7 +183,7 @@ export const ApplicationForm = () => {
             <Button
                 variant='outlined'
                 onClick={onSubmit}
-                disabled={values.signature.length < 3}
+                disabled={signature.length < 3}
             >
                 Submit
             </Button>
@@ -238,9 +238,13 @@ export const ApplicationForm = () => {
                         <Agreement
                             currentStep={currentStep}
                             values={values}
+                            signature={signature}
+                            setSignature={setSignature}
                             agreementDate={agreementDate}
                             setAgreementDate={setAgreementDate}
                             handleInputChange={handleInputChange}
+                            value={signature}
+                            onChange={e => setSignature(e.target.value)}
                         />
                     </Col>
                 </Row>
