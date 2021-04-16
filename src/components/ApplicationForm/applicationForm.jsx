@@ -685,7 +685,7 @@ const Agreement = ({ currentStep, values, agreementDate, setAgreementDate, handl
                
                 {<input name="signature" value={values.signature} onChange={handleInputChange}/>}
                 {<input name="agreementDate" value={Date()} onChange={e => setAgreementDate(e.target.value)}/>}
-                {<button type="button" disabled={onSubmit()}>Button</button>}
+                {<button type="button" disabled={onSubmit}>Button</button>}
         </div>
     )
 }
