@@ -630,11 +630,8 @@ const Agreement = ({ currentStep, values, agreementDate, setAgreementDate, handl
     if (currentStep !== 4) {
         return null
     }
-    const { signature, date } = initialValues;
-    const isEnabled = signature.length > 0 && date.length > 0;
     return(
         <div className='Internship Agreement'>
-            <form onSubmit={this.handleSubmit}>
             <Row>
                 <Col size={1} margin='0 20px'>
                     <h2>Internship Agreement:</h2>
@@ -692,7 +689,6 @@ const Agreement = ({ currentStep, values, agreementDate, setAgreementDate, handl
                 {<input name="signature" value={values.signature} onChange={handleInputChange}/>}
                 {<input name="agreementDate" value={agreementDate} onChange={e => setAgreementDate(e.target.value)}/>}
                 {<button type="button" disabled={values.signature.length < 3} >Button</button>}
-            </form>
         </div>
     )
 }
