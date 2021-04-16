@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import {account, airplane, Hourglass, Manlogo, NWDoubleStackedGreen} from "assets";
 import {ApplicationForm} from "components";
 
+import AutoLogout from "../AutoLogout/AutoLogout";
 import Button from '@material-ui/core/Button';
 import { DataGrid } from '@material-ui/data-grid';
 import Dialog from '@material-ui/core/Dialog';
@@ -67,12 +68,12 @@ const StyledPanel = styled.div`
   .man-icon{
     height: 75px;
   }
-  
+
   .large-icon{
     height: 50px;
     padding-top: 1rem;
   }
-  
+
   .title {
     font-size: 1.2rem;
     margin-top: 0;
@@ -86,7 +87,7 @@ const StyledPanel = styled.div`
     .title {
       font-size: 1.1rem;
     }
-    
+
     .info {
       font-size: .9rem;
     }
@@ -128,6 +129,34 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible, username, appli
     const handleClose = () => {
         setOpen(false);
     };
+
+
+    const AutoLogOut = () => {
+        // 600 seconds => 10 minutes
+        const timer = AutoLogout(600)
+        // If timer is 0, logout the user
+        if(timer === 0){
+            sessionStorage.removeItem("token")
+            sessionStorage.removeItem("userID")
+            window.location.reload(true)
+        }
+        return (
+            <Dialog
+                // Only open dialog if timer is less than 30 seconds
+                open={timer < 30}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+            >
+                <DialogTitle id="auto-logout-dialog-title">Are You Still There?</DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                        <p>Move your mouse or click a key to avoid being logged out.</p>
+                        <p>You will be logged out in <b>{timer}</b> seconds</p>
+                    </DialogContentText>
+                </DialogContent>
+            </Dialog>
+        )
+    }
 
     const updateStatus = (status, appID, comment) => {
         console.log(status)
@@ -396,6 +425,8 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible, username, appli
 
     return (
         <>
+            {/* Call AutoLogOut function here */}
+            <AutoLogOut />
             <div className="dashboard__container" style={{left: isOpen ? '20%' : '3.5%', width: isOpen ? `calc(100% - 20%)` : `calc(100% - 3.5%)`}}>
                 <Row maxHeight='65px'>
                     <Col size={1} maxHeight='65px'>
