@@ -113,10 +113,7 @@ export const ApplicationForm = () => {
 
     const submitDate = new Date(),
         date = submitDate.getFullYear() + '-' + (submitDate.getMonth() + 1) + '-' + submitDate.getDate();
-    const handleSubmit = () => {
-        const { signature, date } = this.state;
-        alert(`Sign: ${signature} date: ${date}`);
-    }
+
     const onSubmit = () => {
         fetch(`/api/submit`, {
             method: "POST",
@@ -185,6 +182,7 @@ export const ApplicationForm = () => {
             <Button
                 variant='outlined'
                 onClick={onSubmit}
+                disabled={values.signature.length < 3}
             >
                 Submit
             </Button>
@@ -685,10 +683,6 @@ const Agreement = ({ currentStep, values, agreementDate, setAgreementDate, handl
                     </TextField>
                 </Col>
             </Row>
-               
-                {<input name="signature" value={values.signature} onChange={handleInputChange}/>}
-                {<input name="agreementDate" value={agreementDate} onChange={e => setAgreementDate(e.target.value)}/>}
-                {<button type="button" disabled={values.signature.length < 3} >Button</button>}
         </div>
     )
 }
