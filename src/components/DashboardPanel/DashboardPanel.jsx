@@ -173,6 +173,7 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible, username, appli
         const handleCommentChange = (e) => {
             set_comment(e.target.value)
         }
+        const CHAR_LIM = 250;
 
         return (
             <div>
@@ -229,6 +230,10 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible, username, appli
                                     multiline={true}
                                     rows={2}
                                     onChange={handleCommentChange}
+                                    inputProps={{
+                                        maxlength: CHAR_LIM
+                                    }}
+                                    helperText={`${comment.length}/${CHAR_LIM}`}
                                     fullWidth
                                 />
                             </>
