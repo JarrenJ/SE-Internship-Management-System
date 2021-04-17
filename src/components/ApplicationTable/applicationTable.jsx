@@ -6,78 +6,62 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import styled from "styled-components";
-import {Row, Col} from "../DashboardPanel/DashboardPanel"
-
-const Container = styled.div`
-  display: flex;
-`
-const DetailButton = styled.button`
-border-radius: 5px;
-padding: 10px;
-background-color: ${(props => props.bgColor ? props.bgColor : 'royalblue')};
-border: 1px solid ${(props => props.bgColor ? props.bgColor : 'royalblue')};
-color: ${(props => props.color ? props.color : 'white')};;
-cursor: pointer;
-`
-
-const DetailsRow = ({ label, info }) => {
-  console.log(info)
-  return (
-      <Row>
-          <Col size={1}>
-              {label}: {info}
-          </Col>
-      </Row>
-  )
-}
+import {Row, Col, DetailButton} from "../DashboardPanel/DashboardPanel"
+// import {DetailsDialog} from "components"
+// import {ActionsButtons} from "../DetailsDialog/detailsDialog"
 
 
-export function ApplicationTable({ role, isApplicationTableVisible, username, users, applications, internships, tableError}){
-    const [currentApplication, setCurrentApplication] = useState({"ApplicationID": 1, "StuID": "S528544", "FacID": "neloe", "InternID": 1})
-    const [open, setOpen] = React.useState(false);
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
+
+export function ApplicationTable({ role, isApplicationTableVisible, username, users, applications, internships, tableError, setOpen, open, setCurrentApplication, currentApplication, handleClose, handleClickOpen, ActionsButtons}){
     
-    const handleClose = () => {
-        setOpen(false);
-    };
-    const updateStatus = (status, appID) => {
-        console.log(status)
-        console.log(appID)
-        fetch('/api/updateStatus', {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            },
-            body: JSON.stringify({
-                "status": status,
-                "appID": appID
-            }),
-        }).then(r => window.location.reload(true))
-        handleClose()
-        }
-        
     const facultyColumns = [
-        { field: 'firstName', headerName: 'First name', width: 130, hide: true },
-        
-        // {field: 'major', headerName: 'Major', flex 1}
+        {field: 'studentName', headerName: 'Student Name', width: 150, hide: false},
+        {field: 'major', headerName: 'Major', width: 150, hide: false},
+        {field: 'startDate', headerName: 'Start Date', width: 125, hide: false},
+        {field: 'applicationDate', headerName: 'Application Date', width: 175, hide: false},
+        {field: 'applicationStatus', headerName: 'Status', width: 100, hide: false}
     ]
-    // let showappid = role === 'Student'; 
-    const getColumns = (roleColumns) => {
-        return (
+    const studentColumns = [
+        {field: 'employerName', headerName: 'Employer Name', width: 175, hide: false},
+        {field: 'startDate', headerName: 'Start Date', width: 125, hide: false},
+        {field: 'endDate', headerName: 'End Date', width: 125, hide: false},
+        {field: 'applicationDate', headerName: 'Application Date', width: 175, hide: false},
+        {field: 'applicationStatus', headerName: 'Status', width: 100, hide: false}
+    ]
+    const adminColumns = [
+        {field: 'studentName', headerName: 'Student Name', width: 150, hide: false},
+        {field: 'facultyName', headerName: 'Faculty Name', width: 150, hide: false},
+        {field: 'employerName', headerName: 'Employer Name', width: 175, hide: false},
+        {field: 'applicationDate', headerName: 'Application Date', width: 175, hide: false},
+        {field: 'applicationStatus', headerName: 'Status', width: 100, hide: false}
+    ]
+    const nonRoleColumns = [
+        {field: 'studentPersonalEmail', headerName: 'Student Email', width: 150, hide: true},
+        {field: 'studentPhone', headerName: 'Student Phone', width: 150, hide: true},
+        {field: 'studentAddress', headerName: 'Student Address', width: 175, hide: true},
+        {field: 'applicationDate', headerName: 'Application Date', width: 175, hide: true},
+        {field: 'applicationStatus', headerName: 'Status', width: 100, hide: true},
+        {field: 'employerName', headerName: 'Employer Name', width: 175, hide: true},
+        {field: 'employerAddress', headerName: 'Employer Address', width: 175, hide: true},
+        {field: 'startDate', headerName: 'Start Date', width: 125, hide: true},
+        {field: 'endDate', headerName: 'End Date', width: 125, hide: true},
+        {field: 'PointOfContact', headerName: 'Point Of Contact', width: 175, hide: true},
+        {field: 'employerEmail', headerName: 'Employer Email', width: 175, hide: true},
+        {field: 'employerPhone', headerName: 'Employer Phone', width: 175, hide: true},            
+    ]
+    let roles = []
+    if (role === 'Admin') {
+        roles = adminColumns
+    } else if (role === 'Faculty'){
+        roles = facultyColumns
+    } else if (role === 'Student'){
+        roles = studentColumns
+    }
+    const allColumns = new Set(roles, nonRoleColumns)
+    const getColumns = 
             [
-                { field: 'appID', headerName: 'Application ID', flex: 1, hide: true},
-                ...roleColumns,
-                { field: 'employerName', headerName: 'Employer Name', flex: 1 },
-                { field: 'startDate', headerName: 'Employment Start Date', flex: 1 },
-                { field: 'endDate', headerName: 'Employment End Date', flex: 1 },
-                {
-                    field: 'status',
-                    headerName: 'Status',
-                    flex: .5,
-                },
+                ...allColumns,
+                {field: 'appID', hide: true},
                 {
                     field: "",
                     headerName: "Action",
@@ -85,10 +69,11 @@ export function ApplicationTable({ role, isApplicationTableVisible, username, us
                     flex: 1,
                     disableClickEventBubbling: true,
                     renderCell: (params) => {
+                    // ActionsButtons(params, applications, setCurrentApplication, setOpen, handleClose,handleClickOpen)
                         const onClick = () => {
                             // Open DetailsDialog
                             handleClickOpen()
-                            console.log(applications[params.getValue("appID")])
+                            // console.log(applications[params.getValue("appID")])
                             setCurrentApplication(applications[params.getValue("appID")])
                         };
                         return (
@@ -108,17 +93,18 @@ export function ApplicationTable({ role, isApplicationTableVisible, username, us
                     }
                 }
             ]
-        )
-    }
+        
+    
     // applications.length > 0 &&
     const rows = Object.entries(applications).map((test, idx) => {
-        console.log(idx)
+        // console.log(idx)
         const app = test[1]
         
         return({
             id:idx,
             appID: app.ApplicationID, 
             studentName: `${users[app.StuID].FirstName} ${users[app.StuID].LastName}`,
+            major: `Jarren needs to add this`,
             studentPersonalEmail: users[app.StuID].PersonalEmail,
             studentPhone: users[app.StuID].Phone,
             studentAddress: users[app.StuID].StudentAddress,
@@ -136,69 +122,6 @@ export function ApplicationTable({ role, isApplicationTableVisible, username, us
         })
         
     })
-    console.log(rows)
-    const DetailsDialog = () => {
-        // const [open, setOpen] = React.useState(false);
-        //
-        // const handleClickOpen = () => {
-        //     setOpen(true);
-        // };
-        //
-        // const handleClose = () => {
-        //     setOpen(false);
-        // };
-      
-        return (
-                <div>
-                    {/*<Button variant="outlined" color="primary" onClick={handleClickOpen}>*/}
-                    {/*    Open alert dialog*/}
-                    {/*</Button>*/}
-                    <Dialog
-                        open={open}
-                        onClose={handleClose}
-                        aria-labelledby="alert-dialog-title"
-                        aria-describedby="alert-dialog-description"
-                        fullWidth
-                    >
-                        <DialogTitle id="alert-dialog-title">{"Details"}</DialogTitle>
-                        <DialogContent>
-                            <DialogContentText id="alert-dialog-description">
-                                <DetailsRow label="Student Name" info={`${users[currentApplication.StuID].FirstName} ${users[currentApplication.StuID].LastName}`}/>
-                                <DetailsRow label="Student Personal Email" info={ users[currentApplication.StuID].PersonalEmail}/>
-                                <DetailsRow label="Student Phone" info={ users[currentApplication.StuID].Phone}/>
-                                <DetailsRow label="Student Address" info={ users[currentApplication.StuID].StudentAddress}/>
-                                <DetailsRow label="Application Date" info={ currentApplication.ApplicationDate}/>
-                                <DetailsRow label="Application Status" info={ currentApplication.ApplicationStatus}/>
-                                <DetailsRow label="Faculty Name" info={`${users[currentApplication.FacID].FirstName} ${users[currentApplication.FacID].LastName}`}/>
-                                <DetailsRow label="Faculty Email" info={ users[currentApplication.FacID].PersonalEmail}/>
-                                <DetailsRow label="Employer Name" info={ internships[currentApplication.InternID].EmployerName}/>
-                                <DetailsRow label="Employer Address" info={ internships[currentApplication.InternID].EmployerAddress}/>
-                                <DetailsRow label="Start Date" info={ internships[currentApplication.InternID].StartDate.substr(0, internships[currentApplication.InternID].StartDate.indexOf('T'))}/>
-                                <DetailsRow label="End Date" info={ internships[currentApplication.InternID].EndDate.substr(0, internships[currentApplication.InternID].EndDate.indexOf('T'))}/>
-                                <DetailsRow label="Point Of Contact" info={ internships[currentApplication.InternID].PointOfContact}/>
-                                <DetailsRow label="Employer Email" info={ internships[currentApplication.InternID].EmployerEmail}/>
-                                <DetailsRow label="Employer Phone" info={ internships[currentApplication.InternID].EmployerPhone}/>
-                         </DialogContentText>
-                        </DialogContent>
-                        <DialogActions>
-                            {role !== 'Student' &&
-                                <>
-                                    <DetailButton bgColor='#4BB543' onClick={() => updateStatus('Approved', currentApplication.ApplicationID)}>
-                                        Approve
-                                    </DetailButton>
-                                    <DetailButton bgColor='#BD0037' onClick={() => updateStatus('Denied', currentApplication.ApplicationID)} autoFocus>
-                                        Deny
-                                    </DetailButton>
-                                </>
-                            }
-                            <DetailButton bgColor='gray' onClick={handleClose}>
-                                Close
-                            </DetailButton>
-                        </DialogActions>
-                    </Dialog>
-                </div>
-        );
-      }
     return(
         <>
             <Row>
@@ -208,14 +131,14 @@ export function ApplicationTable({ role, isApplicationTableVisible, username, us
             </Row>
                 <Row>
                     <Col size={1} bgColor='white' margin='0 20px' /*maxWidth='1200px' */>
-
+    
                         {/* Something went wrong -- code below -- currently breaks things*/}
-
+    
                         {/*<small style={{color: 'red'}}>{`${tableError.error}`}</small>*/}
                         {/*{console.log(tableError.error)}*/}
                         <DataGrid
                             rows={rows}
-                            columns={getColumns(facultyColumns)}
+                            columns={getColumns}
                             pageSize={5}
                             autoHeight
                             // disableExtendRowFullWidth
@@ -227,13 +150,11 @@ export function ApplicationTable({ role, isApplicationTableVisible, username, us
                         />
                     </Col>
                 </Row>
-            <Row>
+            {/* <Row>
                 <Col size={1}>
                     <DetailsDialog/>
                 </Col>
-            </Row>
+            </Row> */}
         </>
-    )
+       )
 }
-
-

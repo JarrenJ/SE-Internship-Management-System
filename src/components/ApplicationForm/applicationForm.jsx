@@ -130,6 +130,7 @@ export const ApplicationForm = () => {
                 }
             ),
         }).then(r => r)
+        
     }
 
     const handleInputChange = (e) => {

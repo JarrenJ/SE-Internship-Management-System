@@ -190,55 +190,55 @@ app.post('/api/submit', (req, res) => {
 //     }
 // )
 
-app.get('/api/getFullApplication/:applicationID', (req, res) => {
-        const applicationID = req.params.applicationID
-        const applications = []
-        console.log(applicationID)
-        connection.query(`SELECT * FROM Applications WHERE ApplicationID = ?`, [applicationID], (err, application) => {
-            if (err) { res.send(err) }
+// app.get('/api/getFullApplication/:applicationID', (req, res) => {
+//         const applicationID = req.params.applicationID
+//         const applications = []
+//         console.log(applicationID)
+//         connection.query(`SELECT * FROM Applications WHERE ApplicationID = ?`, [applicationID], (err, application) => {
+//             if (err) { res.send(err) }
 
-            if (application.length > 0) {
+//             if (application.length > 0) {
 
-                // console.log(application[0].InternID)
-                connection.query(`SELECT * FROM Internship WHERE InternshipID = ?`, [application[0].InternID], (err, internship) => {
-                    if (err) throw err;
+//                 // console.log(application[0].InternID)
+//                 connection.query(`SELECT * FROM Internship WHERE InternshipID = ?`, [application[0].InternID], (err, internship) => {
+//                     if (err) throw err;
                     
                     
 
-                    connection.query(`SELECT * FROM Users WHERE UserID = ?`, [application[0].StuID], (err, student) => {
-                        if (err) throw err;
-                        // console.log(student)
-                        connection.query(`SELECT * FROM Users WHERE UserID = ?`, [application[0].FacID], (err, faculty) => {
-                            if (err) throw err;
-                            // console.log(faculty)
-                            console.log("reached bottom")
-                            application.map(app => {
-                                internship.map(intern =>{
-                                    return({
+//                     connection.query(`SELECT * FROM Users WHERE UserID = ?`, [application[0].StuID], (err, student) => {
+//                         if (err) throw err;
+//                         // console.log(student)
+//                         connection.query(`SELECT * FROM Users WHERE UserID = ?`, [application[0].FacID], (err, faculty) => {
+//                             if (err) throw err;
+//                             // console.log(faculty)
+//                             console.log("reached bottom")
+//                             application.map(app => {
+//                                 internship.map(intern =>{
+//                                     return({
                                         
-                                    })
-                                })
-                            })
+//                                     })
+//                                 })
+//                             })
 
                             
-                            res.send({"applications": application, "internship": internship, "student": student, "faculty": faculty})
+//                             res.send({"applications": application, "internship": internship, "student": student, "faculty": faculty})
                         
-                        })
-                    })
-                })
+//                         })
+//                     })
+//                 })
 
-                // res.send(response)
-            } else {
-                res.statusMessage = "User / Application Not Found"
-                res.status(404)
-                res.send({ "applications": application })
-            }
+//                 // res.send(response)
+//             } else {
+//                 res.statusMessage = "User / Application Not Found"
+//                 res.status(404)
+//                 res.send({ "applications": application })
+//             }
 
 
-        })
+//         })
 
-    }
-)
+//     }
+// )
 app.get('/api/getFullApplications/:userRole/:userID', (req, res) => {
     const userID = req.params.userID
     if (req.params.userRole === 'Admin'){

@@ -10,6 +10,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import styled from "styled-components";
+import {DetailsDialog} from "../DetailsDialog/detailsDialog";
 
 import './DashboardPanel.css'
 import '../../colors.css'
@@ -51,7 +52,14 @@ export const Col = styled.div`
   margin: ${(props) => props.margin};
   //border: 5px solid black;
 `
-
+export const DetailButton = styled.button`
+border-radius: 5px;
+padding: 10px;
+background-color: ${(props => props.bgColor ? props.bgColor : 'royalblue')};
+border: 1px solid ${(props => props.bgColor ? props.bgColor : 'royalblue')};
+color: ${(props => props.color ? props.color : 'white')};;
+cursor: pointer;
+`
 const StyledPanel = styled.div`
   display: flex;
   height: 100%;
@@ -119,6 +127,41 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible, isApplicationTa
                                    activeInterns, outOfStateInterns }) {
 
     const [open, setOpen] = React.useState(false);
+    const [currentApplication, setCurrentApplication] = useState({"ApplicationID": 1, "StuID": "S528544", "FacID": "neloe", "InternID": 1})
+    console.log(currentApplication)
+    const ActionsButtons = (params, applications, role, setOpen, setCurrentApplication, handleClickOpen, handleClose) => {
+    
+        const onClick = () => {
+            // Open DetailsDialog
+            handleClickOpen()
+            console.log(applications[params.getValue("appID")])
+            setCurrentApplication(applications[params.getValue("appID")])
+        };
+        console.log(applications)
+        
+        return (
+            <div>
+                {role !== 'Student' &&
+                <DetailButton onClick={onClick}>
+                    Approve/Deny
+                </DetailButton>
+                }
+                {role == 'Student' &&
+                <DetailButton onClick={onClick}>
+                    Details
+                </DetailButton>
+                }
+                
+            </div>
+        );
+    }
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+    
+    const handleClose = () => {
+        setOpen(false);
+    };
     const initial_Comment = "";
                                 
     const DefaultStudentView = () => {
@@ -168,6 +211,13 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible, isApplicationTa
                                 applications={applications}
                                 internships={internships}
                                 tableError={tableError}
+                                setCurrentApplication={setCurrentApplication}
+                                currentApplication={currentApplication}
+                                open={open}
+                                setOpen={setOpen}
+                                handleClickOpen={handleClickOpen}
+                                handleClose={handleClose}
+                                ActionsButtons={ActionsButtons}
                             />
                         </Col>
                     </Row>
@@ -228,6 +278,21 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible, isApplicationTa
                         {<StudentView />}
                     </>
                 }
+                <Row>
+                <Col size={1}>
+                    <DetailsDialog
+                        applications={applications}
+                        internships={internships}
+                        role={role}
+                        users={users}
+                        currentApplication={{"ApplicationID": 1, "StuID": "S528544", "FacID": "neloe", "InternID": 1}}
+                        setCurrentApplication={setCurrentApplication}
+                        open={open}
+                        handleClose={handleClose}
+                        handleClickOpen={handleClickOpen}
+                    />
+                </Col>
+                </Row>
             </div>
         </>
     )}
