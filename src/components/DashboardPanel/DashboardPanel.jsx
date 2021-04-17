@@ -221,7 +221,7 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible, username, appli
                                 </Col>
                             </Row>
                         </DialogContentText>
-                        {role === "Student" &&
+                        {role !== "Student" &&
                             <>
                                 <TextField
                                     variant={"outlined"}
@@ -240,7 +240,7 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible, username, appli
                         }
                     </DialogContent>
                     <DialogActions>
-                        {role === 'Student' &&
+                        {role !== 'Student' &&
                             <>
                                 <DetailButton bgColor='#4BB543' onClick={() => updateStatus('Approved', applicationData.ID, comment)}>
                                     Approve
