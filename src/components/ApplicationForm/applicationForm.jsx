@@ -102,10 +102,10 @@ export const ApplicationForm = () => {
     }
 
     const [signature, setSignature] = useState(" ")
-    const [agreementDate, setAgreementDate] = useState("2021-05-1")
+    const [agreementDate, setAgreementDate] = useState(" ")
     const [currentStep, setCurrentStep] = useState(1)
-    const [startDate, setStartDate] = useState("2021-05-13")
-    const [endDate, setEndDate] = useState("2021-05-14")
+    const [startDate, setStartDate] = useState(" ")
+    const [endDate, setEndDate] = useState(" ")
     const [values, setValues] = useState(initialValues) //will store majority of the text box inputs
     const [comments, setComments] = useState('')
     const [stuAddress, setStuAddress] = useState(initialStuAddr);
@@ -182,7 +182,7 @@ export const ApplicationForm = () => {
             <Button
                 variant='outlined'
                 onClick={onSubmit}
-                disabled={signature.length < 3}
+                disabled={signature.length < 3, studentId.length < 1, instructorEmail.length < 3}
             >
                 Submit
             </Button>
