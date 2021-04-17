@@ -33,7 +33,7 @@ const DetailsRow = ({ label, info }) => {
 
 
 export function ApplicationTable({ role, isApplicationTableVisible, username, users, applications, internships, tableError}){
-    const [applicationData, setApplicationData] = useState({})
+    const [currentApplication, setCurrentApplication] = useState({"ApplicationID": 1, "StuID": "S528544", "FacID": "neloe", "InternID": 1})
     const [open, setOpen] = React.useState(false);
     const handleClickOpen = () => {
         setOpen(true);
@@ -58,6 +58,7 @@ export function ApplicationTable({ role, isApplicationTableVisible, username, us
         }).then(r => window.location.reload(true))
         handleClose()
         }
+        
     const facultyColumns = [
         { field: 'firstName', headerName: 'First name', width: 130, hide: true },
         
@@ -78,120 +79,64 @@ export function ApplicationTable({ role, isApplicationTableVisible, username, us
                     flex: .5,
                 },
                 {
-                field: "",
-                headerName: "Action",
-                sortable: false,
-                flex: 1,
-                disableClickEventBubbling: true,
-                renderCell: (params) => {
-                    const onClick = () => {
-                        // Open DetailsDialog
-                        handleClickOpen()
-                        const api = params.api;
-                        const fields = api
-                            .getAllColumns()
-                            .map((c) => c.field)
-                            .filter((c) => c !== "__check__" && !!c);
-                        const row = {};
-        
-                        fields.forEach((f) => {
-                            row[f] = params.getValue(f);
-                        });
-                        fetch(`/api/getFullApplication/${row.appID}`)
-                            .then(res => {
-                                if (res.ok) {
-                                    // api returned status 200, so we return the response
-                                    return res.json()
-                                } else {
-                                    // api returned code 400, so we throw an error to catch later
-                                    throw new Error('Something went wrong fetching your data...')
+                    field: "",
+                    headerName: "Action",
+                    sortable: false,
+                    flex: 1,
+                    disableClickEventBubbling: true,
+                    renderCell: (params) => {
+                        const onClick = () => {
+                            // Open DetailsDialog
+                            handleClickOpen()
+                            console.log(applications[params.getValue("appID")])
+                            setCurrentApplication(applications[params.getValue("appID")])
+                        };
+                        return (
+                            <div>
+                                {role !== 'Student' &&
+                                <DetailButton onClick={onClick}>
+                                    Approve/Deny
+                                </DetailButton>
                                 }
-                            })
-                            .then((data) => {
-                                setApplicationData({
-        
-                                    "ApplicationDate": data.applications[0].ApplicationDate,
-                                    "ApplicationID": data.applications[0].ApplicationID,
-                                    "ApplicationStatus": data.applications[0].ApplicationStatus,
-                                    "FacID": data.applications[0].FacID,
-                                    "InternID": data.applications[0].InternID,
-                                    "StuID": data.applications[0].StuID,
-        
-                                    "FacultyFirstName": data.faculty[0].LastName,
-                                    "FacultyLastName": data.faculty[0].FirstName,
-                                    "FacultyPersonalEmail": data.faculty[0].PersonalEmail,
-                                    "FacultyPhone": data.faculty[0].Phone,
-                                    "FacultyStudentAddress": data.faculty[0].StudentAddress,
-                                    "FacultyUserID": data.faculty[0].UserID,
-                                    "FacultyUserRole": data.faculty[0].UserRole,
-        
-                                    "EmployerAddress": data.internship[0].EmployerAddress,
-                                    "EmployerEmail": data.internship[0].EmployerEmail,
-                                    "EmployerName": data.internship[0].EmployerName,
-                                    "EmployerPhone": data.internship[0].EmployerPhone,
-                                    "InternshipID": data.internship[0].InternshipID,
-                                    "PointOfContact": data.internship[0].PointOfContact,
-                                    "StartDate": row.employmentStartDate,
-                                    "EndDate": row.employmentEndDate,
-        
-                                    "StudentFirstName": data.student[0].FirstName,
-                                    "StudentLastName": data.student[0].LastName,
-                                    "StudentPersonalEmail": data.student[0].PersonalEmail,
-                                    "StudentPhone": data.student[0].Phone,
-                                    "StudentAddress": data.student[0].StudentAddress,
-                                    "StudentUserID": data.student[0].UserID,
-                                    "StudentUserRole": data.student[0].UserRole
-                                })
-        
-                            })
-                            .catch((error) => {
-        
-                        });
-        
-                    };
-        
-                    return (
-                        <div>
-                            {role !== 'Student' &&
-                            <DetailButton onClick={onClick}>
-                                Approve/Deny
-                            </DetailButton>
-                            }
-                            {role == 'Student' &&
-                            <DetailButton onClick={onClick}>
-                                Details
-                            </DetailButton>
-                            }
-                        </div>
-                    );
-                }
+                                {role == 'Student' &&
+                                <DetailButton onClick={onClick}>
+                                    Details
+                                </DetailButton>
+                                }
+                            </div>
+                        );
+                    }
                 }
             ]
         )
     }
-    const rows = applications.length > 0 && applications.map((app, idx) => {
-        const studentName = `${users[app.StuID].FirstName} ${users[app.StuID].LastName}`
-        // const facultyName = `${users[app.FacID].FirstName} ${users[app.FacID].LastName}`
-        const cleanStartDate = internships[app.InternID].StartDate.substr(0, internships[app.InternID].StartDate.indexOf('T'));
-        const cleanEndDate = internships[app.InternID].EndDate.substr(0, internships[app.InternID].EndDate.indexOf('T'));
-        // console.log(results)
+    // applications.length > 0 &&
+    const rows = Object.entries(applications).map((test, idx) => {
+        console.log(idx)
+        const app = test[1]
+        
         return({
             id:idx,
             appID: app.ApplicationID, 
-            studentName: studentName,
-            // facultyName: facultyName,
-            employerName: internships[app.InternID].EmployerName,
-            startDate: cleanStartDate,
-            endDate: cleanEndDate,
+            studentName: `${users[app.StuID].FirstName} ${users[app.StuID].LastName}`,
+            studentPersonalEmail: users[app.StuID].PersonalEmail,
+            studentPhone: users[app.StuID].Phone,
+            studentAddress: users[app.StuID].StudentAddress,
             applicationDate: app.ApplicationDate,
-            status: app.ApplicationStatus
-
+            applicationStatus: app.ApplicationStatus,
+            facultyName: `${users[app.FacID].FirstName} ${users[app.FacID].LastName}`,
+            facultyEmail: users[app.FacID].PersonalEmail,
+            employerName: internships[app.InternID].EmployerName,
+            employerAddress: internships[app.InternID].EmployerAddress,
+            startDate: internships[app.InternID].StartDate.substr(0, internships[app.InternID].StartDate.indexOf('T')),
+            endDate: internships[app.InternID].EndDate.substr(0, internships[app.InternID].EndDate.indexOf('T')),
+            PointOfContact: internships[app.InternID].PointOfContact,
+            employerEmail: internships[app.InternID].EmployerEmail,
+            employerPhone: internships[app.InternID].EmployerPhone
         })
-        // return(
-        //     {id: idx, firstName: applicationData.StudentFirstName, lastName: applicationData.StudentLastName, appID: app.ApplicationID, employerName: internships.length > 0 && internships[idx].EmployerName, employmentStartDate: internships.length > 0 && cleanStartDate, employmentEndDate: internships.length > 0 && cleanEndDate, applicationDate: app.ApplicationDate, status: app.ApplicationStatus }
-        // )
-        // firstName: student.FirstName, lastName: student.LastName,
+        
     })
+    console.log(rows)
     const DetailsDialog = () => {
         // const [open, setOpen] = React.useState(false);
         //
@@ -218,33 +163,30 @@ export function ApplicationTable({ role, isApplicationTableVisible, username, us
                         <DialogTitle id="alert-dialog-title">{"Details"}</DialogTitle>
                         <DialogContent>
                             <DialogContentText id="alert-dialog-description">
-                                <DetailsRow label="Student" info={`${applicationData.StudentFirstName} ${applicationData.StudentLastName}`}/>
-                                <DetailsRow label="Student Personal Email" info={applicationData.StudentPersonalEmail}/>
-                                <DetailsRow label="Student Phone" info={applicationData.StudentPhone}/>
-                                <DetailsRow label="Student Address" info={applicationData.StudentAddress}/>
-                                <br />
-                                <DetailsRow label="Application Date" info={applicationData.ApplicationDate}/>
-                                <DetailsRow label="Application Status" info={applicationData.ApplicationStatus}/>
-                                <br />
-                                <DetailsRow label="Faculty" info={`${applicationData.FacultyFirstName} ${applicationData.FacultyLastName}`}/>
-                                <DetailsRow label="Faculty Email" info={applicationData.FacultyPersonalEmail}/>
-                                <br />  
-                                <DetailsRow label="Employer Name" info={applicationData.EmployerName}/>
-                                <DetailsRow label="Employer Address" info={applicationData.EmployerAddress}/>
-                                <DetailsRow label="Start Date" info={applicationData.StartDate}/>
-                                <DetailsRow label="End Date" info={applicationData.EndDate}/>
-                                <DetailsRow label="Point Of Contact" info={applicationData.PointOfContact}/>
-                                <DetailsRow label="Employer Email" info={applicationData.EmployerEmail}/>
-                                <DetailsRow label="Employer Phone" info={applicationData.EmployerPhone}/>
-                            </DialogContentText>
+                                <DetailsRow label="Student Name" info={`${users[currentApplication.StuID].FirstName} ${users[currentApplication.StuID].LastName}`}/>
+                                <DetailsRow label="Student Personal Email" info={ users[currentApplication.StuID].PersonalEmail}/>
+                                <DetailsRow label="Student Phone" info={ users[currentApplication.StuID].Phone}/>
+                                <DetailsRow label="Student Address" info={ users[currentApplication.StuID].StudentAddress}/>
+                                <DetailsRow label="Application Date" info={ currentApplication.ApplicationDate}/>
+                                <DetailsRow label="Application Status" info={ currentApplication.ApplicationStatus}/>
+                                <DetailsRow label="Faculty Name" info={`${users[currentApplication.FacID].FirstName} ${users[currentApplication.FacID].LastName}`}/>
+                                <DetailsRow label="Faculty Email" info={ users[currentApplication.FacID].PersonalEmail}/>
+                                <DetailsRow label="Employer Name" info={ internships[currentApplication.InternID].EmployerName}/>
+                                <DetailsRow label="Employer Address" info={ internships[currentApplication.InternID].EmployerAddress}/>
+                                <DetailsRow label="Start Date" info={ internships[currentApplication.InternID].StartDate.substr(0, internships[currentApplication.InternID].StartDate.indexOf('T'))}/>
+                                <DetailsRow label="End Date" info={ internships[currentApplication.InternID].EndDate.substr(0, internships[currentApplication.InternID].EndDate.indexOf('T'))}/>
+                                <DetailsRow label="Point Of Contact" info={ internships[currentApplication.InternID].PointOfContact}/>
+                                <DetailsRow label="Employer Email" info={ internships[currentApplication.InternID].EmployerEmail}/>
+                                <DetailsRow label="Employer Phone" info={ internships[currentApplication.InternID].EmployerPhone}/>
+                         </DialogContentText>
                         </DialogContent>
                         <DialogActions>
                             {role !== 'Student' &&
                                 <>
-                                    <DetailButton bgColor='#4BB543' onClick={() => updateStatus('Approved', applicationData.ID)}>
+                                    <DetailButton bgColor='#4BB543' onClick={() => updateStatus('Approved', currentApplication.ApplicationID)}>
                                         Approve
                                     </DetailButton>
-                                    <DetailButton bgColor='#BD0037' onClick={() => updateStatus('Denied', applicationData.ID)} autoFocus>
+                                    <DetailButton bgColor='#BD0037' onClick={() => updateStatus('Denied', currentApplication.ApplicationID)} autoFocus>
                                         Deny
                                     </DetailButton>
                                 </>

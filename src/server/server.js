@@ -247,11 +247,11 @@ app.get('/api/getFullApplications/:userRole/:userID', (req, res) => {
         internSQL = `SELECT * FROM Internship`
     } else if (req.params.userRole === 'Faculty'){
         applicationSQL = `SELECT * FROM Applications WHERE FacID = ?`
-        userSQL = `SELECT * FROM Users WHERE UserID = ?`
+        userSQL = `SELECT * FROM Users WHERE UserID IN (SELECT StuID FROM Applications WHERE FacID = ?) OR UserID = '${userID}'`
         internSQL = `SELECT * FROM Internship WHERE InternshipID IN (SELECT InternID FROM Applications WHERE FacID = ?)`
     } else if (req.params.userRole === 'Student'){
         applicationSQL = `SELECT * FROM Applications WHERE StuID = ?`
-        userSQL = `SELECT * FROM Users WHERE UserID = ?`
+        userSQL = `SELECT * FROM Users WHERE UserID IN (SELECT FacID FROM Applications WHERE StuID = ?) OR UserID = '${userID}'`
         internSQL = `SELECT * FROM Internship WHERE InternshipID IN (SELECT InternID FROM Applications WHERE StuID = ?)`
     }
     console.log(applicationSQL)
@@ -268,11 +268,12 @@ app.get('/api/getFullApplications/:userRole/:userID', (req, res) => {
                 connection.query(userSQL, [userID], (err, users) => {
                     if (err) throw err;
                     // console.log(student)
-                    
+
+                            let allApplications = Object.assign({}, ...application.map((x) => ({[x.ApplicationID]: x}))) 
                             let allInternships = Object.assign({}, ...internship.map((x) => ({[x.InternshipID]: x})))
                             let allUsers = Object.assign({}, ...users.map((x) => ({[x.UserID]: x})))  
-
-                        res.send({"applications": application, "internships": allInternships, "users": allUsers})
+                        console.log(allApplications)
+                        res.send({"applications": allApplications, "internships": allInternships, "users": allUsers})
                     
                     })
                 })

@@ -224,8 +224,8 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible, isApplicationTa
                     role === "Student"
                     &&
                     <>
-                        {applications.length === 0 && <DefaultStudentView />}
-                        {applications.length > 0 && <StudentView />}
+                        {<DefaultStudentView />}
+                        {<StudentView />}
                     </>
                 }
             </div>
