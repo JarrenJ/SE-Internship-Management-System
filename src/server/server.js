@@ -73,7 +73,9 @@ app.post('/api/submit', (req, res) => {
         empAddress,
         startDate,
         endDate,
-        submitDate
+        submitDate,
+        signature,
+        agreementDate
     } = req.body
 
     let userInsert = `
@@ -149,6 +151,9 @@ app.post('/api/submit', (req, res) => {
                 ID, //Get latest InternshipID
                 studentId,
                 facultyID, //FacultyID for now
+                signature,
+                agreementDate,
+                null,
             ]
         ]
 
