@@ -182,7 +182,10 @@ export const ApplicationForm = () => {
             <Button
                 variant='outlined'
                 onClick={onSubmit}
-                disabled={signature.length < 3, studentId.length < 1, instructorEmail.length < 3}
+                disabled={signature.length < 3}
+                disabled={studentId.length < 1}
+                disabled={instructorEmail.length < 3}
+                disabled={agreementDate.length <8}
             >
                 Submit
             </Button>
