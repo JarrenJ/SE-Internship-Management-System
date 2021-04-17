@@ -73,7 +73,6 @@ export const ApplicationForm = () => {
         employerEmail: "",
         employerPhone: "",
         comments: "",
-        signature: "",
     };
 
     const initialStuAddr = {
@@ -130,6 +129,7 @@ export const ApplicationForm = () => {
                     "startDate": startDate,
                     "endDate": endDate,
                     "submitDate": date,
+                    "signature": signature,
                     "agreementDate": agreementDate
                 }
             ),
@@ -182,7 +182,7 @@ export const ApplicationForm = () => {
             <Button
                 variant='outlined'
                 onClick={onSubmit}
-                disabled={((signature.length < 3) || (values.studentId < 3) || 
+                disabled={((signature.length < 3) || (values.studentId < 3) ||
                     (values.instructorEmail < 3) || (agreementDate.length < 1)) === true}
             >
                 Submit
@@ -243,7 +243,7 @@ export const ApplicationForm = () => {
                             agreementDate={agreementDate}
                             setAgreementDate={setAgreementDate}
                             handleInputChange={handleInputChange}
-                            
+
                         />
                     </Col>
                 </Row>
