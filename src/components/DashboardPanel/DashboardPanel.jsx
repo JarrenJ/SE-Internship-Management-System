@@ -13,6 +13,7 @@ import styled from "styled-components";
 
 import './DashboardPanel.css'
 import '../../colors.css'
+import {InputLabel, TextField} from "@material-ui/core";
 
 
 const Container = styled.div`
@@ -61,6 +62,7 @@ const StyledPanel = styled.div`
   color: ${(props) => props.color};
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
   border-left: 5px solid;
+  
 
   .man-icon{
     height: 75px;
@@ -111,11 +113,13 @@ const Panel = ({ color, title, info, image, imgClass }) => {
     )
 }
 
+
 export function DashboardPanel({ isOpen, role, isAppFormVisible, username, applications,
                                    internships, tableError, totalInterns, pendingApprovals,
                                    activeInterns, outOfStateInterns }) {
 
     const [open, setOpen] = React.useState(false);
+    const initial_Comment = "";
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -125,9 +129,10 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible, username, appli
         setOpen(false);
     };
 
-    const updateStatus = (status, appID) => {
+    const updateStatus = (status, appID, comment) => {
         console.log(status)
         console.log(appID)
+        console.log(comment)
         fetch('/api/updateStatus', {
             method: "POST",
             headers: {
@@ -136,9 +141,10 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible, username, appli
             },
             body: JSON.stringify({
                 "status": status,
-                "appID": appID
+                "appID": appID,
+                "comment": comment
             }),
-        }).then(r => window.location.reload(true))
+        }).then(() => window.location.reload(true))
         handleClose()
     }
 
@@ -163,6 +169,11 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible, username, appli
         // const handleClose = () => {
         //     setOpen(false);
         // };
+        const [comment, set_comment] = useState(initial_Comment);
+        const handleCommentChange = (e) => {
+            set_comment(e.target.value)
+        }
+        const CHAR_LIM = 250;
 
         return (
             <div>
@@ -210,14 +221,31 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible, username, appli
                                 </Col>
                             </Row>
                         </DialogContentText>
+                        {role !== "Student" &&
+                            <>
+                                <TextField
+                                    variant={"outlined"}
+                                    value={comment}
+                                    label={"Comments"}
+                                    multiline={true}
+                                    rows={2}
+                                    onChange={handleCommentChange}
+                                    inputProps={{
+                                        maxlength: CHAR_LIM
+                                    }}
+                                    helperText={`${comment.length}/${CHAR_LIM}`}
+                                    fullWidth
+                                />
+                            </>
+                        }
                     </DialogContent>
                     <DialogActions>
                         {role !== 'Student' &&
                             <>
-                                <DetailButton bgColor='#4BB543' onClick={() => updateStatus('Approved', applicationData.ID)}>
+                                <DetailButton bgColor='#4BB543' onClick={() => updateStatus('Approved', applicationData.ID, comment)}>
                                     Approve
                                 </DetailButton>
-                                <DetailButton bgColor='#BD0037' onClick={() => updateStatus('Denied', applicationData.ID)} autoFocus>
+                                <DetailButton bgColor='#BD0037' onClick={() => updateStatus('Denied', applicationData.ID, comment)}>
                                     Deny
                                 </DetailButton>
                             </>
@@ -271,6 +299,7 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible, username, appli
                         "ID": row.appID
                     })
                 };
+
 
                 return (
                     <div>
