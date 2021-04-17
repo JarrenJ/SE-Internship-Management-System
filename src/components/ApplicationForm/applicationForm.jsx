@@ -102,8 +102,6 @@ export const ApplicationForm = () => {
     }
 
     const [signature, setSignature] = useState(" ")
-    const [studentId, setStudentId] = useState(" ")
-    const [instructorEmail, setInstructorEmail] = useState(" ")
     const [agreementDate, setAgreementDate] = useState(" ")
     const [currentStep, setCurrentStep] = useState(1)
     const [startDate, setStartDate] = useState(" ")
@@ -213,8 +211,6 @@ export const ApplicationForm = () => {
                         <StudentInfo
                             currentStep={currentStep}
                             values={values}
-                            studentId={studentId}
-                            setStudentId={setStudentId}
                             stuAddress={stuAddress}
                             comments={comments}
                             setComments={setComments}
@@ -224,8 +220,6 @@ export const ApplicationForm = () => {
                         <InstructorInfo
                             currentStep={currentStep}
                             values={values}
-                            instructorEmail={instructorEmail}
-                            setInstructorEmail={setInstructorEmail}
                             handleInputChange={handleInputChange}
                         />
                         <EmployerInfo
