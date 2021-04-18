@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import Button from "@material-ui/core/Button";
 import TextField from '@material-ui/core/TextField';
 // import { Grid, Row, Col } from '../../pages/Home/home'
@@ -57,40 +57,115 @@ const Col = styled.div`
   //border: 5px solid black;
 `
 
-export const ApplicationForm = () => {
+// export const getInitial = ({currentApplication, applications, users, internships}) => {
+//     let initialValues = {}
+//     let initialStuAddr = {}
+//     let initialEmpAddr = {}
+//     let initialStartDate = ""
+//     let initialEndDate = ""
+//     let date = ""
+//     // let currentApplication = 'undefined'
+//     console.log(typeof currentApplication === undefined)
+//     // console.log(Object.values(currentApplication).length)
+//     // if (sessionStorage.getItem('app')){
+//     //     currentApplication = JSON.parse(sessionStorage.getItem('app'))
+//     // }
 
-    const initialValues = {
-        studentId: "",
-        studentFirstName: "",
-        studentLastName: "",
-        studentEmail: "",
-        studentPhoneNum: "",
-        instructorFirstName: "",
-        instructorLastName: "",
-        instructorEmail: "",
-        employerName: "",
-        primaryContactName: "",
-        employerEmail: "",
-        employerPhone: "",
-        comments: "",
-    };
+//     if (typeof currentApplication === 'undefined') {
+//         console.log(currentApplication)
+//         let initialValues = {
+//             studentId: "",
+//             studentFirstName: "",
+//             studentLastName: "",
+//             studentEmail: "",
+//             studentPhoneNum: "",
+//                 instructorFirstName: "",
+//                 instructorLastName: "",
+//                 instructorEmail: "",
+//                 employerName: "",
+//                 primaryContactName: "",
+//                 employerEmail: "",
+//                 employerPhone: "",
+//                 comments: "",
+//                 applicationID: null,
+//                 internshipID: null
+//             };
+            
+//             let initialStuAddr = {
+//                 line1: "",
+//                 line2: "",
+//                 city: "",
+//                 state: "",
+//                 zip: "",
+//             }
+            
+//             let initialEmpAddr = {
+//                 line1: "",
+//                 line2: "",
+//                 city: "",
+//                 state: "",
+//                 zip: "",
+//             }
+//             let submitDate = new Date(),
+//             date = submitDate.getFullYear() + '-' + (submitDate.getMonth() + 1) + '-' + submitDate.getDate();
+//             let initialStartDate = date
+//             let initialEndDate = date
+//             return (
+//                 {initialValues, initialStartDate, initialEndDate, initialEmpAddr, initialStuAddr, date}
+//         )
+//     } else {
+//         console.log(currentApplication)
+//         let initialValues = {
+//             studentId: currentApplication.StuID,
+//             studentFirstName: users[currentApplication.StuID].FirstName,
+//             studentLastName: users[currentApplication.StuID].LastName,
+//             studentEmail: users[currentApplication.StuID].PersonalEmail,
+//                 studentPhoneNum: users[currentApplication.StuID].Phone,
+//                 instructorFirstName: users[currentApplication.FacID].FirstName,
+//                 instructorLastName: users[currentApplication.FacID].LastName,
+//                 instructorEmail: users[currentApplication.FacID].PersonalEmail,
+//                 employerName: internships[currentApplication.InternID].EmployerName,
+//                 primaryContactName: internships[currentApplication.InternID].PointOfContact,
+//                 employerEmail: internships[currentApplication.InternID].EmployerEmail,
+//                 employerPhone: internships[currentApplication.InternID].EmployerPhone,
+//                 comments: "",
+//                 applicationID: currentApplication.ApplicationID,
+//                 internshipID: currentApplication
+//             }
+//             let studentAddress = users[currentApplication.StuID].StudentAddress.split(",")
+//             console.log(studentAddress)
+//             let initialStuAddr = {
+//                 line1: studentAddress[0],
+//                 line2: studentAddress[1],
+//                 city: studentAddress[2],
+//                 state: studentAddress[3],
+//                 zip: studentAddress[4],
+//             }
+//             let employerAddress = internships[currentApplication.InternID].EmployerAddress.split(",")
+//             let initialEmpAddr = {
+//                 line1: employerAddress[0],
+//                 line2: employerAddress[1],
+//                 city: employerAddress[2],
+//                 state: employerAddress[3],
+//                 zip: employerAddress[4],
+//             }
+//             let date = currentApplication.ApplicationDate
+//             let initialStartDate =  internships[currentApplication.InternID].StartDate.substr(0, internships[currentApplication.InternID].StartDate.indexOf('T'))
+//             let initialEndDate = internships[currentApplication.InternID].EndDate.substr(0, internships[currentApplication.InternID].EndDate.indexOf('T'))
+//             return (
+//                 {initialValues, initialStartDate, initialEndDate, initialEmpAddr, initialStuAddr, date}
+//             )
+//         }
+// }
+export function ApplicationForm({getInitial={getInitial}}) {
 
-    const initialStuAddr = {
-        line1: "",
-        line2: "",
-        city: "",
-        state: "",
-        zip: "",
-    }
+    // useEffect(() => {
+    //     console.log('LOADED')
+    //     // sessionStorage.removeItem('app')
+    // })
 
-    const initialEmpAddr = {
-        line1: "",
-        line2: "",
-        city: "",
-        state: "",
-        zip: "",
-    }
-
+    const {initialValues, initialStartDate, initialEndDate, initialEmpAddr, initialStuAddr, date} = getInitial()
+    console.log(initialValues)
     function submitClick() {
         alert("Form Submit")
         console.log(values)
@@ -101,15 +176,13 @@ export const ApplicationForm = () => {
     }
 
     const [currentStep, setCurrentStep] = useState(1)
-    const [startDate, setStartDate] = useState("2021-05-13")
-    const [endDate, setEndDate] = useState("2021-05-14")
+    const [startDate, setStartDate] = useState(initialStartDate)
+    const [endDate, setEndDate] = useState(initialEndDate)
     const [values, setValues] = useState(initialValues) //will store majority of the text box inputs
     const [comments, setComments] = useState('')
     const [stuAddress, setStuAddress] = useState(initialStuAddr);
     const [empAddress, setEmpAddress] = useState(initialEmpAddr);
 
-    const submitDate = new Date(),
-        date = submitDate.getFullYear() + '-' + (submitDate.getMonth() + 1) + '-' + submitDate.getDate();
 
     const onSubmit = () => {
         fetch(`/api/submit`, {
@@ -198,55 +271,62 @@ export const ApplicationForm = () => {
         }
         return null
     }
-
-    return (
-        <Container>
-            <Form>
-                <Row minHeight={'700px'}>
-                    <Col size={1}>
-                        <StudentInfo
-                            currentStep={currentStep}
-                            values={values}
-                            stuAddress={stuAddress}
-                            comments={comments}
-                            setComments={setComments}
-                            handleInputChange={handleInputChange}
-                            handleAddressChangeS={handleAddressChangeS}
-                        />
-                        <InstructorInfo
-                            currentStep={currentStep}
-                            values={values}
-                            handleInputChange={handleInputChange}
-                        />
-                        <EmployerInfo
-                            currentStep={currentStep}
-                            values={values}
-                            empAddress={empAddress}
-                            startDate={startDate}
-                            endDate={endDate}
-                            setStartDate={setStartDate}
-                            setEndDate={setEndDate}
-                            submitClick={submitClick}
-                            handleInputChange={handleInputChange}
-                            handleAddressChangeE={handleAddressChangeE}
-                        />
-                    </Col>
-                </Row>
-                <Row>
-                    <Col size={1} maxWidth={'100%'} margin={'0 30px'}>
-                        <div className='app__btns__container'>
-                            <div className='app__btn__prev'>
-                                {previousButton()}
+    if (typeof currentApplication !== undefined) {
+        return (
+            <Container>
+                <Form>
+                    <Row minHeight={'700px'}>
+                        <Col size={1}>
+                            <StudentInfo
+                                currentStep={currentStep}
+                                values={values}
+                                stuAddress={stuAddress}
+                                comments={comments}
+                                setComments={setComments}
+                                handleInputChange={handleInputChange}
+                                handleAddressChangeS={handleAddressChangeS}
+                            />
+                            <InstructorInfo
+                                currentStep={currentStep}
+                                values={values}
+                                handleInputChange={handleInputChange}
+                            />
+                            <EmployerInfo
+                                currentStep={currentStep}
+                                values={values}
+                                empAddress={empAddress}
+                                startDate={startDate}
+                                endDate={endDate}
+                                setStartDate={setStartDate}
+                                setEndDate={setEndDate}
+                                submitClick={submitClick}
+                                handleInputChange={handleInputChange}
+                                handleAddressChangeE={handleAddressChangeE}
+                            />
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col size={1} maxWidth={'100%'} margin={'0 30px'}>
+                            <div className='app__btns__container'>
+                                <div className='app__btn__prev'>
+                                    {previousButton()}
+                                </div>
+                                <div className='app__btn__next'>
+                                    {nextButton()}
+                                </div>
                             </div>
-                            <div className='app__btn__next'>
-                                {nextButton()}
-                            </div>
-                        </div>
-                    </Col>
-                </Row>
-            </Form>
-        </Container>
-    )
+                        </Col>
+                    </Row>
+                </Form>
+            </Container>
+        )
+    } else {
+        return(
+        <Row>
+            test
+        </Row>
+        )
+    }
 }
 
 const StudentInfo = ({ currentStep, values, handleInputChange, handleAddressChangeS, stuAddress, comments, setComments }) => {

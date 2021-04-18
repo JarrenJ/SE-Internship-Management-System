@@ -6,6 +6,7 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import styled from "styled-components";
 import {Row, Col, DetailButton} from "../DashboardPanel/DashboardPanel"
+import {ApplicationForm} from "components";
 
 // export const ActionsButtons = (params, applications, role, setOpen, setCurrentApplication, handleClickOpen, handleClose) => {
     
@@ -35,7 +36,7 @@ import {Row, Col, DetailButton} from "../DashboardPanel/DashboardPanel"
 //     );
 // }
 
-export function DetailsDialog ({handleClickOpen, handleClose, applications, internships, role, users, currentApplication, setCurrentApplication, open}) {
+export function DetailsDialog ({handleClickOpen, handleClose, applications, internships, role, users, currentApplication, setCurrentApplication, open, showAppForm, editApplication}) {
     const DetailsRow = ({ label, info }) => {
         return (
             <Row>
@@ -62,7 +63,8 @@ export function DetailsDialog ({handleClickOpen, handleClose, applications, inte
         }).then(r => window.location.reload(true))
         handleClose()
         }
-        console.log(currentApplication)
+    console.log(currentApplication)
+    
     if (typeof currentApplication === 'undefined') {
         return(
             <Dialog
@@ -100,6 +102,7 @@ export function DetailsDialog ({handleClickOpen, handleClose, applications, inte
                     fullWidth
                 >
                     <DialogTitle id="alert-dialog-title">{"Details"}</DialogTitle>
+
                     <DialogContent>
                         <DialogContentText id="alert-dialog-description">
                             <DetailsRow label="Student Name" info={`${users[currentApplication.StuID].FirstName} ${users[currentApplication.StuID].LastName}`}/>
@@ -129,6 +132,19 @@ export function DetailsDialog ({handleClickOpen, handleClose, applications, inte
                                     Deny
                                 </DetailButton>
                             </>
+                        }
+                        {role === 'Student' &&
+                            <DetailButton bgColor='gray' onClick={() => {
+                                // setCurrentApplication(applications[currentApplication.appID])
+                                // console.log(currentApplication)
+                                handleClose()
+                                showAppForm()
+                                
+                            }
+                            }>
+                            Edit Application
+                            </DetailButton>
+
                         }
                         <DetailButton bgColor='gray' onClick={handleClose}>
                             Close

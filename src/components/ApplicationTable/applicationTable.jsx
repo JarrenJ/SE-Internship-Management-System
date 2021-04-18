@@ -15,6 +15,7 @@ import {Row, Col, DetailButton} from "../DashboardPanel/DashboardPanel"
 export function ApplicationTable({ role, isApplicationTableVisible, username, users, applications, internships, tableError, setOpen, open, setCurrentApplication, currentApplication, handleClose, handleClickOpen, ActionsButtons}){
     
     let adminDefault = true
+    
     let facultyDefault = true
     let studentDefault = true
     if (role === 'Admin') {

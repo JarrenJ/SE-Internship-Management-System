@@ -9,7 +9,7 @@ const Dashboard = () => {
     const [isOpen, setIsOpen] = useState(true)
     const userID = sessionStorage.getItem("userID")
     const [isAppFormVisible, setIsAppFormVisible] = useState(false)
-    const [isApplicationTableVisible, setIsApplicationTableVisible] = useState(true)
+    const [isApplicationTableVisible, setIsApplicationTableVisible] = useState(false)
     const [tableError, setTableError] = useState({
         "error": new Error
     })
@@ -27,6 +27,7 @@ const Dashboard = () => {
     const [pendingApprovals, setPendingApprovals] = useState(0)
     const [activeInterns, setActiveInterns] = useState(0)
     const [outOfStateInterns, setOutOfStateInterns] = useState(0)
+    const [currentApplication, setCurrentApplication] = useState()
 
     useEffect(() => {
         fetch(`/api/getUser/${userID}`)
@@ -157,8 +158,11 @@ const Dashboard = () => {
                 activeInterns={activeInterns}
                 outOfStateInterns={outOfStateInterns}
                 isOpen={isOpen}
+                showAppForm={showAppForm}
                 isAppFormVisible={isAppFormVisible}
                 isApplicationTableVisible={isApplicationTableVisible}
+                currentApplication={currentApplication}
+                setCurrentApplication={setCurrentApplication}
             />}
         </>
     )

@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useCallback, useState, useReducer} from "react";
 import {account, airplane, Hourglass, Manlogo, NWDoubleStackedGreen} from "assets";
 import {ApplicationForm} from "components";
 
@@ -121,40 +121,168 @@ const Panel = ({ color, title, info, image, imgClass }) => {
         </StyledPanel>
     )
 }
-
+function fixCurrentApplication(state, action){
+    if (action === 0){
+        return undefined
+    } else{
+        return state
+    }
+}
 export function DashboardPanel({ isOpen, role, isAppFormVisible, isApplicationTableVisible, userID, users, applications,
                                    internships, tableError, totalInterns, pendingApprovals,
-                                   activeInterns, outOfStateInterns }) {
+                                   activeInterns, outOfStateInterns, showAppForm }) {
 
     const [open, setOpen] = React.useState(false);
     const [currentApplication, setCurrentApplication] = useState()
     console.log(currentApplication)
-    const ActionsButtons = (params, applications, role, setOpen, setCurrentApplication, handleClickOpen, handleClose) => {
+    const getInitial = () => {
+        let initialValues = {}
+        let initialStuAddr = {}
+        let initialEmpAddr = {}
+        let initialStartDate = ""
+        let initialEndDate = ""
+        let date = ""
+        // let currentApplication = 'undefined'
+        console.log(typeof currentApplication === 'undefined')
+        // console.log(Object.values(currentApplication).length)
+        // if (sessionStorage.getItem('app')){
+        //     currentApplication = JSON.parse(sessionStorage.getItem('app'))
+        // }
     
-        const onClick = () => {
-            // Open DetailsDialog
-            handleClickOpen()
-            console.log(applications[params.getValue("appID")])
-            setCurrentApplication(applications[params.getValue("appID")])
-        };
-        console.log(applications)
-        
-        return (
-            <div>
-                {role !== 'Student' &&
-                <DetailButton onClick={onClick}>
-                    Approve/Deny
-                </DetailButton>
-                }
-                {role == 'Student' &&
-                <DetailButton onClick={onClick}>
-                    Details
-                </DetailButton>
+        if (typeof currentApplication === 'undefined') {
+            console.log(currentApplication)
+            let initialValues = {
+                studentId: "",
+                studentFirstName: "",
+                studentLastName: "",
+                studentEmail: "",
+                studentPhoneNum: "",
+                    instructorFirstName: "",
+                    instructorLastName: "",
+                    instructorEmail: "",
+                    employerName: "",
+                    primaryContactName: "",
+                    employerEmail: "",
+                    employerPhone: "",
+                    comments: "",
+                    applicationID: null,
+                    internshipID: null
+                };
+                
+                let initialStuAddr = {
+                    line1: "",
+                    line2: "",
+                    city: "",
+                    state: "",
+                    zip: "",
                 }
                 
-            </div>
-        );
+                let initialEmpAddr = {
+                    line1: "",
+                    line2: "",
+                    city: "",
+                    state: "",
+                    zip: "",
+                }
+                let submitDate = new Date(),
+                date = submitDate.getFullYear() + '-' + (submitDate.getMonth() + 1) + '-' + submitDate.getDate();
+                let initialStartDate = date
+                let initialEndDate = date
+                console.log(initialValues)
+                return (
+                    {initialValues, initialStartDate, initialEndDate, initialEmpAddr, initialStuAddr, date}
+            )
+        } else {
+            console.log(currentApplication)
+            let initialValues = {
+                studentId: currentApplication.StuID,
+                studentFirstName: users[currentApplication.StuID].FirstName,
+                studentLastName: users[currentApplication.StuID].LastName,
+                studentEmail: users[currentApplication.StuID].PersonalEmail,
+                    studentPhoneNum: users[currentApplication.StuID].Phone,
+                    instructorFirstName: users[currentApplication.FacID].FirstName,
+                    instructorLastName: users[currentApplication.FacID].LastName,
+                    instructorEmail: users[currentApplication.FacID].PersonalEmail,
+                    employerName: internships[currentApplication.InternID].EmployerName,
+                    primaryContactName: internships[currentApplication.InternID].PointOfContact,
+                    employerEmail: internships[currentApplication.InternID].EmployerEmail,
+                    employerPhone: internships[currentApplication.InternID].EmployerPhone,
+                    comments: "",
+                    applicationID: currentApplication.ApplicationID,
+                    internshipID: currentApplication.InternID
+                }
+                let studentAddress = users[currentApplication.StuID].StudentAddress.split(",")
+                console.log(studentAddress)
+                let initialStuAddr = {
+                    line1: studentAddress[0],
+                    line2: studentAddress[1],
+                    city: studentAddress[2],
+                    state: studentAddress[3],
+                    zip: studentAddress[4],
+                }
+                let employerAddress = internships[currentApplication.InternID].EmployerAddress.split(",")
+                let initialEmpAddr = {
+                    line1: employerAddress[0],
+                    line2: employerAddress[1],
+                    city: employerAddress[2],
+                    state: employerAddress[3],
+                    zip: employerAddress[4],
+                }
+                let date = currentApplication.ApplicationDate
+                let initialStartDate =  internships[currentApplication.InternID].StartDate.substr(0, internships[currentApplication.InternID].StartDate.indexOf('T'))
+                let initialEndDate = internships[currentApplication.InternID].EndDate.substr(0, internships[currentApplication.InternID].EndDate.indexOf('T'))
+                console.log(initialValues)
+                return (
+                    {initialValues, initialStartDate, initialEndDate, initialEmpAddr, initialStuAddr, date}
+                )
+            }
     }
+    // const forceUpdate = useCallback(() => {
+    //     console.log('=== FORCED ===')
+    //     console.log(currentApplication)
+    //     if (typeof currentApplication === undefined){
+    //         setCurrentApplication()
+    //     } else{
+    //         setCurrentApplication(applications[currentApplication.appID])
+
+    //     }
+    // }, [])
+    // const ActionsButtons = (params, applications, role, setOpen, setCurrentApplication, handleClickOpen, handleClose) => {
+    
+    //     const onClick = () => {
+    //         // Open DetailsDialog
+    //         handleClickOpen()
+    //         console.log(applications[params.getValue("appID")])
+    //         setCurrentApplication(applications[params.getValue("appID")])
+    //     };
+    //     console.log(applications)
+        
+    //     return (
+    //         <div>
+    //             {role !== 'Student' &&
+    //             <DetailButton onClick={onClick}>
+    //                 Approve/Deny
+    //             </DetailButton>
+    //             }
+    //             {role == 'Student' &&
+    //             <DetailButton onClick={onClick}>
+    //                 Details
+    //             </DetailButton>
+    //             }
+                
+    //         </div>
+    //     );
+    // }
+    // const editApplication = () => {
+    //     handleClose()
+    //     console.log(currentApplication)
+    //     // setCurrentApplication(applications[currentApplication.appID])
+    //     console.log(currentApplication)
+    //     sessionStorage.setItem("app", JSON.stringify(currentApplication))
+    //     console.log(currentApplication)
+    //     // forceUpdate()
+    //     console.log(currentApplication)
+    // }
     const handleClickOpen = () => {
         setOpen(true);
     };
@@ -217,7 +345,7 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible, isApplicationTa
                                 setOpen={setOpen}
                                 handleClickOpen={handleClickOpen}
                                 handleClose={handleClose}
-                                ActionsButtons={ActionsButtons}
+                                // ActionsButtons={ActionsButtons}
                             />
                         </Col>
                     </Row>
@@ -269,18 +397,28 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible, isApplicationTa
                         </Row>
                     </>
                 }
-                {isAppFormVisible && <ApplicationForm /> }
+                {/* {isAppFormVisible && <ApplicationForm */}
+                {/* {isAppFormVisible && typeof currentApplication !== undefined && <ApplicationForm
+                    currentApplication={currentApplication}
+                    applications={applications}
+                    users={users}
+                    internships={internships} /> } */}
+                {isAppFormVisible && <ApplicationForm
+                getInitial={getInitial}
+                />}
                 {
                     role === "Student"
                     &&
                     <>
-                        {<DefaultStudentView />}
+                        {typeof applications === undefined &&<DefaultStudentView />}
                         {<StudentView />}
                     </>
                 }
                 <Row>
                 <Col size={1}>
                     <DetailsDialog
+                        handleClose={handleClose}
+                        handleClickOpen={handleClickOpen} 
                         applications={applications}
                         internships={internships}
                         role={role}
@@ -288,8 +426,11 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible, isApplicationTa
                         currentApplication={currentApplication}
                         setCurrentApplication={setCurrentApplication}
                         open={open}
-                        handleClose={handleClose}
-                        handleClickOpen={handleClickOpen}
+                        showAppForm={showAppForm}
+                        // setOpen={setOpen}
+                        // editApplication={editApplication}
+                        setCurrentApplication={setCurrentApplication}
+                        
                     />
                 </Col>
                 </Row>
