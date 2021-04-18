@@ -122,12 +122,12 @@ const Panel = ({ color, title, info, image, imgClass }) => {
     )
 }
 
-export function DashboardPanel({ isOpen, role, isAppFormVisible, isApplicationTableVisible, username, users, applications,
+export function DashboardPanel({ isOpen, role, isAppFormVisible, isApplicationTableVisible, userID, users, applications,
                                    internships, tableError, totalInterns, pendingApprovals,
                                    activeInterns, outOfStateInterns }) {
 
     const [open, setOpen] = React.useState(false);
-    const [currentApplication, setCurrentApplication] = useState({"ApplicationID": 1, "StuID": "S528544", "FacID": "neloe", "InternID": 1})
+    const [currentApplication, setCurrentApplication] = useState()
     console.log(currentApplication)
     const ActionsButtons = (params, applications, role, setOpen, setCurrentApplication, handleClickOpen, handleClose) => {
     
@@ -206,7 +206,7 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible, isApplicationTa
                             <ApplicationTable
                                 role={role}
                                 isApplicationTableVisible={isApplicationTableVisible}
-                                username={username}
+                                userID={userID}
                                 users={users}
                                 applications={applications}
                                 internships={internships}
@@ -233,7 +233,7 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible, isApplicationTa
                         <div className="dashboard__Header">
                             <img className='dashboard__profile__pic' src={ account } alt='account.png'/>
                             <div className="Header_Namebox">
-                                <p>{username}</p>
+                                <p>{userID}</p>
                             </div>
                         </div>
                     </Col>
@@ -285,7 +285,7 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible, isApplicationTa
                         internships={internships}
                         role={role}
                         users={users}
-                        currentApplication={{"ApplicationID": 1, "StuID": "S528544", "FacID": "neloe", "InternID": 1}}
+                        currentApplication={currentApplication}
                         setCurrentApplication={setCurrentApplication}
                         open={open}
                         handleClose={handleClose}

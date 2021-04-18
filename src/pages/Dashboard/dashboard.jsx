@@ -147,7 +147,7 @@ const Dashboard = () => {
             />
             {isLoaded && <DashboardPanel
                 role={user.role}
-                username={user.username}
+                userID={user.username}
                 users={users}
                 applications={applications}
                 internships={internships}

@@ -14,54 +14,35 @@ import {Row, Col, DetailButton} from "../DashboardPanel/DashboardPanel"
 
 export function ApplicationTable({ role, isApplicationTableVisible, username, users, applications, internships, tableError, setOpen, open, setCurrentApplication, currentApplication, handleClose, handleClickOpen, ActionsButtons}){
     
-    const facultyColumns = [
-        {field: 'studentName', headerName: 'Student Name', width: 150, hide: false},
-        {field: 'major', headerName: 'Major', width: 150, hide: false},
-        {field: 'startDate', headerName: 'Start Date', width: 125, hide: false},
-        {field: 'applicationDate', headerName: 'Application Date', width: 175, hide: false},
-        {field: 'applicationStatus', headerName: 'Status', width: 100, hide: false}
-    ]
-    const studentColumns = [
-        {field: 'employerName', headerName: 'Employer Name', width: 175, hide: false},
-        {field: 'startDate', headerName: 'Start Date', width: 125, hide: false},
-        {field: 'endDate', headerName: 'End Date', width: 125, hide: false},
-        {field: 'applicationDate', headerName: 'Application Date', width: 175, hide: false},
-        {field: 'applicationStatus', headerName: 'Status', width: 100, hide: false}
-    ]
-    const adminColumns = [
-        {field: 'studentName', headerName: 'Student Name', width: 150, hide: false},
-        {field: 'facultyName', headerName: 'Faculty Name', width: 150, hide: false},
-        {field: 'employerName', headerName: 'Employer Name', width: 175, hide: false},
-        {field: 'applicationDate', headerName: 'Application Date', width: 175, hide: false},
-        {field: 'applicationStatus', headerName: 'Status', width: 100, hide: false}
-    ]
-    const nonRoleColumns = [
-        {field: 'studentPersonalEmail', headerName: 'Student Email', width: 150, hide: true},
-        {field: 'studentPhone', headerName: 'Student Phone', width: 150, hide: true},
-        {field: 'studentAddress', headerName: 'Student Address', width: 175, hide: true},
-        {field: 'applicationDate', headerName: 'Application Date', width: 175, hide: true},
-        {field: 'applicationStatus', headerName: 'Status', width: 100, hide: true},
-        {field: 'employerName', headerName: 'Employer Name', width: 175, hide: true},
-        {field: 'employerAddress', headerName: 'Employer Address', width: 175, hide: true},
-        {field: 'startDate', headerName: 'Start Date', width: 125, hide: true},
-        {field: 'endDate', headerName: 'End Date', width: 125, hide: true},
-        {field: 'PointOfContact', headerName: 'Point Of Contact', width: 175, hide: true},
-        {field: 'employerEmail', headerName: 'Employer Email', width: 175, hide: true},
-        {field: 'employerPhone', headerName: 'Employer Phone', width: 175, hide: true},            
-    ]
-    let roles = []
+    let adminDefault = true
+    let facultyDefault = true
+    let studentDefault = true
     if (role === 'Admin') {
-        roles = adminColumns
+        adminDefault = false
     } else if (role === 'Faculty'){
-        roles = facultyColumns
+        facultyDefault = false
     } else if (role === 'Student'){
-        roles = studentColumns
+        studentDefault = false
     }
-    const allColumns = new Set(roles, nonRoleColumns)
-    const getColumns = 
+   
+    const columns = 
             [
-                ...allColumns,
                 {field: 'appID', hide: true},
+                {field: 'studentName', headerName: 'Student Name', width: 150, hide: facultyDefault && adminDefault},
+                {field: 'studentPersonalEmail', headerName: 'Student Email', width: 150, hide: true},
+                {field: 'studentPhone', headerName: 'Student Phone', width: 150, hide: true},
+                {field: 'studentAddress', headerName: 'Student Address', width: 175, hide: true},
+                {field: 'major', headerName: 'Major', width: 150, hide: facultyDefault},
+                {field: 'facultyName', headerName: 'Faculty Name', width: 150, hide: adminDefault},
+                {field: 'employerName', headerName: 'Employer Name', width: 175, hide: studentDefault},
+                {field: 'PointOfContact', headerName: 'Point Of Contact', width: 175, hide: true},
+                {field: 'employerEmail', headerName: 'Employer Email', width: 175, hide: true},
+                {field: 'employerPhone', headerName: 'Employer Phone', width: 175, hide: true},            
+                {field: 'employerAddress', headerName: 'Employer Address', width: 175, hide: true},
+                {field: 'startDate', headerName: 'Start Date', width: 125, hide: studentDefault && facultyDefault},
+                {field: 'endDate', headerName: 'End Date', width: 125, hide: studentDefault},
+                {field: 'applicationDate', headerName: 'Application Date', width: 175, hide: adminDefault && studentDefault && facultyDefault},
+                {field: 'applicationStatus', headerName: 'Status', width: 100, hide: adminDefault && studentDefault && facultyDefault},
                 {
                     field: "",
                     headerName: "Action",
@@ -138,7 +119,7 @@ export function ApplicationTable({ role, isApplicationTableVisible, username, us
                         {/*{console.log(tableError.error)}*/}
                         <DataGrid
                             rows={rows}
-                            columns={getColumns}
+                            columns={columns}
                             pageSize={5}
                             autoHeight
                             // disableExtendRowFullWidth

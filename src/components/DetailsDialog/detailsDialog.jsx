@@ -62,7 +62,31 @@ export function DetailsDialog ({handleClickOpen, handleClose, applications, inte
         }).then(r => window.location.reload(true))
         handleClose()
         }
-    
+        console.log(currentApplication)
+    if (typeof currentApplication === 'undefined') {
+        return(
+            <Dialog
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+                fullWidth
+            >
+                <DialogTitle id="alert-dialog-title">{"Details"}</DialogTitle>
+                <DialogContent>
+                <DialogContentText id="alert-dialog-description">
+                    Something went wrong and your data was not loaded
+                </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    
+                    <DetailButton bgColor='gray' onClick={handleClose}>
+                        Close
+                    </DetailButton>
+                </DialogActions>
+            </Dialog>
+        )
+    } else {
     return (
             <div>
                 {/*<Button variant="outlined" color="primary" onClick={handleClickOpen}>*/}
@@ -113,5 +137,5 @@ export function DetailsDialog ({handleClickOpen, handleClose, applications, inte
                 </Dialog>
             </div>
     )
-    
+    }
 }
