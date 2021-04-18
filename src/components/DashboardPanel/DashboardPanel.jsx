@@ -1,8 +1,7 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import {account, airplane, Hourglass, Manlogo, NWDoubleStackedGreen} from "assets";
-import {ApplicationForm} from "components";
+import { ApplicationForm, AutoLogOut } from "components";
 
-import Button from '@material-ui/core/Button';
 import { DataGrid } from '@material-ui/data-grid';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -67,12 +66,12 @@ const StyledPanel = styled.div`
   .man-icon{
     height: 75px;
   }
-  
+
   .large-icon{
     height: 50px;
     padding-top: 1rem;
   }
-  
+
   .title {
     font-size: 1.2rem;
     margin-top: 0;
@@ -86,7 +85,7 @@ const StyledPanel = styled.div`
     .title {
       font-size: 1.1rem;
     }
-    
+
     .info {
       font-size: .9rem;
     }
@@ -128,7 +127,7 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible, username, appli
     const handleClose = () => {
         setOpen(false);
     };
-
+    
     const updateStatus = (status, appID, comment) => {
         console.log(status)
         console.log(appID)
@@ -396,6 +395,8 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible, username, appli
 
     return (
         <>
+            {/* Call AutoLogOut function here */}
+            <AutoLogOut />
             <div className="dashboard__container" style={{left: isOpen ? '20%' : '3.5%', width: isOpen ? `calc(100% - 20%)` : `calc(100% - 3.5%)`}}>
                 <Row maxHeight='65px'>
                     <Col size={1} maxHeight='65px'>
