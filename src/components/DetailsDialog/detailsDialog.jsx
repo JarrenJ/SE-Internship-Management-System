@@ -90,14 +90,31 @@ export function DetailsDialog ({handleClose, internships, role, users, currentAp
                             <DetailsRow label="Employer Email" info={ internships[currentApplication.InternID].EmployerEmail}/>
                             <DetailsRow label="Employer Phone" info={ internships[currentApplication.InternID].EmployerPhone}/>
                         </DialogContentText>
+                        {role !== "Student" &&
+                            <>
+                                <TextField
+                                    variant={"outlined"}
+                                    value={comment}
+                                    label={"Comments"}
+                                    multiline={true}
+                                    rows={2}
+                                    onChange={handleCommentChange}
+                                    inputProps={{
+                                        maxlength: CHAR_LIM
+                                    }}
+                                    helperText={`${comment.length}/${CHAR_LIM}`}
+                                    fullWidth
+                                />
+                            </>
+                        }
                     </DialogContent>
                     <DialogActions>
                         {role !== 'Student' &&
                             <>
-                                <DetailButton bgColor='#4BB543' onClick={() => updateStatus('Approved', currentApplication.ApplicationID)}>
+                                <DetailButton bgColor='#4BB543' onClick={() => updateStatus('Approved', currentApplication.ApplicationID, comment)}>
                                     Approve
                                 </DetailButton>
-                                <DetailButton bgColor='#BD0037' onClick={() => updateStatus('Denied', currentApplication.ApplicationID)} autoFocus>
+                                <DetailButton bgColor='#BD0037' onClick={() => updateStatus('Denied', currentApplication.ApplicationID, comment)} autoFocus>
                                     Deny
                                 </DetailButton>
                             </>

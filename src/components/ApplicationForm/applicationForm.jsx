@@ -149,6 +149,8 @@ export function ApplicationForm({getInitial, hideAppForm}) {
             <Button
                 variant='outlined'
                 onClick={onSubmit}
+                disabled={((signature.length < 3) || (values.studentId < 3) || 
+                    (values.instructorEmail < 3) || (agreementDate.length < 1)) === true}
             >
                 Submit
             </Button>
