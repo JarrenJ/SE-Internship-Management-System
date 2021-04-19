@@ -190,7 +190,7 @@ app.post('/api/submit', (req, res) => {
                 facultyID,
                 signature,
                 agreementDate,
-                comments //FacultyID for now
+                comments 
             ]
         ]
         console.log(applicationValues)

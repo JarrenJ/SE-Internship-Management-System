@@ -63,6 +63,8 @@ export function ApplicationForm({getInitial, hideAppForm}) {
     const {initialValues, initialStartDate, initialEndDate, initialEmpAddr, initialStuAddr, date} = getInitial()
     console.log(initialValues)
 
+    const [signature, setSignature] = useState(" ")
+    const [agreementDate, setAgreementDate] = useState(" ")
     const [currentStep, setCurrentStep] = useState(1)
     const [startDate, setStartDate] = useState(initialStartDate)
     const [endDate, setEndDate] = useState(initialEndDate)
@@ -87,7 +89,9 @@ export function ApplicationForm({getInitial, hideAppForm}) {
                     "empAddress": `${empAddress.line1}, ${empAddress.line2}, ${empAddress.city}, ${empAddress.state}, ${empAddress.zip}`,
                     "startDate": startDate,
                     "endDate": endDate,
-                    "submitDate": date
+                    "submitDate": date,
+                    "signature": signature,
+                    "agreementDate": agreementDate
                 }
             ),
         }).then(r => r)
@@ -118,7 +122,7 @@ export function ApplicationForm({getInitial, hideAppForm}) {
     }
 
     const next = () => {
-        setCurrentStep(currentStep >= 2 ? 3 : currentStep + 1)
+        setCurrentStep(currentStep >= 3 ? 4 : currentStep + 1)
     }
 
     const previous = () => {
@@ -135,7 +139,7 @@ export function ApplicationForm({getInitial, hideAppForm}) {
         )
     }
     const nextButton = () => {
-        if (currentStep < 3) {
+        if (currentStep < 4) {
             return (
                 <Button
                     variant='outlined'
@@ -236,7 +240,11 @@ const StudentInfo = ({ currentStep, values, handleInputChange, handleAddressChan
     }
     return(
         <div className='student__info'>
-            <h2>Student Information:</h2>
+            <Row>
+                <Col size={1} margin='0 10px'>
+                    <h2>Student Information:</h2>
+                </Col>
+            </Row>
             <Row>
                 <Col size={1} margin={'10px'}>
                     <TextField
@@ -392,7 +400,11 @@ const InstructorInfo = ({ currentStep, values, handleInputChange }) => {
     }
     return(
         <div className='instructor__details'>
-            <h2>Instructor Details:</h2>
+            <Row>
+                <Col size={1} margin='0 10px'>
+                    <h2>Instructor Details:</h2>
+                </Col>
+            </Row>
             <Row>
                 <Col size={1} margin={'10px'}>
                     <TextField
@@ -438,154 +450,221 @@ const EmployerInfo = ({ currentStep, values, handleInputChange, handleAddressCha
     if (currentStep !== 3) {
         return null
     }
-    return(
+    return (
         <>
-        <div className='employer__details'>
-            <h2>Employer Information:</h2>
+            <div className='employer__details'>
+                <Row>
+                    <Col size={1} margin='0 10px'>
+                        <h2>Employer Information:</h2>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col size={1} margin={'10px'}>
+                        <TextField
+                            className='wide'
+                            id="normal"
+                            label='Employer Name'
+                            variant={'outlined'}
+                            value={values.employerName}
+                            onChange={handleInputChange}
+                            name={"employerName"}
+                        />
+                    </Col>
+                </Row>
+                <Row>
+                    <Col size={1} margin={'10px'}>
+                        <TextField
+                            className='wide'
+                            id="normal"
+                            label='Primary Contact Name'
+                            variant={"outlined"}
+                            value={values.primaryContactName}
+                            onChange={handleInputChange}
+                            name={"primaryContactName"}
+                        />
+                    </Col>
+                </Row>
+                <Row>
+                    <Col size={1} margin={'10px'}>
+                        <TextField
+                            className='wide'
+                            id="normal"
+                            label='Employer Email'
+                            variant={'outlined'}
+                            value={values.employerEmail}
+                            onChange={handleInputChange}
+                            name={"employerEmail"}
+                        />
+                    </Col>
+                    <Col size={1} margin={'10px'}>
+                        <TextField
+                            className='wide'
+                            id="normal"
+                            label='Employer Phone'
+                            variant={'outlined'}
+                            value={values.employerPhone}
+                            onChange={handleInputChange}
+                            name={"employerPhone"}
+                        />
+                    </Col>
+                </Row>
+                <Row>
+                    <Col size={1} margin={'10px'}>
+                        <TextField
+                            className='wide'
+                            id="normal"
+                            label='Address Line 1'
+                            variant='outlined'
+                            value={empAddress.line1}
+                            onChange={handleAddressChangeE}
+                            name={"line1"}
+                        />
+                    </Col>
+                </Row>
+                <Row>
+                    <Col size={1} margin={'10px'}>
+                        <TextField
+                            className='wide'
+                            id="normal"
+                            label='Address Line 2'
+                            variant='outlined'
+                            value={empAddress.line2}
+                            onChange={handleAddressChangeE}
+                            name={"line2"}
+                        />
+                    </Col>
+                </Row>
+                <Row>
+                    <Col size={1} margin={'10px'}>
+                        <TextField
+                            className='wide'
+                            id="normal"
+                            label='City'
+                            variant='outlined'
+                            value={empAddress.city}
+                            onChange={handleAddressChangeE}
+                            name={"city"}
+                        />
+                    </Col>
+                    <Col size={1} margin={'10px'}>
+                        <TextField
+                            className='wide'
+                            id="normal"
+                            label='State'
+                            variant='outlined'
+                            value={empAddress.state}
+                            onChange={handleAddressChangeE}
+                            name={"state"}
+                        />
+                    </Col>
+                    <Col size={1} margin={'10px'}>
+                        <TextField
+                            className='wide'
+                            id="normal"
+                            label='ZIP'
+                            variant='outlined'
+                            value={empAddress.zip}
+                            onChange={handleAddressChangeE}
+                            name={"zip"}
+                        />
+                    </Col>
+                </Row>
+                <Row>
+                    <Col size={1} margin={'10px'}>
+                        <TextField
+                            className='wide'
+                            id="date"
+                            label="Internship Start Date"
+                            type="date"
+                            variant='outlined'
+                            value={startDate}
+                            onChange={e => setStartDate(e.target.value)}
+                            InputLabelProps={{
+                                shrink: true,
+                            }}
+                        />
+                    </Col>
+                </Row>
+                <Row>
+                    <Col size={1} margin={'10px'}>
+                        <TextField
+                            className='wide'
+                            id="date"
+                            label="Internship End Date"
+                            type="date"
+                            variant='outlined'
+                            value={endDate}
+                            onChange={e => setEndDate(e.target.value)}
+                            InputLabelProps={{
+                                shrink: true,
+                            }}
+                        />
+                    </Col>
+                </Row>
+            </div>
+        </>
+    )
+}
+
+const Agreement = ({ currentStep, values, signature, setSignature, agreementDate, setAgreementDate, handleInputChange }) => {
+    if (currentStep !== 4) {
+        return null
+    }
+    return(
+        <div className='Internship Agreement'>
             <Row>
-                <Col size={1} margin={'10px'}>
-                    <TextField
-                        className='wide'
-                        id="normal"
-                        label='Employer Name'
-                        variant={'outlined'}
-                        value={values.employerName}
-                        onChange={handleInputChange}
-                        name={"employerName"}
-                    />
+                <Col size={1} margin='0 20px'>
+                    <h2>Internship Agreement:</h2>
                 </Col>
             </Row>
             <Row>
-                <Col size={1} margin={'10px'}>
-                    <TextField
-                        className='wide'
-                        id="normal"
-                        label='Primary Contact Name'
-                        variant={"outlined"}
-                        value={values.primaryContactName}
-                        onChange={handleInputChange}
-                        name={"primaryContactName"}
-                    />
+                <Col size={1} margin='0 30px'>
+                    <h3>The Student agrees to:</h3>
                 </Col>
             </Row>
             <Row>
-                <Col size={1} margin={'10px'}>
-                    <TextField
-                        className='wide'
-                        id="normal"
-                        label='Employer Email'
-                        variant={'outlined'}
-                        value={values.employerEmail}
-                        onChange={handleInputChange}
-                        name={"employerEmail"}
-                    />
-                </Col>
-                <Col size={1} margin={'10px'}>
-                    <TextField
-                        className='wide'
-                        id="normal"
-                        label='Employer Phone'
-                        variant={'outlined'}
-                        value={values.employerPhone}
-                        onChange={handleInputChange}
-                        name={"employerPhone"}
-                    />
+                <Col size='1' margin='0 35px'>
+                    <ul>
+                        <li>Do an honest day’s work,
+                            recognizing that the employer must profit
+                            from the student’s labor in order to justify providing the internship experience.</li>
+                        <li>Keep the employer’s interest in mind and be punctual, dependable, and loyal.</li>
+                        <li>Follow instructions, avoid unsafe acts, and be alert to unsafe conditions.</li>
+                        <li>Be courteous and considerate of the employer, co-workers, and customers.</li>
+                        <li>Do all jobs assigned to the best of one’s ability.</li>
+                        <li>Be alert to perform unassigned tasks which promote the welfare of the business.</li>
+                        <li>Notify the employer prior to any absence.</li>
+                        <li>Keep records of the work experience and complete all reports the school and employer require</li>
+                        <li>Report to the University Supervisor any problem, in regard to the training, prior to any termination</li>
+                    </ul>
                 </Col>
             </Row>
             <Row>
-                <Col size={1} margin={'10px'}>
+                <Col size={1} margin='10px'>
                     <TextField
+                        label="Student Signature"
                         className='wide'
-                        id="normal"
-                        label='Address Line 1'
+                        type="text"
                         variant='outlined'
-                        value={empAddress.line1}
-                        onChange={handleAddressChangeE}
-                        name={"line1"}
+                        value={signature}
+                        onChange={e => setSignature(e.target.value)}
                     />
                 </Col>
-            </Row>
-            <Row>
-                <Col size={1} margin={'10px'}>
+                <Col size={1} margin='10px'>
                     <TextField
+                        label="Date"
                         className='wide'
-                        id="normal"
-                        label='Address Line 2'
-                        variant='outlined'
-                        value={empAddress.line2}
-                        onChange={handleAddressChangeE}
-                        name={"line2"}
-                    />
-                </Col>
-            </Row>
-            <Row>
-                <Col size={1} margin={'10px'}>
-                    <TextField
-                        className='wide'
-                        id="normal"
-                        label='City'
-                        variant='outlined'
-                        value={empAddress.city}
-                        onChange={handleAddressChangeE}
-                        name={"city"}
-                    />
-                </Col>
-                <Col size={1} margin={'10px'}>
-                    <TextField
-                        className='wide'
-                        id="normal"
-                        label='State'
-                        variant='outlined'
-                        value={empAddress.state}
-                        onChange={handleAddressChangeE}
-                        name={"state"}
-                    />
-                </Col>
-                <Col size={1} margin={'10px'}>
-                    <TextField
-                        className='wide'
-                        id="normal"
-                        label='ZIP'
-                        variant='outlined'
-                        value={empAddress.zip}
-                        onChange={handleAddressChangeE}
-                        name={"zip"}
-                    />
-                </Col>
-            </Row>
-            <Row>
-                <Col size={1} margin={'10px'}>
-                    <TextField
-                        className='wide'
-                        id="date"
-                        label="Internship Start Date"
                         type="date"
                         variant='outlined'
-                        value={startDate}
-                        onChange={e => setStartDate(e.target.value)}
+                        value={agreementDate}
+                        onChange={e => setAgreementDate(e.target.value)}
                         InputLabelProps={{
                             shrink: true,
                         }}
-                    />
-                </Col>
-            </Row>
-            <Row>
-                <Col size={1} margin={'10px'}>
-                    <TextField
-                        className='wide'
-                        id="date"
-                        label="Internship End Date"
-                        type="date"
-                        variant='outlined'
-                        value={endDate}
-                        onChange={e => setEndDate(e.target.value)}
-                        InputLabelProps={{
-                            shrink: true,
-                        }}
-                    />
+                    >
+                    </TextField>
                 </Col>
             </Row>
         </div>
-    </>
     )
 }

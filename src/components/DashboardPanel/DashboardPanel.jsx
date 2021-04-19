@@ -13,7 +13,7 @@ import styled from "styled-components";
 
 import './DashboardPanel.css'
 import '../../colors.css'
-// import {InputLabel, TextField} from "@material-ui/core";
+import {InputLabel, TextField} from "@material-ui/core";
 
 
 const Container = styled.div`
@@ -74,12 +74,12 @@ const StyledPanel = styled.div`
   .man-icon{
     height: 75px;
   }
-  
+
   .large-icon{
     height: 50px;
     padding-top: 1rem;
   }
-  
+
   .title {
     font-size: 1.2rem;
     margin-top: 0;
@@ -93,7 +93,7 @@ const StyledPanel = styled.div`
     .title {
       font-size: 1.1rem;
     }
-    
+
     .info {
       font-size: .9rem;
     }
@@ -303,6 +303,8 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible, isApplicationTa
 
     return (
         <>
+            {/* Call AutoLogOut function here */}
+            <AutoLogOut />
             <div className="dashboard__container" style={{left: isOpen ? '20%' : '3.5%', width: isOpen ? `calc(100% - 20%)` : `calc(100% - 3.5%)`}}>
                 <Row maxHeight='65px'>
                     <Col size={1} maxHeight='65px'>
