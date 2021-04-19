@@ -113,7 +113,7 @@
     padding-left: 55%;
 }
 
-@media (max-width: 970px) {
+@media (max-width: 1024px) {
     .sidenav {
         display: none;
     }
