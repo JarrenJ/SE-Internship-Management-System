@@ -57,106 +57,7 @@ const Col = styled.div`
   //border: 5px solid black;
 `
 
-// export const getInitial = ({currentApplication, applications, users, internships}) => {
-//     let initialValues = {}
-//     let initialStuAddr = {}
-//     let initialEmpAddr = {}
-//     let initialStartDate = ""
-//     let initialEndDate = ""
-//     let date = ""
-//     // let currentApplication = 'undefined'
-//     console.log(typeof currentApplication === undefined)
-//     // console.log(Object.values(currentApplication).length)
-//     // if (sessionStorage.getItem('app')){
-//     //     currentApplication = JSON.parse(sessionStorage.getItem('app'))
-//     // }
 
-//     if (typeof currentApplication === 'undefined') {
-//         console.log(currentApplication)
-//         let initialValues = {
-//             studentId: "",
-//             studentFirstName: "",
-//             studentLastName: "",
-//             studentEmail: "",
-//             studentPhoneNum: "",
-//                 instructorFirstName: "",
-//                 instructorLastName: "",
-//                 instructorEmail: "",
-//                 employerName: "",
-//                 primaryContactName: "",
-//                 employerEmail: "",
-//                 employerPhone: "",
-//                 comments: "",
-//                 applicationID: null,
-//                 internshipID: null
-//             };
-            
-//             let initialStuAddr = {
-//                 line1: "",
-//                 line2: "",
-//                 city: "",
-//                 state: "",
-//                 zip: "",
-//             }
-            
-//             let initialEmpAddr = {
-//                 line1: "",
-//                 line2: "",
-//                 city: "",
-//                 state: "",
-//                 zip: "",
-//             }
-//             let submitDate = new Date(),
-//             date = submitDate.getFullYear() + '-' + (submitDate.getMonth() + 1) + '-' + submitDate.getDate();
-//             let initialStartDate = date
-//             let initialEndDate = date
-//             return (
-//                 {initialValues, initialStartDate, initialEndDate, initialEmpAddr, initialStuAddr, date}
-//         )
-//     } else {
-//         console.log(currentApplication)
-//         let initialValues = {
-//             studentId: currentApplication.StuID,
-//             studentFirstName: users[currentApplication.StuID].FirstName,
-//             studentLastName: users[currentApplication.StuID].LastName,
-//             studentEmail: users[currentApplication.StuID].PersonalEmail,
-//                 studentPhoneNum: users[currentApplication.StuID].Phone,
-//                 instructorFirstName: users[currentApplication.FacID].FirstName,
-//                 instructorLastName: users[currentApplication.FacID].LastName,
-//                 instructorEmail: users[currentApplication.FacID].PersonalEmail,
-//                 employerName: internships[currentApplication.InternID].EmployerName,
-//                 primaryContactName: internships[currentApplication.InternID].PointOfContact,
-//                 employerEmail: internships[currentApplication.InternID].EmployerEmail,
-//                 employerPhone: internships[currentApplication.InternID].EmployerPhone,
-//                 comments: "",
-//                 applicationID: currentApplication.ApplicationID,
-//                 internshipID: currentApplication
-//             }
-//             let studentAddress = users[currentApplication.StuID].StudentAddress.split(",")
-//             console.log(studentAddress)
-//             let initialStuAddr = {
-//                 line1: studentAddress[0],
-//                 line2: studentAddress[1],
-//                 city: studentAddress[2],
-//                 state: studentAddress[3],
-//                 zip: studentAddress[4],
-//             }
-//             let employerAddress = internships[currentApplication.InternID].EmployerAddress.split(",")
-//             let initialEmpAddr = {
-//                 line1: employerAddress[0],
-//                 line2: employerAddress[1],
-//                 city: employerAddress[2],
-//                 state: employerAddress[3],
-//                 zip: employerAddress[4],
-//             }
-//             let date = currentApplication.ApplicationDate
-//             let initialStartDate =  internships[currentApplication.InternID].StartDate.substr(0, internships[currentApplication.InternID].StartDate.indexOf('T'))
-//             let initialEndDate = internships[currentApplication.InternID].EndDate.substr(0, internships[currentApplication.InternID].EndDate.indexOf('T'))
-//             return (
-//                 {initialValues, initialStartDate, initialEndDate, initialEmpAddr, initialStuAddr, date}
-//             )
-//         }
-// }
 export function ApplicationForm({getInitial={getInitial}}) {
 
     // useEffect(() => {
@@ -347,6 +248,16 @@ const StudentInfo = ({ currentStep, values, handleInputChange, handleAddressChan
                         name={"studentId"}
                     />
                 </Col>
+                <Col size={1} margin={'10px'}>
+                    <TextField
+                        className='app__input__component'
+                        label='Major'
+                        variant={'outlined'}
+                        value={values.major}
+                        onChange={handleInputChange}
+                        name={"major"}
+                    />
+                </Col>
             </Row>
             <Row>
                 <Col size={1} margin={'10px'}>
@@ -457,7 +368,7 @@ const StudentInfo = ({ currentStep, values, handleInputChange, handleAddressChan
                     />
                 </Col>
             </Row>
-            <Row>
+            {/* <Row>
                 <Col size={1} margin={'10px'}>
                     <TextField
                         className='wide'
@@ -470,7 +381,7 @@ const StudentInfo = ({ currentStep, values, handleInputChange, handleAddressChan
                         onChange={(e) => setComments(e.target.value) }
                     />
                 </Col>
-            </Row>
+            </Row> */}
         </div>
     )
 }
@@ -494,8 +405,6 @@ const InstructorInfo = ({ currentStep, values, handleInputChange }) => {
                         name={'instructorFirstName'}
                     />
                 </Col>
-            </Row>
-            <Row>
                 <Col size={1} margin={'10px'}>
                     <TextField
                         className='wide'
