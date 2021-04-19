@@ -120,6 +120,17 @@ const Dashboard = () => {
         setIsAppFormVisible(!isAppFormVisible)
     }
 
+    // const [click, setClick] = useState(false);
+    // const [isMobileOpen, setIsMobileOpen] = useState('-100%')
+    //
+    // const handleMenuClick = () => {
+    //     console.log(click)
+    //     setClick(!click)
+    //     console.log(click)
+    //     setIsMobileOpen(click ? '-100%' :'0')
+    //     console.log(isOpen)
+    // }
+
     return(
         <>
             <SideNav
@@ -146,6 +157,7 @@ const Dashboard = () => {
                 outOfStateInterns={outOfStateInterns}
                 isOpen={isOpen}
                 isAppFormVisible={isAppFormVisible}
+                showAppForm={showAppForm}
             />}
         </>
     )

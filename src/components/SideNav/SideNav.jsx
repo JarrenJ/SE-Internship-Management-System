@@ -53,12 +53,12 @@ export function SideNav({role, handleClick, handleClose, closeSideNav, openSideN
 
     return(
         <div className='container'>
-            <MobileNav
-                role={role}
-                handleClick={handleClick}
-                down={down}
-                showAppForm={showAppForm}
-            />
+            {/*<MobileNav*/}
+            {/*    role={role}*/}
+            {/*    handleClick={handleClick}*/}
+            {/*    down={down}*/}
+            {/*    showAppForm={showAppForm}*/}
+            {/*/>*/}
             <div className='sidenav' style={{left: navOpen}}>
                 <div className='sidenav__logo'>
                     <img src={NWHorizontal2Color} alt='NW_Horizontal_2Color' />

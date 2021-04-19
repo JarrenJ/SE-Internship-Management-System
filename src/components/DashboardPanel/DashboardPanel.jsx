@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import {account, airplane, Hourglass, Manlogo, NWDoubleStackedGreen} from "assets";
-import { ApplicationForm, AutoLogOut } from "components";
+import { ApplicationForm, AutoLogOut, MobileNav } from "components";
 
 import { DataGrid } from '@material-ui/data-grid';
 import Dialog from '@material-ui/core/Dialog';
@@ -116,7 +116,7 @@ const Panel = ({ color, title, info, image, imgClass }) => {
 
 export function DashboardPanel({ isOpen, role, isAppFormVisible, username, applications,
                                    internships, tableError, totalInterns, pendingApprovals,
-                                   activeInterns, outOfStateInterns }) {
+                                   activeInterns, outOfStateInterns, showAppForm }) {
 
     const [open, setOpen] = React.useState(false);
     const initial_Comment = "";
@@ -400,6 +400,10 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible, username, appli
             <AutoLogOut />
             <div className="dashboard__container" style={{left: isOpen ? '20%' : '3.5%', width: isOpen ? `80%` : `96.5%`}}>
                 <Row maxHeight='65px'>
+                    <MobileNav
+                        role={role}
+                        showAppForm={showAppForm}
+                    />
                     <Col size={1} maxHeight='65px'>
                         <div className="dashboard__Header">
                             <img className='dashboard__profile__pic' src={ account } alt='account.png'/>

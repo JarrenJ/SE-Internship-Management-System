@@ -1,33 +1,32 @@
-import React, { useState } from "react";
-
-import './MobileNav.css'
+import React, {useState} from "react";
+import { Divide as Hamburger } from 'hamburger-react'
 import {Link} from "react-router-dom";
 
-export function MobileNav({role, handleClick, down, showAppForm}) {
+import './MobileNav.css'
+
+export function MobileNav({role, showAppForm}) {
     const [click, setClick] = useState(false);
-    const [isOpen, setIsOpen] = useState('-100%')
-    // const handleMenuClick = () => setClick(!click);
-    // const closeMobileMenu = () => setClick(false);
+    const [isMobileOpen, setIsMobileOpen] = useState('-100%')
 
     const handleMenuClick = () => {
         console.log(click)
         setClick(!click)
         console.log(click)
-        setIsOpen(click ? '-100%' :'0')
-        console.log(isOpen)
+        setIsMobileOpen(click ? '-100%' :'0')
+        console.log(isMobileOpen)
     }
 
     return(
         <>
             <div className='sidenav__hamburger__icon' onClick={handleMenuClick}>
-                <i className={click ? 'fas fa-times' : 'fas fa-bars'} />
+                <Hamburger size={30} color='#000000'/>
             </div>
 
-            <div className='sidenav__mobile__container' style={{left: isOpen}}>
+            <div className='sidenav__mobile__container' style={{left: isMobileOpen}}>
                 <div className='sidenav__mobile__links'>
                     {role !== 'Student' &&
                         <div className='sidenav__mobile__link'>
-                            <p className='sidenav__mobile__link' onClick={handleMenuClick}><i className="fas fa-tachometer-alt"/> Dashboard</p>
+                            <p onClick={handleMenuClick}><i className="fas fa-tachometer-alt"/> Dashboard</p>
                         </div>
                     }
                     {role === 'Admin' &&
@@ -38,7 +37,7 @@ export function MobileNav({role, handleClick, down, showAppForm}) {
                                 aria-haspopup="true"
                                 variant="contained"
                                 color="primary"
-                                onClick={handleClick}
+                                // onClick={handleClick}
                             >
                                 <i className="fas fa-folder"/> Reports
                                 {/*{*/}
@@ -52,7 +51,7 @@ export function MobileNav({role, handleClick, down, showAppForm}) {
                     {role === 'Student' &&
                         <>
                             <div className='sidenav__mobile__link'>
-                                <p className='sidenav__mobile__link' onClick={() => {
+                                <p onClick={() => {
                                     showAppForm()
                                     handleMenuClick()
                                 }}>
@@ -60,7 +59,7 @@ export function MobileNav({role, handleClick, down, showAppForm}) {
                                 </p>
                             </div>
                             <div className='sidenav__mobile__link'>
-                                <p className='sidenav__mobile__link'>
+                                <p>
                                     <i className="fas fa-folder-open" /> Check Status
                                 </p>
                             </div>
