@@ -113,7 +113,7 @@ const Panel = ({ color, title, info, image, imgClass }) => {
 
 export function DashboardPanel({ isOpen, role, isAppFormVisible, username, applications,
                                    internships, tableError, totalInterns, pendingApprovals,
-                                   activeInterns, outOfStateInterns }) {
+                                   activeInterns, outOfStateInterns, totalFacultyInterns, activeFacultyInterns, pendingFacultyApprovals}) {
 
     const [open, setOpen] = React.useState(false);
 
@@ -364,6 +364,51 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible, username, appli
             </>
         )
     }
+    const FacultyView = () => {
+        return (
+            <>
+                        <Row>
+                            <Col>
+                                <p className='dashboard__title'>Dashboard</p>
+                            </Col>
+                        </Row>
+                        <Row breakpoint='1024px'>
+                        <Col size={1} breakpoint='1024px' breakpointMargin='25px 0'>
+                                <Panel color='blue' info={totalFacultyInterns} title='Total Interns ' image={Manlogo} imgClass='man-icon' />
+                            </Col>
+                            <Col size={1} breakpoint='1024px' breakpointMargin='25px 0'>
+                                <Panel color='purple' info={activeFacultyInterns} title='Active Interns ' image={Manlogo} imgClass='man-icon' />
+                            </Col>
+                            {/* <Col size={1} breakpoint='1024px' breakpointMargin='25px 0'>
+                                <Panel color='blue' info={totalInterns} title='Current Semester Interens ' image={Manlogo} imgClass='man-icon' />
+                            </Col>
+                            <Col size={1} breakpoint='1024px' breakpointMargin='25px 0'>
+                                <Panel color='green' info={activeInterns} title='Previous Semester Interens' image={Manlogo} imgClass='man-icon' />
+                            </Col> */}
+                            <Col size={1} breakpoint='1024px' breakpointMargin='25px 0'>
+                                <Panel color='Green' info={pendingFacultyApprovals} title='Pending Approvals ' image={Hourglass} imgClass='large-icon' />
+                            </Col>
+                            <Col size={1} breakpoint='1024px' breakpointMargin='25px 0'>
+                                <Panel color='rgb(55, 165, 238)' info={pendingApprovals} title='In State' image={Manlogo} imgClass='man-icon' />
+                            </Col>
+                            <Col size={1} breakpoint='1024px' breakpointMargin='25px 0'>
+                                <Panel color='red' info={outOfStateInterns} title='Out of State' image={airplane} imgClass='large-icon'/>
+                            </Col>
+                        </Row>
+                        <Row breakpoint='1024px' margin='50px 0'>
+                            
+                        </Row>
+                        <Row>
+                            <Col size={1}>
+                                <div className='dashboard__Map_header'>
+                                    <p>Interns Map</p>
+                                </div>
+                                <div className='dashboard__Map' />
+                            </Col>
+                        </Row>
+                    </>
+        )
+    }
 
     return (
         <>
@@ -408,6 +453,9 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible, username, appli
                             </Col>
                         </Row>
                     </>
+                }
+                {
+                    role === "Faculty" && <FacultyView />
                 }
                 {isAppFormVisible && <ApplicationForm /> }
                 {

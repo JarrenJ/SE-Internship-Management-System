@@ -180,6 +180,63 @@ app.get('/api/getApplications/:user', (req, res) => {
     }
 )
 
+app.get('/api/getTotalFacultyInterns/:facID', (req, res) => {
+    const facID = req.params.facID
+    connection.query(`SELECT COUNT(ApplicationStatus) as 'TotalInterns' FROM Applications WHERE ApplicationStatus = 'Approved' AND FacID = ?`, [facID], (err, data) => {
+        if (err) { res.send(err) }
+        console.log("=======")
+        console.log(data[0].TotalInterns)
+        const totalInterns = data[0].TotalInterns
+        res.send({ totalInterns } )
+    })
+})
+
+app.get('/api/getTotalFacultyInternsActive/:facID', (req, res) => {
+    const facID = req.params.facID
+    const today = new Date(),
+        date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+    connection.query(`SELECT Applications.InternID, Internship.InternshipID, Internship.StartDate, Internship.EndDate FROM Applications INNER JOIN Internship ON Applications.InternID=Internship.InternshipID AND Applications.FacID = ? AND ApplicationStatus = 'Approved' AND Internship.StartDate <= ? AND Internship.EndDate >= ?`, [facID, date, date], (err, data) => {
+        if (err) { res.send(err) }
+        console.log(data)
+        // const totalInterns = data[0].TotalInterns
+        res.send({ "ActiveInterns": data.length } )
+    })
+})
+
+app.get('/api/getFacultyPendingApprovals/:facID', (req, res) => {
+    const facID = req.params.facID
+    connection.query(`SELECT COUNT(ApplicationStatus) as 'PendingApprovals' FROM Applications WHERE ApplicationStatus != 'Approved' AND FacID = ?`, [facID], (err, data) => {
+        if (err) { res.send(err) }
+        console.log(data[0].PendingApprovals)
+        const pendingApprovals = data[0].PendingApprovals
+        res.send({ pendingApprovals } )
+    })
+})
+
+app.get('/api/getFacultyOutOfStateInterns/:facID', (req, res) => {
+    const facID = req.params.facID
+    const today = new Date(),
+        date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+    connection.query(`SELECT Count(EndDate) as 'OutOfStateInterns' FROM Internship WHERE EndDate >= ? AND EmployerAddress NOT LIKE '%MO%' OR EmployerAddress NOT LIKE '%Missouri%'`, [date], (err, data) => {
+        if (err) { res.send(err) }
+        console.log(data[0].OutOfStateInterns)
+        const outOfStateInterns = data[0].OutOfStateInterns
+        res.send({ outOfStateInterns } )
+    })
+})
+
+app.get('/api/getFacultyInOfStateInterns/:facID', (req, res) => {
+    const facID = req.params.facID
+    const today = new Date(),
+        date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+    connection.query(`SELECT Count(EndDate) as 'InOfStateInterns' FROM Internship WHERE EndDate >= ? AND EmployerAddress LIKE '%MO%' OR EmployerAddress NOT LIKE '%Missouri%'`, [date], (err, data) => {
+        if (err) { res.send(err) }
+        console.log(data[0].InOfStateInterns)
+        const outOfStateInterns = data[0].OfStateInterns
+        res.send({ outOfStateInterns } )
+    })
+})
+
 app.get('/api/getTotalInterns', (req, res) => {
     connection.query(`SELECT COUNT(ApplicationStatus) as 'TotalInterns' FROM Applications WHERE ApplicationStatus = 'Approved'`, (err, data) => {
         if (err) { res.send(err) }

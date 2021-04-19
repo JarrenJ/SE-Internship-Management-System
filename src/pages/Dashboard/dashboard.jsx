@@ -26,6 +26,9 @@ const Dashboard = () => {
     const [activeInterns, setActiveInterns] = useState(0)
     const [outOfStateInterns, setOutOfStateInterns] = useState(0)
 
+    const [totalFacultyInterns, setTotalFacultyInterns] = useState(0)
+    const [activeFacultyInterns, setActiveFacultyInterns] = useState(0)
+    const [pendingFacultyApprovals, setPendingFacultyApprovals] = useState(0)
     useEffect(() => {
         fetch(`/api/getUser/${userID}`)
             .then(response => response.json())
@@ -94,6 +97,31 @@ const Dashboard = () => {
             })
     }, [])
 
+    useEffect(() => {
+        fetch(`/api/getTotalFacultyInterns/neloe`)
+            .then(response => response.json())
+            .then(data => {
+                setTotalFacultyInterns(data.totalInterns)
+            })
+    }, [totalFacultyInterns])
+
+    useEffect(() => {
+        fetch(`/api/getTotalFacultyInternsActive/neloe`)
+            .then(response => response.json())
+            .then(data => {
+                setActiveFacultyInterns(data.ActiveInterns)
+            })
+    }, [activeFacultyInterns])
+
+    useEffect(() => {
+        fetch(`/api/getFacultyPendingApprovals/neloe`)
+            .then(response => response.json())
+            .then(data => {
+                setPendingApprovals(data.pendingFacultyApprovals)
+            })
+    }, [pendingFacultyApprovals])
+
+
     const handleClick = (e) => {
         setDown(!down)
         setAnchorEl(e.currentTarget);
@@ -141,8 +169,11 @@ const Dashboard = () => {
                 internships={internships}
                 tableError={tableError}
                 totalInterns={totalInterns}
+                totalFacultyInterns={totalFacultyInterns}
                 pendingApprovals={pendingApprovals}
+                pendingFacultyApprovals={pendingFacultyApprovals}
                 activeInterns={activeInterns}
+                activeFacultyInterns={activeFacultyInterns}
                 outOfStateInterns={outOfStateInterns}
                 isOpen={isOpen}
                 isAppFormVisible={isAppFormVisible}
