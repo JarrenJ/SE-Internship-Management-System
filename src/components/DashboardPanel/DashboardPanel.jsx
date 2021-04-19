@@ -1,14 +1,7 @@
 import React, { useState } from "react";
 import {account, airplane, Hourglass, Manlogo, NWDoubleStackedGreen} from "assets";
-import {ApplicationForm, ApplicationTable, DetailsDialog, AutoLogOut} from "components";
+import { ApplicationForm, ApplicationTable, DetailsDialog, AutoLogOut, MobileNav } from 'components'
 
-// import Button from '@material-ui/core/Button';
-// import { DataGrid } from '@material-ui/data-grid';
-// import Dialog from '@material-ui/core/Dialog';
-// import DialogActions from '@material-ui/core/DialogActions';
-// import DialogContent from '@material-ui/core/DialogContent';
-// import DialogContentText from '@material-ui/core/DialogContentText';
-// import DialogTitle from '@material-ui/core/DialogTitle';
 import styled from "styled-components";
 
 import './DashboardPanel.css'
@@ -27,6 +20,7 @@ export const Row = styled.div`
   max-height: ${(props) => props.maxHeight};
   max-width: ${(props) => props.maxWidth};
   flex-direction: ${(props) => props.direction ? props.direction : 'row'} ;
+  flex-wrap: ${(props) => props.wrap ? 'wrap' : 'no-wrap'};
   @media (max-width: ${(props) => props.breakpoint}) {
     flex-direction: column;
     margin: ${(props) => props.breakpointMargin ? props.breakpointMargin : 0};
@@ -372,8 +366,12 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible, isApplicationTa
         <>
             {/* Call AutoLogOut function here */}
             <AutoLogOut />
-            <div className="dashboard__container" style={{left: isOpen ? '20%' : '3.5%', width: isOpen ? `calc(100% - 20%)` : `calc(100% - 3.5%)`}}>
+            <div className="dashboard__container" style={{left: isOpen ? '20%' : '3.5%', width: isOpen ? `80%` : `96.5%`}}>
                 <Row maxHeight='65px'>
+                    <MobileNav
+                        role={role}
+                        showAppForm={showAppForm}
+                    />
                     <Col size={1} maxHeight='65px'>
                         <div className="dashboard__Header">
                             <img className='dashboard__profile__pic' src={ account } alt='account.png'/>
@@ -390,17 +388,17 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible, isApplicationTa
                                 <p className='dashboard__title'>Dashboard</p>
                             </Col>
                         </Row>
-                        <Row breakpoint='1024px'>
-                            <Col size={1} breakpoint='1024px' breakpointMargin='25px 0'>
+                        <Row breakpoint='507px' wrap margin='0 0 0 -10px'>
+                            <Col size={1} breakpoint='1024px' breakpointMargin='25px 0' maxHeight='100px' minWidth='200px'>
                                 <Panel color='blue' info={totalInterns} title='Total Interns' image={Manlogo} imgClass='man-icon' />
                             </Col>
-                            <Col size={1} breakpoint='1024px' breakpointMargin='25px 0'>
+                            <Col size={1} breakpoint='1024px' breakpointMargin='25px 0' maxHeight='100px' minWidth='200px'>
                                 <Panel color='green' info={activeInterns} title='Active Internships' image={Manlogo} imgClass='man-icon' />
                             </Col>
-                            <Col size={1} breakpoint='1024px' breakpointMargin='25px 0'>
+                            <Col size={1} breakpoint='1024px' breakpointMargin='25px 0' maxHeight='100px' minWidth='200px'>
                                 <Panel color='rgb(55, 165, 238)' info={pendingApprovals} title='Pending Approvals' image={Hourglass} imgClass='large-icon' />
                             </Col>
-                            <Col size={1} breakpoint='1024px' breakpointMargin='25px 0'>
+                            <Col size={1} breakpoint='1024px' breakpointMargin='25px 0' maxHeight='100px' minWidth='200px'>
                                 <Panel color='red' info={outOfStateInterns} title='Out of State' image={airplane} imgClass='large-icon'/>
                             </Col>
                         </Row>

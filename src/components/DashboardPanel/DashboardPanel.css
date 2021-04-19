@@ -106,7 +106,7 @@
     Margin-left: 25px;
 }
 
-@media (max-width: 970px) {
+@media (max-width: 1024px) {
     .dashboard__container {
         left: 0 !important;
         width: 100% !important;
