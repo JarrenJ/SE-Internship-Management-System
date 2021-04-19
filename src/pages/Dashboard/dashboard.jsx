@@ -123,9 +123,14 @@ const Dashboard = () => {
     }
 
     const showAppForm = () => {
-        setIsAppFormVisible(!isAppFormVisible)
+        setIsAppFormVisible(true)
     }
-
+    const hideAppForm = () => {
+        setIsAppFormVisible(false)
+        setCurrentApplication(undefined)
+        console.log(currentApplication)
+    }
+    
     const showApplicationTable = () => {
         setIsApplicationTableVisible(!isApplicationTableVisible)
     }
@@ -142,9 +147,11 @@ const Dashboard = () => {
                 navOpen={navOpen}
                 anchorEl={anchorEl}
                 showAppForm={showAppForm}
+                hideAppForm={hideAppForm}
                 isAppFormVisible={isAppFormVisible}
                 showApplicationTable={showApplicationTable}
                 isApplicationTableVisible={isApplicationTableVisible}
+                setCurrentApplication={setCurrentApplication}
             />
             {isLoaded && <DashboardPanel
                 role={user.role}
@@ -159,6 +166,7 @@ const Dashboard = () => {
                 outOfStateInterns={outOfStateInterns}
                 isOpen={isOpen}
                 showAppForm={showAppForm}
+                hideAppForm={hideAppForm}
                 isAppFormVisible={isAppFormVisible}
                 isApplicationTableVisible={isApplicationTableVisible}
                 currentApplication={currentApplication}

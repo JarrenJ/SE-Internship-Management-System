@@ -4,39 +4,9 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import styled from "styled-components";
 import {Row, Col, DetailButton} from "../DashboardPanel/DashboardPanel"
-import {ApplicationForm} from "components";
 
-// export const ActionsButtons = (params, applications, role, setOpen, setCurrentApplication, handleClickOpen, handleClose) => {
-    
-//     // const [currentApplication, setCurrentApplication] = useState({"ApplicationID": 1, "StuID": "S528544", "FacID": "neloe", "InternID": 1})
-//     // const [open, setOpen] = useState(false);
-    
-//     const onClick = () => {
-//         // Open DetailsDialog
-//         handleClickOpen()
-//         console.log(applications[params.getValue("appID")])
-//         setCurrentApplication(applications[params.getValue("appID")])
-//     };
-//     return (
-//         <div>
-//             {role !== 'Student' &&
-//             <DetailButton onClick={onClick}>
-//                 Approve/Deny
-//             </DetailButton>
-//             }
-//             {role == 'Student' &&
-//             <DetailButton onClick={onClick}>
-//                 Details
-//             </DetailButton>
-//             }
-            
-//         </div>
-//     );
-// }
-
-export function DetailsDialog ({handleClickOpen, handleClose, applications, internships, role, users, currentApplication, setCurrentApplication, open, showAppForm, editApplication}) {
+export function DetailsDialog ({handleClose, internships, role, users, currentApplication, detailsDialogOpen, showAppForm}) {
     const DetailsRow = ({ label, info }) => {
         return (
             <Row>
@@ -63,12 +33,11 @@ export function DetailsDialog ({handleClickOpen, handleClose, applications, inte
         }).then(r => window.location.reload(true))
         handleClose()
         }
-    console.log(currentApplication)
     
     if (typeof currentApplication === 'undefined') {
         return(
             <Dialog
-                open={open}
+                open={detailsDialogOpen}
                 onClose={handleClose}
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
@@ -92,10 +61,10 @@ export function DetailsDialog ({handleClickOpen, handleClose, applications, inte
     return (
             <div>
                 {/*<Button variant="outlined" color="primary" onClick={handleClickOpen}>*/}
-                {/*    Open alert dialog*/}
+                {/*    detailsDialogOpen alert dialog*/}
                 {/*</Button>*/}
                 <Dialog
-                    open={open}
+                    open={detailsDialogOpen}
                     onClose={handleClose}
                     aria-labelledby="alert-dialog-title"
                     aria-describedby="alert-dialog-description"

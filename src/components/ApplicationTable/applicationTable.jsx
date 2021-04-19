@@ -7,12 +7,10 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import styled from "styled-components";
 import {Row, Col, DetailButton} from "../DashboardPanel/DashboardPanel"
-// import {DetailsDialog} from "components"
-// import {ActionsButtons} from "../DetailsDialog/detailsDialog"
 
 
 
-export function ApplicationTable({ role, isApplicationTableVisible, username, users, applications, internships, tableError, setOpen, open, setCurrentApplication, currentApplication, handleClose, handleClickOpen, ActionsButtons}){
+export function ApplicationTable({ role, users, applications, internships, tableError, setCurrentApplication, handleClickOpen}){
     
     let adminDefault = true
     
@@ -51,7 +49,6 @@ export function ApplicationTable({ role, isApplicationTableVisible, username, us
                     flex: 1,
                     disableClickEventBubbling: true,
                     renderCell: (params) => {
-                    // ActionsButtons(params, applications, setCurrentApplication, setOpen, handleClose,handleClickOpen)
                         const onClick = () => {
                             // Open DetailsDialog
                             handleClickOpen()
@@ -132,11 +129,6 @@ export function ApplicationTable({ role, isApplicationTableVisible, username, us
                         />
                     </Col>
                 </Row>
-            {/* <Row>
-                <Col size={1}>
-                    <DetailsDialog/>
-                </Col>
-            </Row> */}
         </>
        )
 }

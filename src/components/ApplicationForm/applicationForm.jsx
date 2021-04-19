@@ -58,23 +58,10 @@ const Col = styled.div`
 `
 
 
-export function ApplicationForm({getInitial={getInitial}}) {
-
-    // useEffect(() => {
-    //     console.log('LOADED')
-    //     // sessionStorage.removeItem('app')
-    // })
+export function ApplicationForm({getInitial, hideAppForm}) {
 
     const {initialValues, initialStartDate, initialEndDate, initialEmpAddr, initialStuAddr, date} = getInitial()
     console.log(initialValues)
-    function submitClick() {
-        alert("Form Submit")
-        console.log(values)
-        console.log(stuAddress)
-        console.log(empAddress)
-        console.log(startDate)
-        console.log(endDate)
-    }
 
     const [currentStep, setCurrentStep] = useState(1)
     const [startDate, setStartDate] = useState(initialStartDate)
@@ -104,7 +91,7 @@ export function ApplicationForm({getInitial={getInitial}}) {
                 }
             ),
         }).then(r => r)
-        
+        hideAppForm()
     }
 
     const handleInputChange = (e) => {
@@ -137,7 +124,16 @@ export function ApplicationForm({getInitial={getInitial}}) {
     const previous = () => {
         setCurrentStep(currentStep <= 1 ? 1 : currentStep - 1)
     }
-
+    const closeButton = () => {
+        return(
+            <Button
+                    variant='outlined'
+                    onClick={hideAppForm}
+                >
+                    Close
+                </Button>
+        )
+    }
     const nextButton = () => {
         if (currentStep < 3) {
             return (
@@ -200,7 +196,6 @@ export function ApplicationForm({getInitial={getInitial}}) {
                                 endDate={endDate}
                                 setStartDate={setStartDate}
                                 setEndDate={setEndDate}
-                                submitClick={submitClick}
                                 handleInputChange={handleInputChange}
                                 handleAddressChangeE={handleAddressChangeE}
                             />
@@ -214,6 +209,9 @@ export function ApplicationForm({getInitial={getInitial}}) {
                                 </div>
                                 <div className='app__btn__next'>
                                     {nextButton()}
+                                </div>
+                                <div className='app__btn__close'>
+                                    {closeButton()}
                                 </div>
                             </div>
                         </Col>

@@ -120,13 +120,13 @@ const Panel = ({ color, title, info, image, imgClass }) => {
     )
 }
 
-export function DashboardPanel({ isOpen, role, isAppFormVisible, isApplicationTableVisible, userID, users, applications,
-                                   internships, tableError, totalInterns, pendingApprovals,
-                                   activeInterns, outOfStateInterns, showAppForm }) {
+export function DashboardPanel({ isOpen, role, isAppFormVisible, isApplicationTableVisible, 
+                                userID, users, applications,
+                                internships, tableError, totalInterns, pendingApprovals,
+                                activeInterns, outOfStateInterns, showAppForm, hideAppForm, 
+                                currentApplication, setCurrentApplication }) {
 
-    const [open, setOpen] = React.useState(false);
-    const [currentApplication, setCurrentApplication] = useState()
-    console.log(currentApplication)
+    const [detailsDialogOpen, setDetailsDialogOpen] = React.useState(false);
     const getInitial = () => {
 
         if (typeof currentApplication === 'undefined') {
@@ -224,15 +224,13 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible, isApplicationTa
         }
     }
     const handleClickOpen = () => {
-        setOpen(true);
+        setDetailsDialogOpen(true);
     };
     
     const handleClose = () => {
-        setOpen(false);
+        setDetailsDialogOpen(false);
     };
 
-    // const initial_Comment = "";
-                                
     const DefaultStudentView = () => {
         return(
             <>
@@ -274,19 +272,28 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible, isApplicationTa
                         <Col size={1} bgColor='transparent' margin='0 20px' /*maxWidth='1200px' */>
                             <ApplicationTable
                                 role={role}
-                                isApplicationTableVisible={isApplicationTableVisible}
-                                userID={userID}
                                 users={users}
                                 applications={applications}
                                 internships={internships}
                                 tableError={tableError}
                                 setCurrentApplication={setCurrentApplication}
-                                currentApplication={currentApplication}
-                                open={open}
-                                setOpen={setOpen}
                                 handleClickOpen={handleClickOpen}
+                            />
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col size={1}>
+                            <DetailsDialog
                                 handleClose={handleClose}
-                                // ActionsButtons={ActionsButtons}
+                                applications={applications}
+                                internships={internships}
+                                role={role}
+                                users={users}
+                                currentApplication={currentApplication}
+                                setCurrentApplication={setCurrentApplication}
+                                detailsDialogOpen={detailsDialogOpen}
+                                showAppForm={showAppForm}
+                                setCurrentApplication={setCurrentApplication}
                             />
                         </Col>
                     </Row>
@@ -338,13 +345,9 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible, isApplicationTa
                         </Row>
                     </>
                 }
-                {/* {isAppFormVisible && <ApplicationForm */}
-                {/* {isAppFormVisible && typeof currentApplication !== undefined && <ApplicationForm
-                    currentApplication={currentApplication}
-                    applications={applications}
-                    users={users}
-                    internships={internships} /> } */}
-                {isAppFormVisible && <ApplicationForm getInitial={getInitial}/>}
+                {isAppFormVisible && <ApplicationForm 
+                    getInitial={getInitial}
+                    hideAppForm={hideAppForm}/>}
                 {
                     role === "Student"
                     &&
@@ -353,26 +356,7 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible, isApplicationTa
                         {<StudentView />}
                     </>
                 }
-                <Row>
-                <Col size={1}>
-                    <DetailsDialog
-                        handleClose={handleClose}
-                        handleClickOpen={handleClickOpen} 
-                        applications={applications}
-                        internships={internships}
-                        role={role}
-                        users={users}
-                        currentApplication={currentApplication}
-                        setCurrentApplication={setCurrentApplication}
-                        open={open}
-                        showAppForm={showAppForm}
-                        // setOpen={setOpen}
-                        // editApplication={editApplication}
-                        setCurrentApplication={setCurrentApplication}
-                        
-                    />
-                </Col>
-                </Row>
+                
             </div>
         </>
     )}
