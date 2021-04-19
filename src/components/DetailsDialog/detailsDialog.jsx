@@ -5,6 +5,8 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import {Row, Col, DetailButton} from "../DashboardPanel/DashboardPanel"
+import {InputLabel, TextField} from "@material-ui/core";
+
 
 export function DetailsDialog ({handleClose, internships, role, users, currentApplication, detailsDialogOpen, showAppForm}) {
     const DetailsRow = ({ label, info }) => {
@@ -33,7 +35,11 @@ export function DetailsDialog ({handleClose, internships, role, users, currentAp
         }).then(r => window.location.reload(true))
         handleClose()
         }
-    
+    const [comment, set_comment] = useState("");
+    const handleCommentChange = (e) => {
+        set_comment(e.target.value)
+    }
+    const CHAR_LIM = 250;
     if (typeof currentApplication === 'undefined') {
         return(
             <Dialog
@@ -77,20 +83,28 @@ export function DetailsDialog ({handleClose, internships, role, users, currentAp
                             <DetailsRow label="Student Name" info={`${users[currentApplication.StuID].FirstName} ${users[currentApplication.StuID].LastName}`}/>
                             <DetailsRow label="Student Personal Email" info={ users[currentApplication.StuID].PersonalEmail}/>
                             <DetailsRow label="Student Phone" info={ users[currentApplication.StuID].Phone}/>
+                            <br/>
                             <DetailsRow label="Student Address" info={ users[currentApplication.StuID].StudentAddress}/>
                             <DetailsRow label="Application Date" info={ currentApplication.ApplicationDate}/>
                             <DetailsRow label="Application Status" info={ currentApplication.ApplicationStatus}/>
-                            <DetailsRow label="Faculty Name" info={`${users[currentApplication.FacID].FirstName} ${users[currentApplication.FacID].LastName}`}/>
-                            <DetailsRow label="Faculty Email" info={ users[currentApplication.FacID].PersonalEmail}/>
-                            <DetailsRow label="Employer Name" info={ internships[currentApplication.InternID].EmployerName}/>
-                            <DetailsRow label="Employer Address" info={ internships[currentApplication.InternID].EmployerAddress}/>
                             <DetailsRow label="Start Date" info={ internships[currentApplication.InternID].StartDate.substr(0, internships[currentApplication.InternID].StartDate.indexOf('T'))}/>
                             <DetailsRow label="End Date" info={ internships[currentApplication.InternID].EndDate.substr(0, internships[currentApplication.InternID].EndDate.indexOf('T'))}/>
+                            <br/>
+                            <DetailsRow label="Faculty Name" info={`${users[currentApplication.FacID].FirstName} ${users[currentApplication.FacID].LastName}`}/>
+                            <DetailsRow label="Faculty Email" info={ users[currentApplication.FacID].PersonalEmail}/>
+                            <br/>
+                            <DetailsRow label="Employer Name" info={ internships[currentApplication.InternID].EmployerName}/>
+                            <DetailsRow label="Employer Address" info={ internships[currentApplication.InternID].EmployerAddress}/>
                             <DetailsRow label="Point Of Contact" info={ internships[currentApplication.InternID].PointOfContact}/>
                             <DetailsRow label="Employer Email" info={ internships[currentApplication.InternID].EmployerEmail}/>
                             <DetailsRow label="Employer Phone" info={ internships[currentApplication.InternID].EmployerPhone}/>
+                            <Row>
+                                <Col size={1}>
+                                    Past Comments: {currentApplication.Comments}
+                                </Col>
+                            </Row>
                         </DialogContentText>
-                        {role !== "Student" &&
+                        {role === "Student" &&
                             <>
                                 <TextField
                                     variant={"outlined"}
@@ -109,7 +123,7 @@ export function DetailsDialog ({handleClose, internships, role, users, currentAp
                         }
                     </DialogContent>
                     <DialogActions>
-                        {role !== 'Student' &&
+                        {role === 'Student' &&
                             <>
                                 <DetailButton bgColor='#4BB543' onClick={() => updateStatus('Approved', currentApplication.ApplicationID, comment)}>
                                     Approve

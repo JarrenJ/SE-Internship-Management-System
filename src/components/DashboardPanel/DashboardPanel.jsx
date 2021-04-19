@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import {account, airplane, Hourglass, Manlogo, NWDoubleStackedGreen} from "assets";
-import {ApplicationForm, ApplicationTable, DetailsDialog} from "components";
+import {ApplicationForm, ApplicationTable, DetailsDialog, AutoLogOut} from "components";
 
 // import Button from '@material-ui/core/Button';
 // import { DataGrid } from '@material-ui/data-grid';
@@ -13,7 +13,6 @@ import styled from "styled-components";
 
 import './DashboardPanel.css'
 import '../../colors.css'
-import {InputLabel, TextField} from "@material-ui/core";
 
 
 const Container = styled.div`

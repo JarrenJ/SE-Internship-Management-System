@@ -205,6 +205,15 @@ export function ApplicationForm({getInitial, hideAppForm}) {
                                 handleInputChange={handleInputChange}
                                 handleAddressChangeE={handleAddressChangeE}
                             />
+                            <Agreement
+                            currentStep={currentStep}
+                            values={values}
+                            signature={signature}
+                            setSignature={setSignature}
+                            agreementDate={agreementDate}
+                            setAgreementDate={setAgreementDate}
+                            handleInputChange={handleInputChange}
+                            />
                         </Col>
                     </Row>
                     <Row>
