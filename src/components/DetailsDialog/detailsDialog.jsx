@@ -104,7 +104,7 @@ export function DetailsDialog ({handleClose, internships, role, users, currentAp
                                 </Col>
                             </Row>
                         </DialogContentText>
-                        {role === "Student" &&
+                        {role !== "Student" &&
                             <>
                                 <TextField
                                     variant={"outlined"}
@@ -123,7 +123,7 @@ export function DetailsDialog ({handleClose, internships, role, users, currentAp
                         }
                     </DialogContent>
                     <DialogActions>
-                        {role === 'Student' &&
+                        {role !== 'Student' &&
                             <>
                                 <DetailButton bgColor='#4BB543' onClick={() => updateStatus('Approved', currentApplication.ApplicationID, comment)}>
                                     Approve
