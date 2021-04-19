@@ -203,7 +203,7 @@ app.get('/api/getTotalFacultyInternsActive/:facID', (req, res) => {
     })
 })
 
-app.get('/api/getFacultyPendingApprovals/:facID', (req, res) => {
+app.get('/api/getPendingFacultyApprovals/:facID', (req, res) => {
     const facID = req.params.facID
     connection.query(`SELECT COUNT(ApplicationStatus) as 'PendingApprovals' FROM Applications WHERE ApplicationStatus != 'Approved' AND FacID = ?`, [facID], (err, data) => {
         if (err) { res.send(err) }

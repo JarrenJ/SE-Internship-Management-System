@@ -114,10 +114,10 @@ const Dashboard = () => {
     }, [activeFacultyInterns])
 
     useEffect(() => {
-        fetch(`/api/getFacultyPendingApprovals/neloe`)
+        fetch(`/api/getPendingFacultyApprovals/neloe`)
             .then(response => response.json())
             .then(data => {
-                setPendingApprovals(data.pendingFacultyApprovals)
+                setPendingFacultyApprovals(data.pendingApprovals)
             })
     }, [pendingFacultyApprovals])
 
