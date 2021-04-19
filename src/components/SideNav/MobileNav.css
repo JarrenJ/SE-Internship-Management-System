@@ -1,32 +1,15 @@
 .sidenav__mobile__container {
-    /*display: flex;*/
-    /*flex-direction: column;*/
-    /*width: 100%;*/
-    /*height: 90vh;*/
-    /*position: absolute;*/
-    /*!*top: 80px;*!*/
-    /*!*left: -100%;*!*/
-    /*opacity: 1;*/
-    /*transition: all 3s ease;*/
-    /*background-color: red;*/
     display: flex;
     flex-direction: column;
-    /*height: 100%;*/
     width: 70%;
     height: 100%;
     position: fixed;
-    /*z-index: 1;*/
-    /*top: -10px;*/
     background-color: var(--primary-bg-color);
     opacity: .9;
-    /*background-color: rgba(0, 0, 0, 0.9);*/
-    /*transition: .5s ease;*/
     transition: all 1s ease;
     overflow-x: hidden;
     padding-top: 20px;
     z-index: 2;
-    /*align-items: center;*/
-    /*justify-content: center;*/
 }
 
 .sidenav__mobile__link {
@@ -38,9 +21,6 @@
     display: flex;
     flex-direction: column;
     padding-top: 40px;
-    /*align-items: center;*/
-    /*justify-content: center;*/
-    /*width: 100%;*/
 }
 
 .sidenav__mobile__links a {
@@ -73,75 +53,13 @@
     display: none;
 }
 
-.fa-bars {
-    color: #000000;
-}
-
-.fa-times {
-    /*display: block;*/
-    /*position: absolute;*/
-    /*top: 20px;*/
-    /*left: 20px;*/
-    z-index: 2;
-    color: #fff;
-    font-size: 2rem;
-}
-
-/*.nav-icon {*/
-/*    margin: 1em;*/
-/*    width: 40px;*/
-/*    display: none;*/
-/*}*/
-
-/*.nav-icon:after,*/
-/*.nav-icon:before,*/
-/*.nav-icon div {*/
-/*    background-color: #000000;*/
-/*    border-radius: 3px;*/
-/*    content: '';*/
-/*    display: block;*/
-/*    height: 5px;*/
-/*    margin: 7px 0;*/
-/*    transition: all .2s ease-in-out;*/
-/*}*/
-
-/*.nav-icon:hover:before {*/
-/*    transform: translateY(12px) rotate(135deg);*/
-/*}*/
-
-/*.nav-icon:hover:after {*/
-/*    transform: translateY(-12px) rotate(-135deg);*/
-/*}*/
-
-/*.nav-icon:hover div {*/
-/*    transform: scale(0);*/
-/*}*/
-
 @media (max-width: 1024px) {
     .sidenav__hamburger__icon {
         display: block;
         position: absolute;
         top: 10px;
         left: 10px;
-        font-size: 1.5rem;
         cursor: pointer;
         z-index: 3;
     }
-
-    .nav-icon {
-        display: block;
-        position: absolute;
-        top: -10px;
-        left: -10px;
-        /*font-size: 1.5rem;*/
-        cursor: pointer;
-        z-index: 2;
-    }
-
-
-    .fa-times {
-        color: #fff;
-        font-size: 2rem;
-    }
-
 }
