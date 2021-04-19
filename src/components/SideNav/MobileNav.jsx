@@ -37,14 +37,8 @@ export function MobileNav({role, showAppForm}) {
                                 aria-haspopup="true"
                                 variant="contained"
                                 color="primary"
-                                // onClick={handleClick}
                             >
                                 <i className="fas fa-folder"/> Reports
-                                {/*{*/}
-                                {/*    down ? <i className="fas fa-chevron-down left" />*/}
-                                {/*        :*/}
-                                {/*        <i className="fas fa-chevron-right left" />*/}
-                                {/*}*/}
                             </Link>
                         </div>
                     }
