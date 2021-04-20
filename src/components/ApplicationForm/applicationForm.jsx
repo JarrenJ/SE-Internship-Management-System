@@ -96,6 +96,7 @@ export function ApplicationForm({getInitial, hideAppForm}) {
             ),
         }).then(r => r)
         hideAppForm()
+        window.location.reload(true)
     }
 
     const handleInputChange = (e) => {
