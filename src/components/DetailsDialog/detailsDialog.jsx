@@ -19,7 +19,7 @@ export function DetailsDialog ({handleClose, internships, role, users, currentAp
         )
       }
 
-    const updateStatus = (status, appID) => {
+    const updateStatus = (status, appID, comment) => {
         console.log(status)
         console.log(appID)
         fetch('/api/updateStatus', {
@@ -30,7 +30,8 @@ export function DetailsDialog ({handleClose, internships, role, users, currentAp
             },
             body: JSON.stringify({
                 "status": status,
-                "appID": appID
+                "appID": appID,
+                "comment": comment
             }),
         }).then(r => window.location.reload(true))
         handleClose()
