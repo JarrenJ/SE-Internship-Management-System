@@ -29,6 +29,10 @@ const Dashboard = () => {
     const [totalFacultyInterns, setTotalFacultyInterns] = useState(0)
     const [activeFacultyInterns, setActiveFacultyInterns] = useState(0)
     const [pendingFacultyApprovals, setPendingFacultyApprovals] = useState(0)
+    const [outofStateInternsFaculty, setoutofStateInternsFaculty] = useState(0)
+    const [inStateInternsFaculty, setinStateInternsFaculty] = useState(0)
+    
+    
     useEffect(() => {
         fetch(`/api/getUser/${userID}`)
             .then(response => response.json())
@@ -121,6 +125,23 @@ const Dashboard = () => {
             })
     }, [pendingFacultyApprovals])
 
+    useEffect(() => {
+        fetch(`/api/getOutOfStateInternsFaculty/neloe`)
+            .then(response => response.json())
+            .then(data => {
+                console.log(data)
+                setoutofStateInternsFaculty(data.outofstateinterns[0].OutOfStateInterns)
+            })
+    }, [outofStateInternsFaculty])
+
+    useEffect(() => {
+        fetch(`/api/getInStateInternsFaculty/neloe`)
+            .then(response => response.json())
+            .then(data => {
+                console.log(data)
+                setinStateInternsFaculty(data[0].InStateInterns)
+            })
+    }, [inStateInternsFaculty])
 
     const handleClick = (e) => {
         setDown(!down)
@@ -175,6 +196,8 @@ const Dashboard = () => {
                 activeInterns={activeInterns}
                 activeFacultyInterns={activeFacultyInterns}
                 outOfStateInterns={outOfStateInterns}
+                outofStateInternsFaculty={outofStateInternsFaculty}
+                inStateInternsFaculty={inStateInternsFaculty}
                 isOpen={isOpen}
                 isAppFormVisible={isAppFormVisible}
             />}

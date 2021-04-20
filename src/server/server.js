@@ -213,15 +213,25 @@ app.get('/api/getPendingFacultyApprovals/:facID', (req, res) => {
     })
 })
 
-app.get('/api/getFacultyOutOfStateInterns/:facID', (req, res) => {
+app.get('/api/getOutOfStateInternsFaculty/:facID', (req, res) => {
     const facID = req.params.facID
     const today = new Date(),
         date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
-    connection.query(`SELECT Count(EndDate) as 'OutOfStateInterns' FROM Internship WHERE EndDate >= ? AND EmployerAddress NOT LIKE '%MO%' OR EmployerAddress NOT LIKE '%Missouri%'`, [date], (err, data) => {
+    connection.query(`SELECT Count(*) AS 'OutOfStateInterns' FROM Applications INNER JOIN Internship ON Applications.InternID=InternshipID AND FacID = ? AND (EmployerAddress NOT LIKE '%MO%' AND EmployerAddress NOT LIKE '%missouri%') AND StartDate <= ? AND EndDate >= ?`, [facID, date, date], (err, data) => {
         if (err) { res.send(err) }
-        console.log(data[0].OutOfStateInterns)
-        const outOfStateInterns = data[0].OutOfStateInterns
-        res.send({ outOfStateInterns } )
+        console.log(data[0].length)
+        if (data) { res.send({"outofstateinterns": data}) }
+    })
+})
+
+app.get('/api/getInStateInternsFaculty/:facID', (req, res) => {
+    const facID = req.params.facID
+    const today = new Date(),
+        date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+    connection.query(`SELECT Count(Internship.EmployerAddress) AS 'InStateInterns' FROM Applications INNER JOIN Internship ON Applications.InternID=Internship.InternshipID AND Applications.FacID = ? AND Internship.StartDate <= ? AND Internship.EndDate >= ? AND EmployerAddress LIKE '%MO%' OR EmployerAddress LIKE '%Missouri%'`, [facID, date, date], (err, data) => {
+        if (err) { res.send(err) }
+        console.log(data)
+        if (data) { res.send(data) }
     })
 })
 
