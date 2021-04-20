@@ -62,7 +62,7 @@ export function ApplicationTable({ role, users, applications, internships, table
                                     Approve/Deny
                                 </DetailButton>
                                 }
-                                {role == 'Student' &&
+                                {role === 'Student' &&
                                 <DetailButton onClick={onClick}>
                                     Details
                                 </DetailButton>
