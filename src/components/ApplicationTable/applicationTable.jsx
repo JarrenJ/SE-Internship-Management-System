@@ -75,9 +75,9 @@ export function ApplicationTable({ role, users, applications, internships, table
         
     
     // applications.length > 0 &&
-    const rows = Object.entries(applications).map((test, idx) => {
+    const rows = Object.entries(applications).map((i, idx) => {
         // console.log(idx)
-        const app = test[1]
+        const app = i[1]
         
         return({
             id:idx,
