@@ -1,25 +1,25 @@
 import React, { useState } from "react";
 import {account, airplane, Hourglass, Manlogo, NWDoubleStackedGreen} from "assets";
-import { ApplicationForm, AutoLogOut } from "components";
+import {ApplicationForm, ApplicationTable, DetailsDialog, AutoLogOut} from "components";
 
-import { DataGrid } from '@material-ui/data-grid';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
+// import Button from '@material-ui/core/Button';
+// import { DataGrid } from '@material-ui/data-grid';
+// import Dialog from '@material-ui/core/Dialog';
+// import DialogActions from '@material-ui/core/DialogActions';
+// import DialogContent from '@material-ui/core/DialogContent';
+// import DialogContentText from '@material-ui/core/DialogContentText';
+// import DialogTitle from '@material-ui/core/DialogTitle';
 import styled from "styled-components";
 
 import './DashboardPanel.css'
 import '../../colors.css'
-import {InputLabel, TextField} from "@material-ui/core";
 
 
 const Container = styled.div`
   display: flex;
 `
 
-const Row = styled.div`
+export const Row = styled.div`
   display: flex;
   width: ${(props) => props.width ? props.width : '100%'};
   height: auto;
@@ -35,7 +35,7 @@ const Row = styled.div`
   //border: 5px solid red;
 `
 
-const Col = styled.div`
+export const Col = styled.div`
   flex: ${(props) => props.size};
   background-color: ${(props => props.bgColor)};
   min-width: ${(props => props.minWidth)};
@@ -49,7 +49,14 @@ const Col = styled.div`
   margin: ${(props) => props.margin};
   //border: 5px solid black;
 `
-
+export const DetailButton = styled.button`
+border-radius: 5px;
+padding: 10px;
+background-color: ${(props => props.bgColor ? props.bgColor : 'royalblue')};
+border: 1px solid ${(props => props.bgColor ? props.bgColor : 'royalblue')};
+color: ${(props => props.color ? props.color : 'white')};;
+cursor: pointer;
+`
 const StyledPanel = styled.div`
   display: flex;
   height: 100%;
@@ -112,215 +119,116 @@ const Panel = ({ color, title, info, image, imgClass }) => {
     )
 }
 
+export function DashboardPanel({ isOpen, role, isAppFormVisible, isApplicationTableVisible, 
+                                userID, users, applications,
+                                internships, tableError, totalInterns, pendingApprovals,
+                                activeInterns, outOfStateInterns, showAppForm, hideAppForm, 
+                                currentApplication, setCurrentApplication }) {
 
-export function DashboardPanel({ isOpen, role, isAppFormVisible, username, applications,
-                                   internships, tableError, totalInterns, pendingApprovals,
-                                   activeInterns, outOfStateInterns }) {
+    const [detailsDialogOpen, setDetailsDialogOpen] = React.useState(false);
+    const getInitial = () => {
 
-    const [open, setOpen] = React.useState(false);
-    const initial_Comment = "";
-
+        if (typeof currentApplication === 'undefined') {
+            console.log(currentApplication)
+            let initialValues = {
+                studentId: "",
+                major: "",
+                studentFirstName: "",
+                studentLastName: "",
+                studentEmail: "",
+                studentPhoneNum: "",
+                instructorFirstName: "",
+                instructorLastName: "",
+                instructorEmail: "",
+                employerName: "",
+                primaryContactName: "",
+                employerEmail: "",
+                employerPhone: "",
+                applicationID: null,
+                internshipID: null,
+                applicationStatus: "Pending Review",
+                signature: "",
+                agreementDate: "",
+                comments: ""
+            };
+            
+            let initialStuAddr = {
+                line1: "",
+                line2: "",
+                city: "",
+                state: "",
+                zip: "",
+            }
+            
+            let initialEmpAddr = {
+                line1: "",
+                line2: "",
+                city: "",
+                state: "",
+                zip: "",
+            }
+            let submitDate = new Date(),
+            date = submitDate.getFullYear() + '-' + (submitDate.getMonth() + 1) + '-' + submitDate.getDate();
+            let initialStartDate = date
+            let initialEndDate = date
+            return (
+                {initialValues, initialStartDate, initialEndDate, initialEmpAddr, initialStuAddr, date}
+            )
+        } else {
+            console.log(currentApplication)
+            let initialValues = {
+                studentId: currentApplication.StuID,
+                major: users[currentApplication.StuID].Major,
+                studentFirstName: users[currentApplication.StuID].FirstName,
+                studentLastName: users[currentApplication.StuID].LastName,
+                studentEmail: users[currentApplication.StuID].PersonalEmail,
+                studentPhoneNum: users[currentApplication.StuID].Phone,
+                instructorFirstName: users[currentApplication.FacID].FirstName,
+                instructorLastName: users[currentApplication.FacID].LastName,
+                instructorEmail: users[currentApplication.FacID].PersonalEmail,
+                employerName: internships[currentApplication.InternID].EmployerName,
+                primaryContactName: internships[currentApplication.InternID].PointOfContact,
+                employerEmail: internships[currentApplication.InternID].EmployerEmail,
+                employerPhone: internships[currentApplication.InternID].EmployerPhone,
+                applicationID: currentApplication.ApplicationID,
+                internshipID: currentApplication.InternID,
+                applicationStatus: currentApplication.ApplicationStatus,
+                signature: currentApplication.Signature,
+                agreementDate: currentApplication.AgreementDate,
+                comments: currentApplication.Comments
+            }
+            let studentAddress = users[currentApplication.StuID].StudentAddress.split(",")
+            console.log(studentAddress)
+            let initialStuAddr = {
+                line1: studentAddress[0],
+                line2: studentAddress[1],
+                city: studentAddress[2],
+                state: studentAddress[3],
+                zip: studentAddress[4],
+            }
+            let employerAddress = internships[currentApplication.InternID].EmployerAddress.split(",")
+            let initialEmpAddr = {
+                line1: employerAddress[0],
+                line2: employerAddress[1],
+                city: employerAddress[2],
+                state: employerAddress[3],
+                zip: employerAddress[4],
+            }
+            let date = currentApplication.ApplicationDate
+            let initialStartDate =  internships[currentApplication.InternID].StartDate.substr(0, internships[currentApplication.InternID].StartDate.indexOf('T'))
+            let initialEndDate = internships[currentApplication.InternID].EndDate.substr(0, internships[currentApplication.InternID].EndDate.indexOf('T'))
+            return (
+                {initialValues, initialStartDate, initialEndDate, initialEmpAddr, initialStuAddr, date}
+            )
+        }
+    }
     const handleClickOpen = () => {
-        setOpen(true);
-    };
-
-    const handleClose = () => {
-        setOpen(false);
+        setDetailsDialogOpen(true);
     };
     
-    const updateStatus = (status, appID, comment) => {
-        console.log(status)
-        console.log(appID)
-        console.log(comment)
-        fetch('/api/updateStatus', {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            },
-            body: JSON.stringify({
-                "status": status,
-                "appID": appID,
-                "comment": comment
-            }),
-        }).then(() => window.location.reload(true))
-        handleClose()
-    }
-
-    const DetailButton = styled.button`
-      border-radius: 5px;
-      padding: 10px;
-      background-color: ${(props => props.bgColor ? props.bgColor : 'royalblue')};
-      border: 1px solid ${(props => props.bgColor ? props.bgColor : 'royalblue')};
-      color: ${(props => props.color ? props.color : 'white')};;
-      cursor: pointer;
-    `
-
-    const [applicationData, setApplicationData] = useState({})
-
-    const DetailsDialog = () => {
-        // const [open, setOpen] = React.useState(false);
-        //
-        // const handleClickOpen = () => {
-        //     setOpen(true);
-        // };
-        //
-        // const handleClose = () => {
-        //     setOpen(false);
-        // };
-        const [comment, set_comment] = useState(initial_Comment);
-        const handleCommentChange = (e) => {
-            set_comment(e.target.value)
-        }
-        const CHAR_LIM = 250;
-
-        return (
-            <div>
-                {/*<Button variant="outlined" color="primary" onClick={handleClickOpen}>*/}
-                {/*    Open alert dialog*/}
-                {/*</Button>*/}
-                <Dialog
-                    open={open}
-                    onClose={handleClose}
-                    aria-labelledby="alert-dialog-title"
-                    aria-describedby="alert-dialog-description"
-                    fullWidth
-                >
-                    <DialogTitle id="alert-dialog-title">{"Details"}</DialogTitle>
-                    <DialogContent>
-                        <DialogContentText id="alert-dialog-description">
-                            <Row>
-                                <Col size={1}>
-                                    <b>Data from table only...</b>
-                                </Col>
-                            </Row>
-                            <Row>
-                                <Col size={1}>
-                                    <p>Employer Name: {applicationData.EmployerName}</p>
-                                </Col>
-                            </Row>
-                            <Row>
-                                <Col size={1}>
-                                    <p>Start Date: {applicationData.StartDate}</p>
-                                </Col>
-                            </Row>
-                            <Row>
-                                <Col size={1}>
-                                    <p>End Date: {applicationData.EndDate}</p>
-                                </Col>
-                            </Row>
-                            <Row>
-                                <Col size={1}>
-                                    <p>Date Submitted: {applicationData.DateSubmitted}</p>
-                                </Col>
-                            </Row>
-                            <Row>
-                                <Col size={1}>
-                                    <p>Status: {applicationData.Status}</p>
-                                </Col>
-                            </Row>
-                        </DialogContentText>
-                        {role !== "Student" &&
-                            <>
-                                <TextField
-                                    variant={"outlined"}
-                                    value={comment}
-                                    label={"Comments"}
-                                    multiline={true}
-                                    rows={2}
-                                    onChange={handleCommentChange}
-                                    inputProps={{
-                                        maxlength: CHAR_LIM
-                                    }}
-                                    helperText={`${comment.length}/${CHAR_LIM}`}
-                                    fullWidth
-                                />
-                            </>
-                        }
-                    </DialogContent>
-                    <DialogActions>
-                        {role !== 'Student' &&
-                            <>
-                                <DetailButton bgColor='#4BB543' onClick={() => updateStatus('Approved', applicationData.ID, comment)}>
-                                    Approve
-                                </DetailButton>
-                                <DetailButton bgColor='#BD0037' onClick={() => updateStatus('Denied', applicationData.ID, comment)}>
-                                    Deny
-                                </DetailButton>
-                            </>
-                        }
-                        <DetailButton bgColor='gray' onClick={handleClose}>
-                            Close
-                        </DetailButton>
-                    </DialogActions>
-                </Dialog>
-            </div>
-        );
-    }
-
-    const columns = [
-        { field: 'appID', headerName: 'Application ID', flex: 1, hide: true },
-        { field: 'employerName', headerName: 'Employer Name', flex: 1 },
-        { field: 'employmentStartDate', headerName: 'Employment Start Date', flex: 1 },
-        { field: 'employmentEndDate', headerName: 'Employment End Date', flex: 1 },
-        { field: 'applicationDate', headerName: 'Application Date', flex: 1 },
-        {
-            field: 'status',
-            headerName: 'Status',
-            flex: .5,
-        },
-        {
-            field: "",
-            headerName: "Action",
-            sortable: false,
-            flex: 1,
-            disableClickEventBubbling: true,
-            renderCell: (params) => {
-                const onClick = () => {
-                    // Open DetailsDialog
-                    handleClickOpen()
-                    const api = params.api;
-                    const fields = api
-                        .getAllColumns()
-                        .map((c) => c.field)
-                        .filter((c) => c !== "__check__" && !!c);
-                    const row = {};
-
-                    fields.forEach((f) => {
-                        row[f] = params.getValue(f);
-                    });
-                    setApplicationData({
-                        "EmployerName": row.employerName,
-                        "StartDate": row.employmentStartDate,
-                        "EndDate": row.employmentEndDate,
-                        "DateSubmitted": row.applicationDate,
-                        "Status": row.status,
-                        "ID": row.appID
-                    })
-                };
-
-
-                return (
-                    <div>
-                        <DetailButton onClick={onClick}>
-                            Details
-                        </DetailButton>
-                    </div>
-                );
-            }
-        }
-    ];
-
-    const rows = applications.length > 0 && applications.map((app, idx) => {
-        console.log(app)
-        console.log(internships)
-
-        const cleanStartDate = internships.length > 0 && internships[idx].StartDate.substr(0, internships[idx].StartDate.indexOf('T'));
-        const cleanEndDate = internships.length > 0 && internships[idx].EndDate.substr(0, internships[idx].EndDate.indexOf('T'));
-        return(
-            {id: idx, appID: app.ApplicationID, employerName: internships.length > 0 && internships[idx].EmployerName, employmentStartDate: internships.length > 0 && cleanStartDate, employmentEndDate: internships.length > 0 && cleanEndDate, applicationDate: app.ApplicationDate, status: app.ApplicationStatus }
-        )
-    })
+    const handleClose = () => {
+        setDetailsDialogOpen(false);
+    };
 
     const DefaultStudentView = () => {
         return(
@@ -359,36 +267,35 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible, username, appli
     const StudentView = () => {
         return(
             <>
-                <Row>
-                    <Col margin='0 0 0 15px'>
-                        <p>Applications</p>
-                    </Col>
-                </Row>
-                <Container>
                     <Row>
-                        <Col size={1} bgColor='white' margin='0 20px' /*maxWidth='1200px' */>
-
-                            {/* Something went wrong -- code below -- currently breaks things*/}
-
-                            {/*<small style={{color: 'red'}}>{`${tableError.error}`}</small>*/}
-                            {/*{console.log(tableError.error)}*/}
-                            <DataGrid
-                                rows={rows}
-                                columns={columns}
-                                pageSize={5}
-                                autoHeight
-                                // disableExtendRowFullWidth
-                                disableSelectionOnClick
-                                /*checkboxSelection*/
+                        <Col size={1} bgColor='transparent' margin='0 20px' /*maxWidth='1200px' */>
+                            <ApplicationTable
+                                role={role}
+                                users={users}
+                                applications={applications}
+                                internships={internships}
+                                tableError={tableError}
+                                setCurrentApplication={setCurrentApplication}
+                                handleClickOpen={handleClickOpen}
                             />
                         </Col>
                     </Row>
-                </Container>
-                <Row>
-                    <Col size={1}>
-                        <DetailsDialog/>
-                    </Col>
-                </Row>
+                    <Row>
+                        <Col size={1}>
+                            <DetailsDialog
+                                handleClose={handleClose}
+                                applications={applications}
+                                internships={internships}
+                                role={role}
+                                users={users}
+                                currentApplication={currentApplication}
+                                setCurrentApplication={setCurrentApplication}
+                                detailsDialogOpen={detailsDialogOpen}
+                                showAppForm={showAppForm}
+                                setCurrentApplication={setCurrentApplication}
+                            />
+                        </Col>
+                    </Row>
             </>
         )
     }
@@ -403,7 +310,7 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible, username, appli
                         <div className="dashboard__Header">
                             <img className='dashboard__profile__pic' src={ account } alt='account.png'/>
                             <div className="Header_Namebox">
-                                <p>{username}</p>
+                                <p>{userID}</p>
                             </div>
                         </div>
                     </Col>
@@ -439,15 +346,18 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible, username, appli
                         </Row>
                     </>
                 }
-                {isAppFormVisible && <ApplicationForm /> }
+                {isAppFormVisible && <ApplicationForm 
+                    getInitial={getInitial}
+                    hideAppForm={hideAppForm}/>}
                 {
                     role === "Student"
                     &&
                     <>
-                        {applications.length === 0 && <DefaultStudentView />}
-                        {applications.length > 0 && <StudentView />}
+                        {typeof applications === undefined &&<DefaultStudentView />}
+                        {<StudentView />}
                     </>
                 }
+                
             </div>
         </>
     )}

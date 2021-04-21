@@ -4,6 +4,7 @@ const session = require('express-session');
 const bodyParser = require('body-parser');
 const cors = require("cors");
 const jwt = require("jsonwebtoken");
+const e = require('express');
 
 // Create connection to mySQL database
 const connection = mysql.createConnection({
@@ -58,13 +59,14 @@ app.post('/api/submit', (req, res) => {
 
     const {
         studentId,
+        major,
         studentLastName,
         studentFirstName,
         studentEmail,
         stuAddress,
         studentPhoneNum,
-        instructorFirstName,
         instructorLastName,
+        instructorFirstName,
         instructorEmail,
         employerName,
         primaryContactName,
@@ -74,21 +76,29 @@ app.post('/api/submit', (req, res) => {
         startDate,
         endDate,
         submitDate,
+        applicationID,
+        internshipID,
+        applicationStatus,
         signature,
-        agreementDate
+        agreementDate,
+        comments
     } = req.body
 
-    let userInsert = `
-        INSERT INTO Users VALUES ? ON DUPLICATE KEY UPDATE LastName = VALUES(LastName), FirstName = VALUES(FirstName), PersonalEmail = VALUES(PersonalEmail), StudentAddress = VALUES(StudentAddress), Phone = VALUES(Phone)`;
+    let userInsert = `INSERT INTO Users VALUES ? ON DUPLICATE KEY UPDATE LastName = VALUES(LastName), FirstName = VALUES(FirstName), PersonalEmail = VALUES(PersonalEmail), StudentAddress = VALUES(StudentAddress), Phone = VALUES(Phone), Major = VALUES(Major)`;
 
-    let facultyInsert = `INSERT INTO Users(UserID, UserRole, Lastname, FirstName, PersonalEmail) VALUES ? ON DUPLICATE KEY UPDATE LastName = VALUES(Lastname), FirstName = VALUES(FirstName), PersonalEmail = VALUES(PersonalEmail)`;
-    let employerInsert = `INSERT INTO Internship VALUES ?`;
-    let applicationInsert = `INSERT INTO Applications VALUES ?`;
-    let getInternId = `SELECT * FROM Internship ORDER BY InternshipID DESC LIMIT 0,1`
-
+    // let facultyInsert = `INSERT INTO Users(UserID, UserRole, Lastname, FirstName, PersonalEmail) VALUES ? ON DUPLICATE KEY UPDATE LastName = VALUES(Lastname), FirstName = VALUES(FirstName), PersonalEmail = VALUES(PersonalEmail)`;
+    //(InternshipID, EmployerName, PointOfContact, EmployerEmail, EmployerPhone, EmployerAddress, StartDate, EndDate)
+    let internshipInsert = `INSERT INTO Internship VALUES ? ON DUPLICATE KEY UPDATE EmployerName = VALUES(EmployerName), PointOfContact = VALUES(PointOfContact), EmployerEmail = VALUES(EmployerEmail), EmployerPhone= VALUES(EmployerPhone), EmployerAddress= VALUES(EmployerAddress), StartDate= VALUES(StartDate), EndDate= VALUES(EndDate)`; 
+    //(ApplicationID, ApplicationStatus, ApplicationDate, InternID, StuID, FacID)
+    let applicationInsert = `INSERT INTO Applications VALUES ? ON DUPLICATE KEY UPDATE ApplicationStatus = VALUES(ApplicationStatus), ApplicationDate = VALUES(ApplicationDate), InternID = VALUES(InternID), StuID = VALUES(StuID), FacID = VALUES(FacID), Signature = VALUES(Signature), AgreementDate = VALUES(AgreementDate), Comments = VALUES(Comments)`;
+    // let userInsert = `REPLACE INTO Users VALUES ?`
+    // let internshipInsert = `REPLACE INTO Internship VALUES ?`
+    // let applicationInsert = `REPLACE INTO Applications VALUES ?`
+    // let getInternId = `SELECT * FROM Internship ORDER BY InternshipID DESC LIMIT 0,1`
     const studentRole = 'Student'
     const facultyRole = 'Faculty'
     const facultyID = instructorEmail.substr(0, instructorEmail.indexOf('@'));
+
     const studentValues = [
         [
             studentId,
@@ -97,21 +107,35 @@ app.post('/api/submit', (req, res) => {
             studentFirstName,
             studentEmail,
             stuAddress,
-            studentPhoneNum
+            studentPhoneNum,
+            major
         ]
     ]
+    connection.query(userInsert, [studentValues], function (err, data) {
+        if (err) throw err;
+        console.log("Student user data inserted successfully...");
+        // res.status(200)
+    });
     const facultyValues = [
         [
             facultyID,
             facultyRole,
-            instructorFirstName,
             instructorLastName,
+            instructorFirstName,
             instructorEmail,
+            null,
+            null,
+            null
         ]
     ]
-    const employerValues = [
+    connection.query(userInsert, [facultyValues], function (err, data) {
+        if (err) throw err;
+        console.log("Faculty user data inserted successfully...");
+        // res.status(200)
+    });
+    const internshipValues = [
         [
-            null, //InternshipID - set to null because the field on DB is AUTO_INCREMENT
+            internshipID, //InternshipID - set to null because the field on DB is AUTO_INCREMENT
             employerName, //using as ID for now
             primaryContactName, //Point of contact on database
             employerEmail,
@@ -121,78 +145,118 @@ app.post('/api/submit', (req, res) => {
             endDate
         ]
     ]
-    connection.query(userInsert, [studentValues], function (err, data) {
-        if (err) throw err;
-        console.log("Student user data inserted successfully...");
-        // res.status(200)
-    });
-    connection.query(facultyInsert, [facultyValues], function (err, data) {
-        if (err) throw err;
-        console.log("Faculty user data inserted successfully...");
-        // res.status(200)
-    });
-    connection.query(employerInsert, [employerValues], function (err, data) {
+    console.log("TEST")
+    console.log(internshipValues)
+    connection.query(internshipInsert, [internshipValues], function (err, data) {
         if (err) throw err;
         console.log("Employer data inserted successfully...");
         // res.status(200)
     });
-
-    connection.query(getInternId, function (err, data) {
-        if (err) throw err;
-        console.log("Getting Latest Internship ID...");
-        console.log(data[0].InternshipID)
-        const ID = data[0].InternshipID
-
-        const applicationValues = [
+    let applicationValues = [[]]
+    if (applicationID === null){
+        connection.query(`SELECT * FROM Internship ORDER BY InternshipID DESC LIMIT 0,1`, function (err, data) {
+            if (err) throw err;
+            console.log("Getting Latest Internship ID...");
+            console.log(data[0].InternshipID)
+            
+            let applicationValues = [
+                [
+                    applicationID,
+                    applicationStatus, //applicationStatus - using string for now until we determine a proper method for this
+                    submitDate, //Date application was submitted
+                    data[0].InternshipID, //Get latest InternshipID
+                    studentId,
+                    facultyID,
+                    signature,
+                    agreementDate,
+                    comments //FacultyID for now
+                ]
+            ]
+            connection.query(applicationInsert, [applicationValues], function (err, data) {
+                if (err) throw err;
+                console.log("Application data inserted successfully...");
+                res.status(201)
+            });
+        });
+        console.log(applicationValues)
+    } else {
+        let applicationValues = [
             [
-                null, //ApplicationID
-                'Submitted', //applicationStatus - using string for now until we determine a proper method for this
+                applicationID,
+                applicationStatus, //applicationStatus - using string for now until we determine a proper method for this
                 submitDate, //Date application was submitted
-                ID, //Get latest InternshipID
+                internshipID, //Get latest InternshipID
                 studentId,
-                facultyID, //FacultyID for now
+                facultyID,
                 signature,
                 agreementDate,
-                null,
+                comments 
             ]
         ]
-
+        console.log(applicationValues)
         connection.query(applicationInsert, [applicationValues], function (err, data) {
             if (err) throw err;
             console.log("Application data inserted successfully...");
             res.status(201)
         });
-
-    });
+    }
     res.end();
 
 });
 
-app.get('/api/getApplications/:user', (req, res) => {
-    const user = req.params.user
-    console.log(user)
-    connection.query(`SELECT * FROM Applications WHERE StuID = ?`, [user], (err, data) => {
+app.get('/api/getFullApplications/:userRole/:userID', (req, res) => {
+    const userID = req.params.userID
+    if (req.params.userRole === 'Admin'){
+        applicationSQL = `SELECT * FROM Applications`
+        userSQL = `SELECT * FROM Users`
+        internSQL = `SELECT * FROM Internship`
+    } else if (req.params.userRole === 'Faculty'){
+        applicationSQL = `SELECT * FROM Applications WHERE FacID = ?`
+        userSQL = `SELECT * FROM Users WHERE UserID IN (SELECT StuID FROM Applications WHERE FacID = ?) OR UserID = '${userID}'`
+        internSQL = `SELECT * FROM Internship WHERE InternshipID IN (SELECT InternID FROM Applications WHERE FacID = ?)`
+    } else if (req.params.userRole === 'Student'){
+        applicationSQL = `SELECT * FROM Applications WHERE StuID = ?`
+        userSQL = `SELECT * FROM Users WHERE UserID IN (SELECT FacID FROM Applications WHERE StuID = ?) OR UserID = '${userID}'`
+        internSQL = `SELECT * FROM Internship WHERE InternshipID IN (SELECT InternID FROM Applications WHERE StuID = ?)`
+    }
+    console.log(applicationSQL)
+    connection.query(applicationSQL, [userID], (err, application) => {
         if (err) { res.send(err) }
+        console.log(application)
 
-        if (data.length > 0) {
+        if (application.length > 0) {
 
-            connection.query(`SELECT * FROM Internship WHERE InternshipID IN (SELECT InternID FROM Applications WHERE StuID = ?)`, [user], (err, data2) => {
-                if (data2.length > 0) {
-                    res.send({ "applications": data, "internships": data2 })
-                }
-            })
+            connection.query(internSQL, [userID], (err, internship) => {
+                if (err) throw err;
+                // console.log(internship)
 
+                connection.query(userSQL, [userID], (err, users) => {
+                    if (err) throw err;
+                    // console.log(student)
+
+                            let allApplications = Object.assign({}, ...application.map((x) => ({[x.ApplicationID]: x}))) 
+                            let allInternships = Object.assign({}, ...internship.map((x) => ({[x.InternshipID]: x})))
+                            let allUsers = Object.assign({}, ...users.map((x) => ({[x.UserID]: x})))  
+                        console.log(allApplications)
+                        res.send({"applications": allApplications, "internships": allInternships, "users": allUsers})
+                    
+                    })
+                })
+            
+
+            // res.send(response)
         } else {
             res.statusMessage = "User / Application Not Found"
             res.status(404)
-            res.send({ "applications": data })
+            res.send({ "applications": application })
         }
 
 
     })
 
-    }
+}
 )
+
 
 app.get('/api/getTotalInterns', (req, res) => {
     connection.query(`SELECT COUNT(ApplicationStatus) as 'TotalInterns' FROM Applications WHERE ApplicationStatus = 'Approved'`, (err, data) => {

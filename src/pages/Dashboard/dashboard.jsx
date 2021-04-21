@@ -9,6 +9,7 @@ const Dashboard = () => {
     const [isOpen, setIsOpen] = useState(true)
     const userID = sessionStorage.getItem("userID")
     const [isAppFormVisible, setIsAppFormVisible] = useState(false)
+    const [isApplicationTableVisible, setIsApplicationTableVisible] = useState(false)
     const [tableError, setTableError] = useState({
         "error": new Error
     })
@@ -17,46 +18,48 @@ const Dashboard = () => {
         "username": '',
         "role": ''
     })
+
     const [applications, setApplications] = useState([])
     const [internships, setInternships] = useState([])
-
+    const [users, setUsers] = useState([])
     const [isLoaded, setIsLoaded] = useState(false)
     const [totalInterns, setTotalInterns] = useState(0)
     const [pendingApprovals, setPendingApprovals] = useState(0)
     const [activeInterns, setActiveInterns] = useState(0)
     const [outOfStateInterns, setOutOfStateInterns] = useState(0)
+    const [currentApplication, setCurrentApplication] = useState()
 
     useEffect(() => {
         fetch(`/api/getUser/${userID}`)
             .then(response => response.json())
-            .then(data =>
+            .then(data => {
                 setUser({
                     "username": data.username,
                     "role": data.role
                 })
-            );
-    }, []);
-
-    useEffect(() => {
-        fetch(`/api/getApplications/${userID}`)
-            .then(res => {
-                if (res.ok) {
-                    // api returned status 200, so we return the response
-                    return res.json()
-                } else {
-                    // api returned code 400, so we throw an error to catch later
-                    throw new Error('Something went wrong fetching your data...')
+                fetch(`/api/getFullApplications/${data.role}/${data.username}`)
+                    .then(res => {
+                        if (res.ok) {
+                            // api returned status 200, so we return the response
+                            return res.json()
+                        } else {
+                            // api returned code 400, so we throw an error to catch later
+                            throw new Error('Something went wrong fetching your data...')
+                        }
+                    })
+                    .then((data1) => {
+                        console.log(data1)
+                        setApplications(data1.applications)
+                        setInternships(data1.internships)
+                        setUsers(data1.users)
+                        setIsLoaded(true)
+                    }).catch((error) => {
+                        setIsLoaded(true)
+                        console.log(error)
+                        setTableError({error: error})
+                    });
                 }
-            })
-            .then((data) => {
-                setIsLoaded(true)
-                setApplications(data.applications)
-                setInternships(data.internships)
-            }).catch((error) => {
-                setIsLoaded(true)
-                console.log(error)
-                setTableError({error: error})
-            });
+            );
     }, []);
 
     // For below 3 codeblocks, I am planning on hitting one endpoint eventually to grab all necessary data
@@ -92,7 +95,7 @@ const Dashboard = () => {
                 console.log(data)
                 setOutOfStateInterns(data.outOfStateInterns)
             })
-    }, [])
+    }, [outOfStateInterns])
 
     const handleClick = (e) => {
         setDown(!down)
@@ -117,7 +120,16 @@ const Dashboard = () => {
     }
 
     const showAppForm = () => {
-        setIsAppFormVisible(!isAppFormVisible)
+        setIsAppFormVisible(true)
+    }
+    const hideAppForm = () => {
+        setIsAppFormVisible(false)
+        setCurrentApplication(undefined)
+        console.log(currentApplication)
+    }
+    
+    const showApplicationTable = () => {
+        setIsApplicationTableVisible(!isApplicationTableVisible)
     }
 
     return(
@@ -132,11 +144,16 @@ const Dashboard = () => {
                 navOpen={navOpen}
                 anchorEl={anchorEl}
                 showAppForm={showAppForm}
+                hideAppForm={hideAppForm}
                 isAppFormVisible={isAppFormVisible}
+                showApplicationTable={showApplicationTable}
+                isApplicationTableVisible={isApplicationTableVisible}
+                setCurrentApplication={setCurrentApplication}
             />
             {isLoaded && <DashboardPanel
                 role={user.role}
-                username={user.username}
+                userID={user.username}
+                users={users}
                 applications={applications}
                 internships={internships}
                 tableError={tableError}
@@ -145,7 +162,12 @@ const Dashboard = () => {
                 activeInterns={activeInterns}
                 outOfStateInterns={outOfStateInterns}
                 isOpen={isOpen}
+                showAppForm={showAppForm}
+                hideAppForm={hideAppForm}
                 isAppFormVisible={isAppFormVisible}
+                isApplicationTableVisible={isApplicationTableVisible}
+                currentApplication={currentApplication}
+                setCurrentApplication={setCurrentApplication}
             />}
         </>
     )

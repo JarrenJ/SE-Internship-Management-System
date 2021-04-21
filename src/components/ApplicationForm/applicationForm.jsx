@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import Button from "@material-ui/core/Button";
 import TextField from '@material-ui/core/TextField';
 // import { Grid, Row, Col } from '../../pages/Home/home'
@@ -57,61 +57,22 @@ const Col = styled.div`
   //border: 5px solid black;
 `
 
-export const ApplicationForm = () => {
 
-    const initialValues = {
-        studentId: "",
-        studentFirstName: "",
-        studentLastName: "",
-        studentEmail: "",
-        studentPhoneNum: "",
-        instructorFirstName: "",
-        instructorLastName: "",
-        instructorEmail: "",
-        employerName: "",
-        primaryContactName: "",
-        employerEmail: "",
-        employerPhone: "",
-        comments: "",
-    };
+export function ApplicationForm({getInitial, hideAppForm}) {
 
-    const initialStuAddr = {
-        line1: "",
-        line2: "",
-        city: "",
-        state: "",
-        zip: "",
-    }
-
-    const initialEmpAddr = {
-        line1: "",
-        line2: "",
-        city: "",
-        state: "",
-        zip: "",
-    }
-
-    function submitClick() {
-        alert("Form Submit")
-        console.log(values)
-        console.log(stuAddress)
-        console.log(empAddress)
-        console.log(startDate)
-        console.log(endDate)
-    }
+    const {initialValues, initialStartDate, initialEndDate, initialEmpAddr, initialStuAddr, date} = getInitial()
+    console.log(initialValues)
 
     const [signature, setSignature] = useState(" ")
     const [agreementDate, setAgreementDate] = useState(" ")
     const [currentStep, setCurrentStep] = useState(1)
-    const [startDate, setStartDate] = useState(" ")
-    const [endDate, setEndDate] = useState(" ")
+    const [startDate, setStartDate] = useState(initialStartDate)
+    const [endDate, setEndDate] = useState(initialEndDate)
     const [values, setValues] = useState(initialValues) //will store majority of the text box inputs
     const [comments, setComments] = useState('')
     const [stuAddress, setStuAddress] = useState(initialStuAddr);
     const [empAddress, setEmpAddress] = useState(initialEmpAddr);
 
-    const submitDate = new Date(),
-        date = submitDate.getFullYear() + '-' + (submitDate.getMonth() + 1) + '-' + submitDate.getDate();
 
     const onSubmit = () => {
         fetch(`/api/submit`, {
@@ -134,6 +95,8 @@ export const ApplicationForm = () => {
                 }
             ),
         }).then(r => r)
+        hideAppForm()
+        window.location.reload(true)
     }
 
     const handleInputChange = (e) => {
@@ -166,7 +129,16 @@ export const ApplicationForm = () => {
     const previous = () => {
         setCurrentStep(currentStep <= 1 ? 1 : currentStep - 1)
     }
-
+    const closeButton = () => {
+        return(
+            <Button
+                    variant='outlined'
+                    onClick={hideAppForm}
+                >
+                    Close
+                </Button>
+        )
+    }
     const nextButton = () => {
         if (currentStep < 4) {
             return (
@@ -182,7 +154,7 @@ export const ApplicationForm = () => {
             <Button
                 variant='outlined'
                 onClick={onSubmit}
-                disabled={((signature.length < 3) || (values.studentId < 3) ||
+                disabled={((signature.length < 3) || (values.studentId < 3) || 
                     (values.instructorEmail < 3) || (agreementDate.length < 1)) === true}
             >
                 Submit
@@ -203,39 +175,38 @@ export const ApplicationForm = () => {
         }
         return null
     }
-
-    return (
-        <Container>
-            <Form>
-                <Row minHeight={'700px'}>
-                    <Col size={1}>
-                        <StudentInfo
-                            currentStep={currentStep}
-                            values={values}
-                            stuAddress={stuAddress}
-                            comments={comments}
-                            setComments={setComments}
-                            handleInputChange={handleInputChange}
-                            handleAddressChangeS={handleAddressChangeS}
-                        />
-                        <InstructorInfo
-                            currentStep={currentStep}
-                            values={values}
-                            handleInputChange={handleInputChange}
-                        />
-                        <EmployerInfo
-                            currentStep={currentStep}
-                            values={values}
-                            empAddress={empAddress}
-                            startDate={startDate}
-                            endDate={endDate}
-                            setStartDate={setStartDate}
-                            setEndDate={setEndDate}
-                            submitClick={submitClick}
-                            handleInputChange={handleInputChange}
-                            handleAddressChangeE={handleAddressChangeE}
-                        />
-                        <Agreement
+    if (typeof currentApplication !== undefined) {
+        return (
+            <Container>
+                <Form>
+                    <Row minHeight={'700px'}>
+                        <Col size={1}>
+                            <StudentInfo
+                                currentStep={currentStep}
+                                values={values}
+                                stuAddress={stuAddress}
+                                comments={comments}
+                                setComments={setComments}
+                                handleInputChange={handleInputChange}
+                                handleAddressChangeS={handleAddressChangeS}
+                            />
+                            <InstructorInfo
+                                currentStep={currentStep}
+                                values={values}
+                                handleInputChange={handleInputChange}
+                            />
+                            <EmployerInfo
+                                currentStep={currentStep}
+                                values={values}
+                                empAddress={empAddress}
+                                startDate={startDate}
+                                endDate={endDate}
+                                setStartDate={setStartDate}
+                                setEndDate={setEndDate}
+                                handleInputChange={handleInputChange}
+                                handleAddressChangeE={handleAddressChangeE}
+                            />
+                            <Agreement
                             currentStep={currentStep}
                             values={values}
                             signature={signature}
@@ -243,25 +214,34 @@ export const ApplicationForm = () => {
                             agreementDate={agreementDate}
                             setAgreementDate={setAgreementDate}
                             handleInputChange={handleInputChange}
-
-                        />
-                    </Col>
-                </Row>
-                <Row>
-                    <Col size={1} maxWidth={'100%'} margin={'0 30px'}>
-                        <div className='app__btns__container'>
-                            <div className='app__btn__prev'>
-                                {previousButton()}
+                            />
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col size={1} maxWidth={'100%'} margin={'0 30px'}>
+                            <div className='app__btns__container'>
+                                <div className='app__btn__prev'>
+                                    {previousButton()}
+                                </div>
+                                <div className='app__btn__next'>
+                                    {nextButton()}
+                                </div>
+                                <div className='app__btn__close'>
+                                    {closeButton()}
+                                </div>
                             </div>
-                            <div className='app__btn__next'>
-                                {nextButton()}
-                            </div>
-                        </div>
-                    </Col>
-                </Row>
-            </Form>
-        </Container>
-    )
+                        </Col>
+                    </Row>
+                </Form>
+            </Container>
+        )
+    } else {
+        return(
+        <Row>
+            test
+        </Row>
+        )
+    }
 }
 
 const StudentInfo = ({ currentStep, values, handleInputChange, handleAddressChangeS, stuAddress, comments, setComments }) => {
@@ -284,6 +264,16 @@ const StudentInfo = ({ currentStep, values, handleInputChange, handleAddressChan
                         value={values.studentId}
                         onChange={handleInputChange}
                         name={"studentId"}
+                    />
+                </Col>
+                <Col size={1} margin={'10px'}>
+                    <TextField
+                        className='app__input__component'
+                        label='Major'
+                        variant={'outlined'}
+                        value={values.major}
+                        onChange={handleInputChange}
+                        name={"major"}
                     />
                 </Col>
             </Row>
@@ -396,7 +386,7 @@ const StudentInfo = ({ currentStep, values, handleInputChange, handleAddressChan
                     />
                 </Col>
             </Row>
-            <Row>
+            {/* <Row>
                 <Col size={1} margin={'10px'}>
                     <TextField
                         className='wide'
@@ -409,7 +399,7 @@ const StudentInfo = ({ currentStep, values, handleInputChange, handleAddressChan
                         onChange={(e) => setComments(e.target.value) }
                     />
                 </Col>
-            </Row>
+            </Row> */}
         </div>
     )
 }
@@ -437,8 +427,6 @@ const InstructorInfo = ({ currentStep, values, handleInputChange }) => {
                         name={'instructorFirstName'}
                     />
                 </Col>
-            </Row>
-            <Row>
                 <Col size={1} margin={'10px'}>
                     <TextField
                         className='wide'

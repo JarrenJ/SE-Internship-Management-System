@@ -21,6 +21,7 @@ CREATE TABLE IF NOT EXISTS Users (
     PersonalEmail VARCHAR(25),
     StudentAddress VARCHAR(255),
     Phone VARCHAR(25),
+    Major VARCHAR(25),
     PRIMARY KEY (UserID)
 ) ENGINE = InnoDB;
 
@@ -43,6 +44,9 @@ CREATE TABLE IF NOT EXISTS Applications (
     InternID int,
     StuID VARCHAR(20),
     FacID VARCHAR(20),
+    `Signature` VARCHAR(20),
+    AgreementDate VARCHAR(20),
+    Comments VARCHAR(255),
     PRIMARY KEY (ApplicationID),
     CONSTRAINT intern_fk FOREIGN KEY (InternID) REFERENCES Internship(InternshipID),
     CONSTRAINT student_fk FOREIGN KEY (StuID) REFERENCES Users(UserID),
