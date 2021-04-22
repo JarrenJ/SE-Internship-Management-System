@@ -57,7 +57,7 @@ export function DetailsDialog ({handleClose, internships, role, users, currentAp
                 </DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                    
+
                     <DetailButton bgColor='gray' onClick={handleClose}>
                         Close
                     </DetailButton>
@@ -67,9 +67,6 @@ export function DetailsDialog ({handleClose, internships, role, users, currentAp
     } else {
     return (
             <div>
-                {/*<Button variant="outlined" color="primary" onClick={handleClickOpen}>*/}
-                {/*    detailsDialogOpen alert dialog*/}
-                {/*</Button>*/}
                 <Dialog
                     open={detailsDialogOpen}
                     onClose={handleClose}
@@ -134,19 +131,15 @@ export function DetailsDialog ({handleClose, internships, role, users, currentAp
                                 </DetailButton>
                             </>
                         }
-                        {role === 'Student' &&
-                            <DetailButton bgColor='gray' onClick={() => {
-                                // setCurrentApplication(applications[currentApplication.appID])
-                                // console.log(currentApplication)
-                                handleClose()
-                                showAppForm()
-                                
-                            }
-                            }>
-                            Edit Application
-                            </DetailButton>
+                        <DetailButton bgColor='gray' onClick={() => {
+                            handleClose()
+                            showAppForm()
 
                         }
+                        }>
+                        Edit Application
+                        </DetailButton>
+
                         <DetailButton bgColor='gray' onClick={handleClose}>
                             Close
                         </DetailButton>

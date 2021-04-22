@@ -29,6 +29,13 @@ const Dashboard = () => {
     const [outOfStateInterns, setOutOfStateInterns] = useState(0)
     const [currentApplication, setCurrentApplication] = useState()
 
+    const [totalFacultyInterns, setTotalFacultyInterns] = useState(0)
+    const [activeFacultyInterns, setActiveFacultyInterns] = useState(0)
+    const [pendingFacultyApprovals, setPendingFacultyApprovals] = useState(0)
+    const [outOfStateInternsFaculty, setOutOfStateInternsFaculty] = useState(0)
+    const [inStateInternsFaculty, setInStateInternsFaculty] = useState(0)
+
+
     useEffect(() => {
         fetch(`/api/getUser/${userID}`)
             .then(response => response.json())
@@ -97,6 +104,48 @@ const Dashboard = () => {
             })
     }, [outOfStateInterns])
 
+    useEffect(() => {
+        fetch(`/api/getTotalFacultyInterns/${userID}`)
+            .then(response => response.json())
+            .then(data => {
+                setTotalFacultyInterns(data.totalInterns)
+            })
+    }, [totalFacultyInterns])
+
+    useEffect(() => {
+        fetch(`/api/getTotalFacultyInternsActive/${userID}`)
+            .then(response => response.json())
+            .then(data => {
+                setActiveFacultyInterns(data.ActiveInterns)
+            })
+    }, [activeFacultyInterns])
+
+    useEffect(() => {
+        fetch(`/api/getPendingFacultyApprovals/${userID}`)
+            .then(response => response.json())
+            .then(data => {
+                setPendingFacultyApprovals(data.pendingApprovals)
+            })
+    }, [pendingFacultyApprovals])
+
+    useEffect(() => {
+        fetch(`/api/getOutOfStateInternsFaculty/${userID}`)
+            .then(response => response.json())
+            .then(data => {
+                console.log(data[0].OutOfStateInterns)
+                setOutOfStateInternsFaculty(data[0].OutOfStateInterns)
+            })
+    }, [outOfStateInternsFaculty])
+
+    useEffect(() => {
+        fetch(`/api/getInStateInternsFaculty/${userID}`)
+            .then(response => response.json())
+            .then(data => {
+                console.log(data)
+                setInStateInternsFaculty(data[0].InStateInterns)
+            })
+    }, [inStateInternsFaculty])
+
     const handleClick = (e) => {
         setDown(!down)
         setAnchorEl(e.currentTarget);
@@ -127,7 +176,7 @@ const Dashboard = () => {
         setCurrentApplication(undefined)
         console.log(currentApplication)
     }
-    
+
     const showApplicationTable = () => {
         setIsApplicationTableVisible(!isApplicationTableVisible)
     }
@@ -158,9 +207,14 @@ const Dashboard = () => {
                 internships={internships}
                 tableError={tableError}
                 totalInterns={totalInterns}
+                totalFacultyInterns={totalFacultyInterns}
                 pendingApprovals={pendingApprovals}
+                pendingFacultyApprovals={pendingFacultyApprovals}
                 activeInterns={activeInterns}
+                activeFacultyInterns={activeFacultyInterns}
                 outOfStateInterns={outOfStateInterns}
+                outOfStateInternsFaculty={outOfStateInternsFaculty}
+                inStateInternsFaculty={inStateInternsFaculty}
                 isOpen={isOpen}
                 showAppForm={showAppForm}
                 hideAppForm={hideAppForm}
