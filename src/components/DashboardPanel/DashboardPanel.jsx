@@ -119,12 +119,12 @@ const Panel = ({ color, title, info, image, imgClass }) => {
     )
 }
 
-export function DashboardPanel({ isOpen, role, isAppFormVisible, isApplicationTableVisible, 
+export function DashboardPanel({ isOpen, role, isAppFormVisible, isApplicationTableVisible,
                                 userID, users, applications,
                                 internships, tableError, totalInterns, pendingApprovals,
-                                activeInterns, outOfStateInterns, showAppForm, hideAppForm, 
-                                currentApplication, setCurrentApplication, totalFacultyInterns, 
-                                activeFacultyInterns, pendingFacultyApprovals, outofStateInternsFaculty, 
+                                activeInterns, outOfStateInterns, showAppForm, hideAppForm,
+                                currentApplication, setCurrentApplication, totalFacultyInterns,
+                                activeFacultyInterns, pendingFacultyApprovals, outOfStateInternsFaculty,
                                 inStateInternsFaculty }) {
 
     const [detailsDialogOpen, setDetailsDialogOpen] = React.useState(false);
@@ -153,7 +153,7 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible, isApplicationTa
                 agreementDate: "",
                 comments: ""
             };
-            
+
             let initialStuAddr = {
                 line1: "",
                 line2: "",
@@ -161,7 +161,7 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible, isApplicationTa
                 state: "",
                 zip: "",
             }
-            
+
             let initialEmpAddr = {
                 line1: "",
                 line2: "",
@@ -227,7 +227,7 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible, isApplicationTa
     const handleClickOpen = () => {
         setDetailsDialogOpen(true);
     };
-    
+
     const handleClose = () => {
         setDetailsDialogOpen(false);
     };
@@ -294,7 +294,6 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible, isApplicationTa
                                 setCurrentApplication={setCurrentApplication}
                                 detailsDialogOpen={detailsDialogOpen}
                                 showAppForm={showAppForm}
-                                setCurrentApplication={setCurrentApplication}
                             />
                         </Col>
                     </Row>
@@ -316,12 +315,6 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible, isApplicationTa
                             <Col size={1} breakpoint='1024px' breakpointMargin='25px 0'>
                                 <Panel color='purple' info={activeFacultyInterns} title='Active Interns ' image={Manlogo} imgClass='man-icon' />
                             </Col>
-                            {/* <Col size={1} breakpoint='1024px' breakpointMargin='25px 0'>
-                                <Panel color='blue' info={totalInterns} title='Current Semester Interens ' image={Manlogo} imgClass='man-icon' />
-                            </Col>
-                            <Col size={1} breakpoint='1024px' breakpointMargin='25px 0'>
-                                <Panel color='green' info={activeInterns} title='Previous Semester Interens' image={Manlogo} imgClass='man-icon' />
-                            </Col> */}
                             <Col size={1} breakpoint='1024px' breakpointMargin='25px 0'>
                                 <Panel color='Green' info={pendingFacultyApprovals} title='Pending Approvals ' image={Hourglass} imgClass='large-icon' />
                             </Col>
@@ -329,11 +322,11 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible, isApplicationTa
                                 <Panel color='rgb(55, 165, 238)' info={inStateInternsFaculty} title='In State' image={Manlogo} imgClass='man-icon' />
                             </Col>
                             <Col size={1} breakpoint='1024px' breakpointMargin='25px 0'>
-                                <Panel color='red' info={outofStateInternsFaculty} title='Out of State' image={airplane} imgClass='large-icon'/>
+                                <Panel color='red' info={outOfStateInternsFaculty} title='Out of State' image={airplane} imgClass='large-icon'/>
                             </Col>
                         </Row>
                         <Row breakpoint='1024px' margin='50px 0'>
-                            
+
                         </Row>
                         <Row>
                             <Col size={1}>
@@ -397,7 +390,7 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible, isApplicationTa
                     role === "Faculty" && <FacultyView />
                 }
                 {isAppFormVisible && <ApplicationForm /> }
-                {isAppFormVisible && <ApplicationForm 
+                {isAppFormVisible && <ApplicationForm
                     getInitial={getInitial}
                     hideAppForm={hideAppForm}/>}
                 {
@@ -408,7 +401,7 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible, isApplicationTa
                         {<StudentView />}
                     </>
                 }
-                
+
             </div>
         </>
     )}

@@ -88,7 +88,7 @@ app.post('/api/submit', (req, res) => {
 
     // let facultyInsert = `INSERT INTO Users(UserID, UserRole, Lastname, FirstName, PersonalEmail) VALUES ? ON DUPLICATE KEY UPDATE LastName = VALUES(Lastname), FirstName = VALUES(FirstName), PersonalEmail = VALUES(PersonalEmail)`;
     //(InternshipID, EmployerName, PointOfContact, EmployerEmail, EmployerPhone, EmployerAddress, StartDate, EndDate)
-    let internshipInsert = `INSERT INTO Internship VALUES ? ON DUPLICATE KEY UPDATE EmployerName = VALUES(EmployerName), PointOfContact = VALUES(PointOfContact), EmployerEmail = VALUES(EmployerEmail), EmployerPhone= VALUES(EmployerPhone), EmployerAddress= VALUES(EmployerAddress), StartDate= VALUES(StartDate), EndDate= VALUES(EndDate)`; 
+    let internshipInsert = `INSERT INTO Internship VALUES ? ON DUPLICATE KEY UPDATE EmployerName = VALUES(EmployerName), PointOfContact = VALUES(PointOfContact), EmployerEmail = VALUES(EmployerEmail), EmployerPhone= VALUES(EmployerPhone), EmployerAddress= VALUES(EmployerAddress), StartDate= VALUES(StartDate), EndDate= VALUES(EndDate)`;
     //(ApplicationID, ApplicationStatus, ApplicationDate, InternID, StuID, FacID)
     let applicationInsert = `INSERT INTO Applications VALUES ? ON DUPLICATE KEY UPDATE ApplicationStatus = VALUES(ApplicationStatus), ApplicationDate = VALUES(ApplicationDate), InternID = VALUES(InternID), StuID = VALUES(StuID), FacID = VALUES(FacID), Signature = VALUES(Signature), AgreementDate = VALUES(AgreementDate), Comments = VALUES(Comments)`;
     // let userInsert = `REPLACE INTO Users VALUES ?`
@@ -158,7 +158,7 @@ app.post('/api/submit', (req, res) => {
             if (err) throw err;
             console.log("Getting Latest Internship ID...");
             console.log(data[0].InternshipID)
-            
+
             let applicationValues = [
                 [
                     applicationID,
@@ -190,7 +190,7 @@ app.post('/api/submit', (req, res) => {
                 facultyID,
                 signature,
                 agreementDate,
-                comments 
+                comments
             ]
         ]
         console.log(applicationValues)
@@ -234,15 +234,15 @@ app.get('/api/getFullApplications/:userRole/:userID', (req, res) => {
                     if (err) throw err;
                     // console.log(student)
 
-                            let allApplications = Object.assign({}, ...application.map((x) => ({[x.ApplicationID]: x}))) 
+                            let allApplications = Object.assign({}, ...application.map((x) => ({[x.ApplicationID]: x})))
                             let allInternships = Object.assign({}, ...internship.map((x) => ({[x.InternshipID]: x})))
-                            let allUsers = Object.assign({}, ...users.map((x) => ({[x.UserID]: x})))  
+                            let allUsers = Object.assign({}, ...users.map((x) => ({[x.UserID]: x})))
                         console.log(allApplications)
                         res.send({"applications": allApplications, "internships": allInternships, "users": allUsers})
-                    
+
                     })
                 })
-            
+
 
             // res.send(response)
         } else {
@@ -262,6 +262,7 @@ app.get('/api/getTotalFacultyInterns/:facID', (req, res) => {
     connection.query(`SELECT COUNT(ApplicationStatus) as 'TotalInterns' FROM Applications WHERE ApplicationStatus = 'Approved' AND FacID = ?`, [facID], (err, data) => {
         if (err) { res.send(err) }
         console.log("=======")
+        console.log("=======")
         console.log(data[0].TotalInterns)
         const totalInterns = data[0].TotalInterns
         res.send({ totalInterns } )
@@ -274,7 +275,7 @@ app.get('/api/getTotalFacultyInternsActive/:facID', (req, res) => {
         date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
     connection.query(`SELECT Applications.InternID, Internship.InternshipID, Internship.StartDate, Internship.EndDate FROM Applications INNER JOIN Internship ON Applications.InternID=Internship.InternshipID AND Applications.FacID = ? AND ApplicationStatus = 'Approved' AND Internship.StartDate <= ? AND Internship.EndDate >= ?`, [facID, date, date], (err, data) => {
         if (err) { res.send(err) }
-        console.log(data)
+        console.log(data.length)
         // const totalInterns = data[0].TotalInterns
         res.send({ "ActiveInterns": data.length } )
     })
@@ -296,8 +297,8 @@ app.get('/api/getOutOfStateInternsFaculty/:facID', (req, res) => {
         date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
     connection.query(`SELECT Count(*) AS 'OutOfStateInterns' FROM Applications INNER JOIN Internship ON Applications.InternID=InternshipID AND FacID = ? AND (EmployerAddress NOT LIKE '%MO%' AND EmployerAddress NOT LIKE '%missouri%') AND StartDate <= ? AND EndDate >= ?`, [facID, date, date], (err, data) => {
         if (err) { res.send(err) }
-        console.log(data[0].length)
-        if (data) { res.send({"outofstateinterns": data}) }
+        console.log(data)
+        if (data) { res.send(data) }
     })
 })
 

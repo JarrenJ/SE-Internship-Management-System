@@ -132,8 +132,8 @@ const Dashboard = () => {
         fetch(`/api/getOutOfStateInternsFaculty/${userID}`)
             .then(response => response.json())
             .then(data => {
-                console.log(data)
-                setOutOfStateInternsFaculty(data.outofstateinterns[0].OutOfStateInterns)
+                console.log(data[0].OutOfStateInterns)
+                setOutOfStateInternsFaculty(data[0].OutOfStateInterns)
             })
     }, [outOfStateInternsFaculty])
 
@@ -213,7 +213,7 @@ const Dashboard = () => {
                 activeInterns={activeInterns}
                 activeFacultyInterns={activeFacultyInterns}
                 outOfStateInterns={outOfStateInterns}
-                outofStateInternsFaculty={outOfStateInternsFaculty}
+                outOfStateInternsFaculty={outOfStateInternsFaculty}
                 inStateInternsFaculty={inStateInternsFaculty}
                 isOpen={isOpen}
                 showAppForm={showAppForm}
