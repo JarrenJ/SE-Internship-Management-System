@@ -410,6 +410,34 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible, isApplicationTa
                                 <div className='dashboard__Map' />
                             </Col>
                         </Row>
+                        <Row>
+                            <Col size={1} bgColor='transparent' margin='0 20px' /*maxWidth='1200px' */>
+                              <ApplicationTable
+                                role={role}
+                                users={users}
+                                applications={applications}
+                                internships={internships}
+                                tableError={tableError}
+                                setCurrentApplication={setCurrentApplication}
+                                handleClickOpen={handleClickOpen}
+                              />
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col size={1}>
+                              <DetailsDialog
+                                handleClose={handleClose}
+                                applications={applications}
+                                internships={internships}
+                                role={role}
+                                users={users}
+                                currentApplication={currentApplication}
+                                setCurrentApplication={setCurrentApplication}
+                                detailsDialogOpen={detailsDialogOpen}
+                                showAppForm={showAppForm}
+                              />
+                            </Col>
+                        </Row>
                     </>
                 }
                 {
