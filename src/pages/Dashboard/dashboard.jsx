@@ -32,10 +32,10 @@ const Dashboard = () => {
     const [totalFacultyInterns, setTotalFacultyInterns] = useState(0)
     const [activeFacultyInterns, setActiveFacultyInterns] = useState(0)
     const [pendingFacultyApprovals, setPendingFacultyApprovals] = useState(0)
-    const [outofStateInternsFaculty, setoutofStateInternsFaculty] = useState(0)
-    const [inStateInternsFaculty, setinStateInternsFaculty] = useState(0)
-    
-    
+    const [outOfStateInternsFaculty, setOutOfStateInternsFaculty] = useState(0)
+    const [inStateInternsFaculty, setInStateInternsFaculty] = useState(0)
+
+
     useEffect(() => {
         fetch(`/api/getUser/${userID}`)
             .then(response => response.json())
@@ -105,7 +105,7 @@ const Dashboard = () => {
     }, [outOfStateInterns])
 
     useEffect(() => {
-        fetch(`/api/getTotalFacultyInterns/neloe`)
+        fetch(`/api/getTotalFacultyInterns/${userID}`)
             .then(response => response.json())
             .then(data => {
                 setTotalFacultyInterns(data.totalInterns)
@@ -113,7 +113,7 @@ const Dashboard = () => {
     }, [totalFacultyInterns])
 
     useEffect(() => {
-        fetch(`/api/getTotalFacultyInternsActive/neloe`)
+        fetch(`/api/getTotalFacultyInternsActive/${userID}`)
             .then(response => response.json())
             .then(data => {
                 setActiveFacultyInterns(data.ActiveInterns)
@@ -121,7 +121,7 @@ const Dashboard = () => {
     }, [activeFacultyInterns])
 
     useEffect(() => {
-        fetch(`/api/getPendingFacultyApprovals/neloe`)
+        fetch(`/api/getPendingFacultyApprovals/${userID}`)
             .then(response => response.json())
             .then(data => {
                 setPendingFacultyApprovals(data.pendingApprovals)
@@ -129,20 +129,20 @@ const Dashboard = () => {
     }, [pendingFacultyApprovals])
 
     useEffect(() => {
-        fetch(`/api/getOutOfStateInternsFaculty/neloe`)
+        fetch(`/api/getOutOfStateInternsFaculty/${userID}`)
             .then(response => response.json())
             .then(data => {
                 console.log(data)
-                setoutofStateInternsFaculty(data.outofstateinterns[0].OutOfStateInterns)
+                setOutOfStateInternsFaculty(data.outofstateinterns[0].OutOfStateInterns)
             })
-    }, [outofStateInternsFaculty])
+    }, [outOfStateInternsFaculty])
 
     useEffect(() => {
-        fetch(`/api/getInStateInternsFaculty/neloe`)
+        fetch(`/api/getInStateInternsFaculty/${userID}`)
             .then(response => response.json())
             .then(data => {
                 console.log(data)
-                setinStateInternsFaculty(data[0].InStateInterns)
+                setInStateInternsFaculty(data[0].InStateInterns)
             })
     }, [inStateInternsFaculty])
 
@@ -176,7 +176,7 @@ const Dashboard = () => {
         setCurrentApplication(undefined)
         console.log(currentApplication)
     }
-    
+
     const showApplicationTable = () => {
         setIsApplicationTableVisible(!isApplicationTableVisible)
     }
@@ -213,7 +213,7 @@ const Dashboard = () => {
                 activeInterns={activeInterns}
                 activeFacultyInterns={activeFacultyInterns}
                 outOfStateInterns={outOfStateInterns}
-                outofStateInternsFaculty={outofStateInternsFaculty}
+                outofStateInternsFaculty={outOfStateInternsFaculty}
                 inStateInternsFaculty={inStateInternsFaculty}
                 isOpen={isOpen}
                 showAppForm={showAppForm}
