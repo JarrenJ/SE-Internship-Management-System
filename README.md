@@ -7,7 +7,18 @@ Internship Management System
 - Clone this project
 - Open terminal window **in the project directory** and run `yarn install`
   - This will install all the dependencies and packages
-  
+
+## Test Users
+- Admin account:
+  - user: admin
+  - password: admin
+- Faculty account:
+  - user: neloe
+  - password: password
+- Student:
+  - user: S528544
+  - password: password
+
 ## MySQL
 - We are using a `.env` file. If you do not have this, reach out to Aaron or Jarren, they can explain what you need in it.
 - The database is currently running on a Raspberry Pi 4 with MariaDB for dev purposes.
