@@ -1,7 +1,6 @@
-import React, {useEffect, useState} from "react";
+import React, { useState } from "react";
 import Button from "@material-ui/core/Button";
 import TextField from '@material-ui/core/TextField';
-// import { Grid, Row, Col } from '../../pages/Home/home'
 
 import styled from "styled-components";
 
@@ -58,8 +57,7 @@ const Col = styled.div`
 `
 
 
-export function ApplicationForm({getInitial, hideAppForm}) {
-
+export function ApplicationForm({ getInitial, hideAppForm }) {
     const {initialValues, initialStartDate, initialEndDate, initialEmpAddr, initialStuAddr, date} = getInitial()
     console.log(initialValues)
 
@@ -154,7 +152,7 @@ export function ApplicationForm({getInitial, hideAppForm}) {
             <Button
                 variant='outlined'
                 onClick={onSubmit}
-                disabled={((signature.length < 3) || (values.studentId < 3) || 
+                disabled={((signature.length < 3) || (values.studentId < 3) ||
                     (values.instructorEmail < 3) || (agreementDate.length < 1)) === true}
             >
                 Submit
@@ -175,73 +173,65 @@ export function ApplicationForm({getInitial, hideAppForm}) {
         }
         return null
     }
-    if (typeof currentApplication !== undefined) {
-        return (
-            <Container>
-                <Form>
-                    <Row minHeight={'700px'}>
-                        <Col size={1}>
-                            <StudentInfo
-                                currentStep={currentStep}
-                                values={values}
-                                stuAddress={stuAddress}
-                                comments={comments}
-                                setComments={setComments}
-                                handleInputChange={handleInputChange}
-                                handleAddressChangeS={handleAddressChangeS}
-                            />
-                            <InstructorInfo
-                                currentStep={currentStep}
-                                values={values}
-                                handleInputChange={handleInputChange}
-                            />
-                            <EmployerInfo
-                                currentStep={currentStep}
-                                values={values}
-                                empAddress={empAddress}
-                                startDate={startDate}
-                                endDate={endDate}
-                                setStartDate={setStartDate}
-                                setEndDate={setEndDate}
-                                handleInputChange={handleInputChange}
-                                handleAddressChangeE={handleAddressChangeE}
-                            />
-                            <Agreement
+    return (
+        <Container>
+            <Form>
+                <Row minHeight={'700px'}>
+                    <Col size={1}>
+                        <StudentInfo
                             currentStep={currentStep}
                             values={values}
-                            signature={signature}
-                            setSignature={setSignature}
-                            agreementDate={agreementDate}
-                            setAgreementDate={setAgreementDate}
+                            stuAddress={stuAddress}
+                            comments={comments}
+                            setComments={setComments}
                             handleInputChange={handleInputChange}
-                            />
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col size={1} maxWidth={'100%'} margin={'0 30px'}>
-                            <div className='app__btns__container'>
-                                <div className='app__btn__prev'>
-                                    {previousButton()}
-                                </div>
-                                <div className='app__btn__next'>
-                                    {nextButton()}
-                                </div>
-                                <div className='app__btn__close'>
-                                    {closeButton()}
-                                </div>
+                            handleAddressChangeS={handleAddressChangeS}
+                        />
+                        <InstructorInfo
+                            currentStep={currentStep}
+                            values={values}
+                            handleInputChange={handleInputChange}
+                        />
+                        <EmployerInfo
+                            currentStep={currentStep}
+                            values={values}
+                            empAddress={empAddress}
+                            startDate={startDate}
+                            endDate={endDate}
+                            setStartDate={setStartDate}
+                            setEndDate={setEndDate}
+                            handleInputChange={handleInputChange}
+                            handleAddressChangeE={handleAddressChangeE}
+                        />
+                        <Agreement
+                        currentStep={currentStep}
+                        values={values}
+                        signature={signature}
+                        setSignature={setSignature}
+                        agreementDate={agreementDate}
+                        setAgreementDate={setAgreementDate}
+                        handleInputChange={handleInputChange}
+                        />
+                    </Col>
+                </Row>
+                <Row>
+                    <Col size={1} maxWidth={'100%'} margin={'0 30px'}>
+                        <div className='app__btns__container'>
+                            <div className='app__btn__prev'>
+                                {previousButton()}
                             </div>
-                        </Col>
-                    </Row>
-                </Form>
-            </Container>
-        )
-    } else {
-        return(
-        <Row>
-            test
-        </Row>
-        )
-    }
+                            <div className='app__btn__next'>
+                                {nextButton()}
+                            </div>
+                            <div className='app__btn__close'>
+                                {closeButton()}
+                            </div>
+                        </div>
+                    </Col>
+                </Row>
+            </Form>
+        </Container>
+    )
 }
 
 const StudentInfo = ({ currentStep, values, handleInputChange, handleAddressChangeS, stuAddress, comments, setComments }) => {

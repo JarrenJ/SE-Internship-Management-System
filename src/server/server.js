@@ -4,7 +4,6 @@ const session = require('express-session');
 const bodyParser = require('body-parser');
 const cors = require("cors");
 const jwt = require("jsonwebtoken");
-const e = require('express');
 
 // Create connection to mySQL database
 const connection = mysql.createConnection({
@@ -310,18 +309,6 @@ app.get('/api/getInStateInternsFaculty/:facID', (req, res) => {
         if (err) { res.send(err) }
         console.log(data)
         if (data) { res.send(data) }
-    })
-})
-
-app.get('/api/getFacultyInOfStateInterns/:facID', (req, res) => {
-    const facID = req.params.facID
-    const today = new Date(),
-        date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
-    connection.query(`SELECT Count(EndDate) as 'InOfStateInterns' FROM Internship WHERE EndDate >= ? AND EmployerAddress LIKE '%MO%' OR EmployerAddress NOT LIKE '%Missouri%'`, [date], (err, data) => {
-        if (err) { res.send(err) }
-        console.log(data[0].InOfStateInterns)
-        const outOfStateInterns = data[0].OfStateInterns
-        res.send({ outOfStateInterns } )
     })
 })
 
