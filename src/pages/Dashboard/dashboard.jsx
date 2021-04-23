@@ -178,8 +178,10 @@ const Dashboard = () => {
     }
 
     const showApplicationTable = () => {
-        setIsApplicationTableVisible(!isApplicationTableVisible)
+        setIsApplicationTableVisible(true)
+        hideAppForm()
     }
+    
 
     // const [click, setClick] = useState(false);
     // const [isMobileOpen, setIsMobileOpen] = useState('-100%')

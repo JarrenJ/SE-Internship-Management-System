@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import {account, airplane, Hourglass, Manlogo, NWDoubleStackedGreen} from "assets";
+import { account, airplane, Hourglass, Manlogo, NWDoubleStackedGreen } from "assets";
 import { ApplicationForm, ApplicationTable, DetailsDialog, AutoLogOut, MobileNav } from 'components'
 
 import styled from "styled-components";
@@ -98,7 +98,7 @@ const StyledPanel = styled.div`
 `
 
 const Panel = ({ color, title, info, image, imgClass }) => {
-    return(
+    return (
         <StyledPanel color={color}>
             <Row direction='column'>
                 <Col size={1}>
@@ -114,12 +114,12 @@ const Panel = ({ color, title, info, image, imgClass }) => {
 }
 
 export function DashboardPanel({ isOpen, role, isAppFormVisible, isApplicationTableVisible,
-                                userID, users, applications,
-                                internships, tableError, totalInterns, pendingApprovals,
-                                activeInterns, outOfStateInterns, showAppForm, hideAppForm,
-                                currentApplication, setCurrentApplication, totalFacultyInterns,
-                                activeFacultyInterns, pendingFacultyApprovals, outOfStateInternsFaculty,
-                                inStateInternsFaculty }) {
+    userID, users, applications,
+    internships, tableError, totalInterns, pendingApprovals,
+    activeInterns, outOfStateInterns, showAppForm, hideAppForm,
+    currentApplication, setCurrentApplication, totalFacultyInterns,
+    activeFacultyInterns, pendingFacultyApprovals, outOfStateInternsFaculty,
+    inStateInternsFaculty }) {
 
     const [detailsDialogOpen, setDetailsDialogOpen] = React.useState(false);
     const getInitial = () => {
@@ -164,11 +164,11 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible, isApplicationTa
                 zip: "",
             }
             let submitDate = new Date(),
-            date = submitDate.getFullYear() + '-' + (submitDate.getMonth() + 1) + '-' + submitDate.getDate();
+                date = submitDate.getFullYear() + '-' + (submitDate.getMonth() + 1) + '-' + submitDate.getDate();
             let initialStartDate = date
             let initialEndDate = date
             return (
-                {initialValues, initialStartDate, initialEndDate, initialEmpAddr, initialStuAddr, date}
+                { initialValues, initialStartDate, initialEndDate, initialEmpAddr, initialStuAddr, date }
             )
         } else {
             console.log(currentApplication)
@@ -211,10 +211,10 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible, isApplicationTa
                 zip: employerAddress[4],
             }
             let date = currentApplication.ApplicationDate
-            let initialStartDate =  internships[currentApplication.InternID].StartDate.substr(0, internships[currentApplication.InternID].StartDate.indexOf('T'))
+            let initialStartDate = internships[currentApplication.InternID].StartDate.substr(0, internships[currentApplication.InternID].StartDate.indexOf('T'))
             let initialEndDate = internships[currentApplication.InternID].EndDate.substr(0, internships[currentApplication.InternID].EndDate.indexOf('T'))
             return (
-                {initialValues, initialStartDate, initialEndDate, initialEmpAddr, initialStuAddr, date}
+                { initialValues, initialStartDate, initialEndDate, initialEmpAddr, initialStuAddr, date }
             )
         }
     }
@@ -227,7 +227,7 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible, isApplicationTa
     };
 
     const DefaultStudentView = () => {
-        return(
+        return (
             <>
                 <Container>
                     <Row>
@@ -242,7 +242,7 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible, isApplicationTa
                     <Row>
                         <Col size={1}>
                             <div className='dashboard__student__default__image'>
-                                <img src={NWDoubleStackedGreen} alt='Northwest Stacked Logo Green'/>
+                                <img src={NWDoubleStackedGreen} alt='Northwest Stacked Logo Green' />
                             </div>
                         </Col>
                     </Row>
@@ -251,7 +251,7 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible, isApplicationTa
                     <Row>
                         <Col size={1}>
                             <div className='dashboard__student__default__title'>
-                                <p>Apply or Track your Internship Application</p>
+                                <p>Apply or Track Internship Applications</p>
                             </div>
                         </Col>
                     </Row>
@@ -260,11 +260,138 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible, isApplicationTa
         )
     }
 
-    const StudentView = () => {
-        return(
+    // const StudentView = () => {
+    //     return (
+    //         <>
+    //             <Row>
+    //                 <Col size={1} bgColor='transparent' margin='0 20px' /*maxWidth='1200px' */>
+    //                     <ApplicationTable
+    //                         role={role}
+    //                         users={users}
+    //                         applications={applications}
+    //                         internships={internships}
+    //                         tableError={tableError}
+    //                         setCurrentApplication={setCurrentApplication}
+    //                         handleClickOpen={handleClickOpen}
+    //                     />
+    //                 </Col>
+    //             </Row>
+    //         </>
+    //     )
+    // }
+    const FacultyView = () => {
+        isApplicationTableVisible = true
+        return (
             <>
+                <Row>
+                    <Col>
+                        <p className='dashboard__title'>Dashboard</p>
+                    </Col>
+                </Row>
+                <Row breakpoint='1024px'>
+                    <Col size={1} breakpoint='1024px' breakpointMargin='25px 0'>
+                        <Panel color='blue' info={totalFacultyInterns} title='Total Interns ' image={Manlogo} imgClass='man-icon' />
+                    </Col>
+                    <Col size={1} breakpoint='1024px' breakpointMargin='25px 0'>
+                        <Panel color='purple' info={activeFacultyInterns} title='Active Interns ' image={Manlogo} imgClass='man-icon' />
+                    </Col>
+                    <Col size={1} breakpoint='1024px' breakpointMargin='25px 0'>
+                        <Panel color='Green' info={pendingFacultyApprovals} title='Pending Approvals ' image={Hourglass} imgClass='large-icon' />
+                    </Col>
+                    <Col size={1} breakpoint='1024px' breakpointMargin='25px 0'>
+                        <Panel color='rgb(55, 165, 238)' info={inStateInternsFaculty} title='In State' image={Manlogo} imgClass='man-icon' />
+                    </Col>
+                    <Col size={1} breakpoint='1024px' breakpointMargin='25px 0'>
+                        <Panel color='red' info={outOfStateInternsFaculty} title='Out of State' image={airplane} imgClass='large-icon' />
+                    </Col>
+                </Row>
+                <Row breakpoint='1024px' margin='50px 0'>
+
+                </Row>
+            </>
+        )
+    }
+    const AdminView = () => {
+        // isApplicationTableVisible = true
+        return (
+            <>
+                <Row>
+                    <Col>
+                        <p className='dashboard__title'>Dashboard</p>
+                    </Col>
+                </Row>
+                <Row breakpoint='507px' wrap margin='0 0 0 -10px'>
+                    <Col size={1} breakpoint='1024px' breakpointMargin='25px 0' maxHeight='100px' minWidth='200px'>
+                        <Panel color='blue' info={totalInterns} title='Total Interns' image={Manlogo} imgClass='man-icon' />
+                    </Col>
+                    <Col size={1} breakpoint='1024px' breakpointMargin='25px 0' maxHeight='100px' minWidth='200px'>
+                        <Panel color='green' info={activeInterns} title='Active Internships' image={Manlogo} imgClass='man-icon' />
+                    </Col>
+                    <Col size={1} breakpoint='1024px' breakpointMargin='25px 0' maxHeight='100px' minWidth='200px'>
+                        <Panel color='rgb(55, 165, 238)' info={pendingApprovals} title='Pending Approvals' image={Hourglass} imgClass='large-icon' />
+                    </Col>
+                    <Col size={1} breakpoint='1024px' breakpointMargin='25px 0' maxHeight='100px' minWidth='200px'>
+                        <Panel color='red' info={outOfStateInterns} title='Out of State' image={airplane} imgClass='large-icon' />
+                    </Col>
+                </Row>
+            </>
+        )
+    }
+    console.log(applications)
+    return (
+        <>
+            {/* Call AutoLogOut function here */}
+            <AutoLogOut />
+            <div className="dashboard__container" style={{ left: isOpen ? '20%' : '3.5%', width: isOpen ? `80%` : `96.5%` }}>
+                <Row maxHeight='65px'>
+                    <MobileNav
+                        role={role}
+                        showAppForm={showAppForm}
+                    />
+                    <Col size={1} maxHeight='65px'>
+                        <div className="dashboard__Header">
+                            <img className='dashboard__profile__pic' src={account} alt='account.png' />
+                            <div className="Header_Namebox">
+                                <p>{userID}</p>
+                            </div>
+                        </div>
+                    </Col>
+                </Row>
+                {
+                    role === "Admin" && <AdminView />
+                }
+                {
+                    role === "Faculty" && <FacultyView />
+                }
+                {
+                    role === "Student" &&
+                    <>
+                        {applications.length === 0 && !isAppFormVisible &&
+                            <DefaultStudentView />}
+                        {/* {<StudentView />} */}
+                    </>
+                }
+                {isAppFormVisible &&
+                    <ApplicationForm
+                        getInitial={getInitial}
+                        hideAppForm={hideAppForm} />
+                }
+                {!isAppFormVisible && role !== 'Student' &&
+                    <>
+                        <Row>
+                            <Col size={1}>
+                                <div className='dashboard__Map_header'>
+                                    <p>Interns Map</p>
+                                </div>
+                                <div className='dashboard__Map' />
+                            </Col>
+                        </Row>
+
+                    </>
+                }
+                {!isAppFormVisible && 
                     <Row>
-                        <Col size={1} bgColor='transparent' margin='0 20px' /*maxWidth='1200px' */>
+                        <Col size={1} bgColor='transparent' margin='0 20px' >
                             <ApplicationTable
                                 role={role}
                                 users={users}
@@ -276,187 +403,25 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible, isApplicationTa
                             />
                         </Col>
                     </Row>
-                    <Row>
-                        <Col size={1}>
-                            <DetailsDialog
-                                handleClose={handleClose}
-                                applications={applications}
-                                internships={internships}
-                                role={role}
-                                users={users}
-                                currentApplication={currentApplication}
-                                setCurrentApplication={setCurrentApplication}
-                                detailsDialogOpen={detailsDialogOpen}
-                                showAppForm={showAppForm}
-                            />
-                        </Col>
-                    </Row>
-            </>
-        )
-    }
-    const FacultyView = () => {
-        return (
-            <>
-                        <Row>
-                            <Col>
-                                <p className='dashboard__title'>Dashboard</p>
-                            </Col>
-                        </Row>
-                        <Row breakpoint='1024px'>
-                        <Col size={1} breakpoint='1024px' breakpointMargin='25px 0'>
-                                <Panel color='blue' info={totalFacultyInterns} title='Total Interns ' image={Manlogo} imgClass='man-icon' />
-                            </Col>
-                            <Col size={1} breakpoint='1024px' breakpointMargin='25px 0'>
-                                <Panel color='purple' info={activeFacultyInterns} title='Active Interns ' image={Manlogo} imgClass='man-icon' />
-                            </Col>
-                            <Col size={1} breakpoint='1024px' breakpointMargin='25px 0'>
-                                <Panel color='Green' info={pendingFacultyApprovals} title='Pending Approvals ' image={Hourglass} imgClass='large-icon' />
-                            </Col>
-                            <Col size={1} breakpoint='1024px' breakpointMargin='25px 0'>
-                                <Panel color='rgb(55, 165, 238)' info={inStateInternsFaculty} title='In State' image={Manlogo} imgClass='man-icon' />
-                            </Col>
-                            <Col size={1} breakpoint='1024px' breakpointMargin='25px 0'>
-                                <Panel color='red' info={outOfStateInternsFaculty} title='Out of State' image={airplane} imgClass='large-icon'/>
-                            </Col>
-                        </Row>
-                        <Row breakpoint='1024px' margin='50px 0'>
-
-                        </Row>
-                        <Row>
-                            <Col size={1}>
-                                <div className='dashboard__Map_header'>
-                                    <p>Interns Map</p>
-                                </div>
-                                <div className='dashboard__Map' />
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col size={1} bgColor='transparent' margin='0 20px' /*maxWidth='1200px' */>
-                                <ApplicationTable
-                                  role={role}
-                                  users={users}
-                                  applications={applications}
-                                  internships={internships}
-                                  tableError={tableError}
-                                  setCurrentApplication={setCurrentApplication}
-                                  handleClickOpen={handleClickOpen}
-                                />
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col size={1}>
-                                <DetailsDialog
-                                  handleClose={handleClose}
-                                  applications={applications}
-                                  internships={internships}
-                                  role={role}
-                                  users={users}
-                                  currentApplication={currentApplication}
-                                  setCurrentApplication={setCurrentApplication}
-                                  detailsDialogOpen={detailsDialogOpen}
-                                  showAppForm={showAppForm}
-                                />
-                            </Col>
-                        </Row>
-                    </>
-        )
-    }
-
-    return (
-        <>
-            {/* Call AutoLogOut function here */}
-            <AutoLogOut />
-            <div className="dashboard__container" style={{left: isOpen ? '20%' : '3.5%', width: isOpen ? `80%` : `96.5%`}}>
-                <Row maxHeight='65px'>
-                    <MobileNav
-                        role={role}
-                        showAppForm={showAppForm}
-                    />
-                    <Col size={1} maxHeight='65px'>
-                        <div className="dashboard__Header">
-                            <img className='dashboard__profile__pic' src={ account } alt='account.png'/>
-                            <div className="Header_Namebox">
-                                <p>{userID}</p>
-                            </div>
-                        </div>
+                }
+                <Row>
+                    <Col size={1}>
+                        <DetailsDialog
+                            handleClose={handleClose}
+                            applications={applications}
+                            internships={internships}
+                            role={role}
+                            users={users}
+                            currentApplication={currentApplication}
+                            setCurrentApplication={setCurrentApplication}
+                            detailsDialogOpen={detailsDialogOpen}
+                            showAppForm={showAppForm}
+                        />
                     </Col>
                 </Row>
-                {role === "Admin" &&
-                    <>
-                        <Row>
-                            <Col>
-                                <p className='dashboard__title'>Dashboard</p>
-                            </Col>
-                        </Row>
-                        <Row breakpoint='507px' wrap margin='0 0 0 -10px'>
-                            <Col size={1} breakpoint='1024px' breakpointMargin='25px 0' maxHeight='100px' minWidth='200px'>
-                                <Panel color='blue' info={totalInterns} title='Total Interns' image={Manlogo} imgClass='man-icon' />
-                            </Col>
-                            <Col size={1} breakpoint='1024px' breakpointMargin='25px 0' maxHeight='100px' minWidth='200px'>
-                                <Panel color='green' info={activeInterns} title='Active Internships' image={Manlogo} imgClass='man-icon' />
-                            </Col>
-                            <Col size={1} breakpoint='1024px' breakpointMargin='25px 0' maxHeight='100px' minWidth='200px'>
-                                <Panel color='rgb(55, 165, 238)' info={pendingApprovals} title='Pending Approvals' image={Hourglass} imgClass='large-icon' />
-                            </Col>
-                            <Col size={1} breakpoint='1024px' breakpointMargin='25px 0' maxHeight='100px' minWidth='200px'>
-                                <Panel color='red' info={outOfStateInterns} title='Out of State' image={airplane} imgClass='large-icon'/>
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col size={1}>
-                                <div className='dashboard__Map_header'>
-                                    <p>Interns Map</p>
-                                </div>
-                                <div className='dashboard__Map' />
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col size={1} bgColor='transparent' margin='0 20px' /*maxWidth='1200px' */>
-                              <ApplicationTable
-                                role={role}
-                                users={users}
-                                applications={applications}
-                                internships={internships}
-                                tableError={tableError}
-                                setCurrentApplication={setCurrentApplication}
-                                handleClickOpen={handleClickOpen}
-                              />
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col size={1}>
-                              <DetailsDialog
-                                handleClose={handleClose}
-                                applications={applications}
-                                internships={internships}
-                                role={role}
-                                users={users}
-                                currentApplication={currentApplication}
-                                setCurrentApplication={setCurrentApplication}
-                                detailsDialogOpen={detailsDialogOpen}
-                                showAppForm={showAppForm}
-                              />
-                            </Col>
-                        </Row>
-                    </>
-                }
-                {
-                    isAppFormVisible && <ApplicationForm
-                    getInitial={getInitial}
-                    hideAppForm={hideAppForm}/>
-                }
-                {
-                    role === "Faculty" && <FacultyView />
-                }
-                {
-                    role === "Student"
-                    &&
-                    <>
-                        {typeof applications === undefined &&<DefaultStudentView />}
-                        {<StudentView />}
-                    </>
-                }
+
 
             </div>
         </>
-    )}
+    )
+}
