@@ -6,7 +6,7 @@ const Dashboard = () => {
     const [down, setDown] = useState(false)
     const [navOpen, setNavOpen] = useState('0')
 
-    const [isOpen, setIsOpen] = useState(true)
+    const [isSideNavOpen, setIsSideNavOpen] = useState(true)
     const userID = sessionStorage.getItem("userID")
     const [isAppFormVisible, setIsAppFormVisible] = useState(false)
     const [isApplicationTableVisible, setIsApplicationTableVisible] = useState(false)
@@ -158,14 +158,14 @@ const Dashboard = () => {
 
     const closeSideNav = () => {
         setNavOpen('-20%')
-        console.log(isOpen)
-        setIsOpen(false)
-        console.log(isOpen)
+        console.log(isSideNavOpen)
+        setIsSideNavOpen(false)
+        console.log(isSideNavOpen)
     }
 
     const openSideNav = () => {
         setNavOpen('0')
-        setIsOpen(true)
+        setIsSideNavOpen(true)
     }
 
     const showAppForm = () => {
@@ -182,17 +182,6 @@ const Dashboard = () => {
         hideAppForm()
     }
     
-
-    // const [click, setClick] = useState(false);
-    // const [isMobileOpen, setIsMobileOpen] = useState('-100%')
-    //
-    // const handleMenuClick = () => {
-    //     console.log(click)
-    //     setClick(!click)
-    //     console.log(click)
-    //     setIsMobileOpen(click ? '-100%' :'0')
-    //     console.log(isOpen)
-    // }
 
     return (
       <>
@@ -228,7 +217,7 @@ const Dashboard = () => {
             outOfStateInterns={outOfStateInterns}
             outOfStateInternsFaculty={outOfStateInternsFaculty}
             inStateInternsFaculty={inStateInternsFaculty}
-            isOpen={isOpen}
+            isSideNavOpen={isSideNavOpen}
             showAppForm={showAppForm}
             hideAppForm={hideAppForm}
             showApplicationTable={showApplicationTable}

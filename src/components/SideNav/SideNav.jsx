@@ -128,7 +128,7 @@ export function SideNav({ role, handleClick, handleClose, closeSideNav, openSide
                                     <i className="fas fa-plus-square" />
                                 </p>
                                 <p className='sidenav__p__click' onClick={showApplicationTable}>
-                                    <i className="fas fa-folder-open" /> Check Status
+                                    <i className="fas fa-folder-open" />
                                 </p>
                             </>
                         }

@@ -113,7 +113,7 @@ const Panel = ({ color, title, info, image, imgClass }) => {
     )
 }
 
-export function DashboardPanel({ isOpen, role, isAppFormVisible,
+export function DashboardPanel({ isSideNavOpen, role, isAppFormVisible,
     userID, users, applications,
     internships, tableError, totalInterns, pendingApprovals,
     activeInterns, outOfStateInterns, showAppForm, hideAppForm, showApplicationTable,
@@ -315,12 +315,12 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible,
             </>
         )
     }
-    console.log(applications)
+
     return (
         <>
             {/* Call AutoLogOut function here */}
             <AutoLogOut />
-            <div className="dashboard__container" style={{ left: isOpen ? '20%' : '3.5%', width: isOpen ? `80%` : `96.5%` }}>
+            <div className="dashboard__container" style={{ left: isSideNavOpen ? '20%' : '3.5%', width: isSideNavOpen ? `80%` : `96.5%` }}>
                 <Row maxHeight='65px'>
                     <MobileNav
                         role={role}
@@ -347,7 +347,6 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible,
                     <>
                         {applications.length === 0 && !isAppFormVisible &&
                             <DefaultStudentView />}
-                        {/* {<StudentView />} */}
                     </>
                 }
                 {isAppFormVisible &&
