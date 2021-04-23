@@ -1,3 +1,4 @@
+// import { ROLES } from 'utils'; //couldn't figure out how to get this to work
 const express = require('express');
 const mysql = require('mysql');
 const session = require('express-session');
@@ -30,14 +31,14 @@ app.use(session({
     resave: true,
     saveUninitialized: true
 }))
-app.use(bodyParser.urlencoded({extended : true}))
+app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
+/* Sets application in database
+ * Expects object of  {"status": String, "appID": Integer, "comment": String} 
+ */
 app.post('/api/updateStatus', (req, res) => {
-    const {status, appID, comment} = req.body
-    console.log(appID)
-    console.log(status)
-    console.log(comment)
+    const { status, appID, comment } = req.body
     connection.query(`UPDATE Applications SET ApplicationStatus = ? WHERE ApplicationID = ?`, [status, appID], (err, data) => {
         if (err) {
             res.send(err)
@@ -53,12 +54,21 @@ app.post('/api/updateStatus', (req, res) => {
     res.sendStatus(200)
 })
 
-
+/* Submits new application to database and updates if application is being edited
+ * expects object including all information data 
+ * 
+ * If given Internship ID and Application ID it will update those given records
+ * If UserID already exists for student or faculty that information will be updated
+ * There is no record of past information
+ * 
+ * This means if one student changes Faculty information in their application it is changed 
+ * for all users
+ */
 app.post('/api/submit', (req, res) => {
 
     const {
-        studentId,
-        major,
+        studentId, 
+        major, 
         studentLastName,
         studentFirstName,
         studentEmail,
@@ -66,7 +76,7 @@ app.post('/api/submit', (req, res) => {
         studentPhoneNum,
         instructorLastName,
         instructorFirstName,
-        instructorEmail,
+        instructorEmail, // Email with @
         employerName,
         primaryContactName,
         employerEmail,
@@ -75,33 +85,31 @@ app.post('/api/submit', (req, res) => {
         startDate,
         endDate,
         submitDate,
-        applicationID,
-        internshipID,
+        applicationID, // null if new, integer if edit
+        internshipID, // null if new, integer if edit
         applicationStatus,
         signature,
         agreementDate,
-        comments
+        comments // Empty string if new, existing comments if edit
     } = req.body
 
-    let userInsert = `INSERT INTO Users VALUES ? ON DUPLICATE KEY UPDATE LastName = VALUES(LastName), FirstName = VALUES(FirstName), PersonalEmail = VALUES(PersonalEmail), StudentAddress = VALUES(StudentAddress), Phone = VALUES(Phone), Major = VALUES(Major)`;
+    const userInsert = `INSERT INTO Users VALUES ? ON DUPLICATE KEY UPDATE LastName = VALUES(LastName), FirstName = VALUES(FirstName), PersonalEmail = VALUES(PersonalEmail), StudentAddress = VALUES(StudentAddress), Phone = VALUES(Phone), Major = VALUES(Major)`;
 
-    // let facultyInsert = `INSERT INTO Users(UserID, UserRole, Lastname, FirstName, PersonalEmail) VALUES ? ON DUPLICATE KEY UPDATE LastName = VALUES(Lastname), FirstName = VALUES(FirstName), PersonalEmail = VALUES(PersonalEmail)`;
-    //(InternshipID, EmployerName, PointOfContact, EmployerEmail, EmployerPhone, EmployerAddress, StartDate, EndDate)
-    let internshipInsert = `INSERT INTO Internship VALUES ? ON DUPLICATE KEY UPDATE EmployerName = VALUES(EmployerName), PointOfContact = VALUES(PointOfContact), EmployerEmail = VALUES(EmployerEmail), EmployerPhone= VALUES(EmployerPhone), EmployerAddress= VALUES(EmployerAddress), StartDate= VALUES(StartDate), EndDate= VALUES(EndDate)`;
-    //(ApplicationID, ApplicationStatus, ApplicationDate, InternID, StuID, FacID)
-    let applicationInsert = `INSERT INTO Applications VALUES ? ON DUPLICATE KEY UPDATE ApplicationStatus = VALUES(ApplicationStatus), ApplicationDate = VALUES(ApplicationDate), InternID = VALUES(InternID), StuID = VALUES(StuID), FacID = VALUES(FacID), Signature = VALUES(Signature), AgreementDate = VALUES(AgreementDate), Comments = VALUES(Comments)`;
-    // let userInsert = `REPLACE INTO Users VALUES ?`
-    // let internshipInsert = `REPLACE INTO Internship VALUES ?`
-    // let applicationInsert = `REPLACE INTO Applications VALUES ?`
-    // let getInternId = `SELECT * FROM Internship ORDER BY InternshipID DESC LIMIT 0,1`
-    const studentRole = 'Student'
-    const facultyRole = 'Faculty'
+    const internshipInsert = `INSERT INTO Internship VALUES ? ON DUPLICATE KEY UPDATE EmployerName = VALUES(EmployerName), PointOfContact = VALUES(PointOfContact), EmployerEmail = VALUES(EmployerEmail), EmployerPhone= VALUES(EmployerPhone), EmployerAddress= VALUES(EmployerAddress), StartDate= VALUES(StartDate), EndDate= VALUES(EndDate)`;
+
+    const applicationInsert = `INSERT INTO Applications VALUES ? ON DUPLICATE KEY UPDATE ApplicationStatus = VALUES(ApplicationStatus), ApplicationDate = VALUES(ApplicationDate), InternID = VALUES(InternID), StuID = VALUES(StuID), FacID = VALUES(FacID), Signature = VALUES(Signature), AgreementDate = VALUES(AgreementDate), Comments = VALUES(Comments)`;
+
     const facultyID = instructorEmail.substr(0, instructorEmail.indexOf('@'));
+    const ROLES = { //couldn't figure out how to get import to work @line 1
+        STUDENT: 'Student',
+        FACULTY: 'Faculty',
+        ADMIN: 'Admin'
+    }
 
     const studentValues = [
         [
             studentId,
-            studentRole,
+            ROLES.STUDENT,
             studentLastName,
             studentFirstName,
             studentEmail,
@@ -113,16 +121,16 @@ app.post('/api/submit', (req, res) => {
     connection.query(userInsert, [studentValues], function (err, data) {
         if (err) throw err;
         console.log("Student user data inserted successfully...");
-        // res.status(200)
+        res.status(200)
     });
     const facultyValues = [
         [
             facultyID,
-            facultyRole,
+            ROLES.FACULTY,
             instructorLastName,
             instructorFirstName,
             instructorEmail,
-            null,
+            null, // These values are not stored or accessed for Faculty users
             null,
             null
         ]
@@ -130,13 +138,13 @@ app.post('/api/submit', (req, res) => {
     connection.query(userInsert, [facultyValues], function (err, data) {
         if (err) throw err;
         console.log("Faculty user data inserted successfully...");
-        // res.status(200)
+        res.status(200)
     });
     const internshipValues = [
         [
-            internshipID, //InternshipID - set to null because the field on DB is AUTO_INCREMENT
-            employerName, //using as ID for now
-            primaryContactName, //Point of contact on database
+            internshipID, // Comes in as integer for editing applications and null for new applications
+            employerName, 
+            primaryContactName, 
             employerEmail,
             employerPhone,
             empAddress,
@@ -144,31 +152,28 @@ app.post('/api/submit', (req, res) => {
             endDate
         ]
     ]
-    console.log("TEST")
-    console.log(internshipValues)
     connection.query(internshipInsert, [internshipValues], function (err, data) {
         if (err) throw err;
         console.log("Employer data inserted successfully...");
-        // res.status(200)
+        res.status(200)
     });
     let applicationValues = [[]]
-    if (applicationID === null){
+    if (applicationID === null) {
         connection.query(`SELECT * FROM Internship ORDER BY InternshipID DESC LIMIT 0,1`, function (err, data) {
             if (err) throw err;
             console.log("Getting Latest Internship ID...");
-            console.log(data[0].InternshipID)
 
             let applicationValues = [
                 [
                     applicationID,
-                    applicationStatus, //applicationStatus - using string for now until we determine a proper method for this
-                    submitDate, //Date application was submitted
-                    data[0].InternshipID, //Get latest InternshipID
+                    applicationStatus, 
+                    submitDate, 
+                    data[0].InternshipID, //Gets most recent Internship ID
                     studentId,
                     facultyID,
                     signature,
                     agreementDate,
-                    comments //FacultyID for now
+                    comments 
                 ]
             ]
             connection.query(applicationInsert, [applicationValues], function (err, data) {
@@ -177,14 +182,13 @@ app.post('/api/submit', (req, res) => {
                 res.status(201)
             });
         });
-        console.log(applicationValues)
     } else {
         let applicationValues = [
             [
                 applicationID,
-                applicationStatus, //applicationStatus - using string for now until we determine a proper method for this
-                submitDate, //Date application was submitted
-                internshipID, //Get latest InternshipID
+                applicationStatus,
+                submitDate, 
+                internshipID, // InternshipID from given application
                 studentId,
                 facultyID,
                 signature,
@@ -192,7 +196,6 @@ app.post('/api/submit', (req, res) => {
                 comments
             ]
         ]
-        console.log(applicationValues)
         connection.query(applicationInsert, [applicationValues], function (err, data) {
             if (err) throw err;
             console.log("Application data inserted successfully...");
@@ -203,47 +206,44 @@ app.post('/api/submit', (req, res) => {
 
 });
 
+/* End Point to return applications based off of role and ID
+ *
+ * Returns an object with objects "applications", "users", and "internships" keys
+ *      objects hold information indexed off their given Primary Key in the database
+ */
 app.get('/api/getFullApplications/:userRole/:userID', (req, res) => {
     const userID = req.params.userID
-    if (req.params.userRole === 'Admin'){
+    if (req.params.userRole === 'Admin') {
         applicationSQL = `SELECT * FROM Applications`
         userSQL = `SELECT * FROM Users`
         internSQL = `SELECT * FROM Internship`
-    } else if (req.params.userRole === 'Faculty'){
+    } else if (req.params.userRole === 'Faculty') {
         applicationSQL = `SELECT * FROM Applications WHERE FacID = ?`
         userSQL = `SELECT * FROM Users WHERE UserID IN (SELECT StuID FROM Applications WHERE FacID = ?) OR UserID = '${userID}'`
         internSQL = `SELECT * FROM Internship WHERE InternshipID IN (SELECT InternID FROM Applications WHERE FacID = ?)`
-    } else if (req.params.userRole === 'Student'){
+    } else if (req.params.userRole === 'Student') {
         applicationSQL = `SELECT * FROM Applications WHERE StuID = ?`
         userSQL = `SELECT * FROM Users WHERE UserID IN (SELECT FacID FROM Applications WHERE StuID = ?) OR UserID = '${userID}'`
         internSQL = `SELECT * FROM Internship WHERE InternshipID IN (SELECT InternID FROM Applications WHERE StuID = ?)`
     }
-    console.log(applicationSQL)
     connection.query(applicationSQL, [userID], (err, application) => {
         if (err) { res.send(err) }
-        console.log(application)
 
         if (application.length > 0) {
 
             connection.query(internSQL, [userID], (err, internship) => {
                 if (err) throw err;
-                // console.log(internship)
 
                 connection.query(userSQL, [userID], (err, users) => {
                     if (err) throw err;
-                    // console.log(student)
 
-                            let allApplications = Object.assign({}, ...application.map((x) => ({[x.ApplicationID]: x})))
-                            let allInternships = Object.assign({}, ...internship.map((x) => ({[x.InternshipID]: x})))
-                            let allUsers = Object.assign({}, ...users.map((x) => ({[x.UserID]: x})))
-                        console.log(allApplications)
-                        res.send({"applications": allApplications, "internships": allInternships, "users": allUsers})
+                    let allApplications = Object.assign({}, ...application.map((x) => ({ [x.ApplicationID]: x })))
+                    let allInternships = Object.assign({}, ...internship.map((x) => ({ [x.InternshipID]: x })))
+                    let allUsers = Object.assign({}, ...users.map((x) => ({ [x.UserID]: x })))
+                    res.send({ "applications": allApplications, "internships": allInternships, "users": allUsers })
 
-                    })
                 })
-
-
-            // res.send(response)
+            })
         } else {
             res.statusMessage = "User / Application Not Found"
             res.status(404)
@@ -260,11 +260,8 @@ app.get('/api/getTotalFacultyInterns/:facID', (req, res) => {
     const facID = req.params.facID
     connection.query(`SELECT COUNT(ApplicationStatus) as 'TotalInterns' FROM Applications WHERE ApplicationStatus = 'Approved' AND FacID = ?`, [facID], (err, data) => {
         if (err) { res.send(err) }
-        console.log("=======")
-        console.log("=======")
-        console.log(data[0].TotalInterns)
         const totalInterns = data[0].TotalInterns
-        res.send({ totalInterns } )
+        res.send({ totalInterns })
     })
 })
 
@@ -274,9 +271,8 @@ app.get('/api/getTotalFacultyInternsActive/:facID', (req, res) => {
         date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
     connection.query(`SELECT Applications.InternID, Internship.InternshipID, Internship.StartDate, Internship.EndDate FROM Applications INNER JOIN Internship ON Applications.InternID=Internship.InternshipID AND Applications.FacID = ? AND ApplicationStatus = 'Approved' AND Internship.StartDate <= ? AND Internship.EndDate >= ?`, [facID, date, date], (err, data) => {
         if (err) { res.send(err) }
-        console.log(data.length)
         // const totalInterns = data[0].TotalInterns
-        res.send({ "ActiveInterns": data.length } )
+        res.send({ "ActiveInterns": data.length })
     })
 })
 
@@ -284,9 +280,8 @@ app.get('/api/getPendingFacultyApprovals/:facID', (req, res) => {
     const facID = req.params.facID
     connection.query(`SELECT COUNT(ApplicationStatus) as 'PendingApprovals' FROM Applications WHERE ApplicationStatus != 'Approved' AND FacID = ?`, [facID], (err, data) => {
         if (err) { res.send(err) }
-        console.log(data[0].PendingApprovals)
         const pendingApprovals = data[0].PendingApprovals
-        res.send({ pendingApprovals } )
+        res.send({ pendingApprovals })
     })
 })
 
@@ -296,7 +291,6 @@ app.get('/api/getOutOfStateInternsFaculty/:facID', (req, res) => {
         date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
     connection.query(`SELECT Count(*) AS 'OutOfStateInterns' FROM Applications INNER JOIN Internship ON Applications.InternID=InternshipID AND FacID = ? AND (EmployerAddress NOT LIKE '%MO%' AND EmployerAddress NOT LIKE '%missouri%') AND StartDate <= ? AND EndDate >= ?`, [facID, date, date], (err, data) => {
         if (err) { res.send(err) }
-        console.log(data)
         if (data) { res.send(data) }
     })
 })
@@ -307,7 +301,6 @@ app.get('/api/getInStateInternsFaculty/:facID', (req, res) => {
         date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
     connection.query(`SELECT Count(Internship.EmployerAddress) AS 'InStateInterns' FROM Applications INNER JOIN Internship ON Applications.InternID=Internship.InternshipID AND Applications.FacID = ? AND Internship.StartDate <= ? AND Internship.EndDate >= ? AND EmployerAddress LIKE '%MO%' OR EmployerAddress LIKE '%Missouri%'`, [facID, date, date], (err, data) => {
         if (err) { res.send(err) }
-        console.log(data)
         if (data) { res.send(data) }
     })
 })
@@ -315,18 +308,16 @@ app.get('/api/getInStateInternsFaculty/:facID', (req, res) => {
 app.get('/api/getTotalInterns', (req, res) => {
     connection.query(`SELECT COUNT(ApplicationStatus) as 'TotalInterns' FROM Applications WHERE ApplicationStatus = 'Approved'`, (err, data) => {
         if (err) { res.send(err) }
-        console.log(data[0].TotalInterns)
         const totalInterns = data[0].TotalInterns
-        res.send({ totalInterns } )
+        res.send({ totalInterns })
     })
 })
 
 app.get('/api/getPendingApprovals', (req, res) => {
     connection.query(`SELECT COUNT(ApplicationStatus) as 'PendingApprovals' FROM Applications WHERE ApplicationStatus != 'Approved'`, (err, data) => {
         if (err) { res.send(err) }
-        console.log(data[0].PendingApprovals)
         const pendingApprovals = data[0].PendingApprovals
-        res.send({ pendingApprovals } )
+        res.send({ pendingApprovals })
     })
 })
 
@@ -335,9 +326,8 @@ app.get('/api/getActiveInterns', (req, res) => {
         date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
     connection.query(`SELECT COUNT(EndDate) as 'ActiveInterns' FROM Internship WHERE EndDate >= ?`, [date], (err, data) => {
         if (err) { res.send(err) }
-        console.log(data[0].ActiveInterns)
         const activeInterns = data[0].ActiveInterns
-        res.send({ activeInterns } )
+        res.send({ activeInterns })
     })
 })
 
@@ -346,12 +336,14 @@ app.get('/api/getOutOfStateInterns', (req, res) => {
         date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
     connection.query(`SELECT Count(EndDate) as 'OutOfStateInterns' FROM Internship WHERE EndDate >= ? AND EmployerAddress NOT LIKE '%MO%' OR EmployerAddress NOT LIKE '%Missouri%'`, [date], (err, data) => {
         if (err) { res.send(err) }
-        console.log(data[0].OutOfStateInterns)
         const outOfStateInterns = data[0].OutOfStateInterns
-        res.send({ outOfStateInterns } )
+        res.send({ outOfStateInterns })
     })
 })
 
+/* Endpoint to get UserID and UserRole from Users table. 
+ * returns object with "username" and "role" keys
+ */
 app.get('/api/getUser/:username', (req, res) => {
     const username = req.params.username
     console.log(username)
@@ -359,16 +351,15 @@ app.get('/api/getUser/:username', (req, res) => {
         if (err) { res.send(err) }
 
         if (data.length > 0) {
-            // res.status(200)
-            // console.log(data[0].username)
+            res.status(200)
             res.send({
                 "username": data[0].username,
                 "role": data[0].role
             })
         } else {
-                res.statusMessage = "User Not Found"
-                res.status(404)
-                res.send(err)
+            res.statusMessage = "User Not Found"
+            res.status(404)
+            res.send(err)
         }
     });
 });
@@ -410,7 +401,7 @@ app.post('/api/auth', (request, response) => {
     console.log(request.body)
     const username = request.body.username
     const password = request.body.password
-    connection.query('SELECT * FROM accounts WHERE username = ? AND password = ?', [username, password], function(error, results, fields) {
+    connection.query('SELECT * FROM accounts WHERE username = ? AND password = ?', [username, password], function (error, results, fields) {
         console.log('query database...')
         if (results.length > 0) {
             console.log('found user!')
