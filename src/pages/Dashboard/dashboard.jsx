@@ -181,17 +181,6 @@ const Dashboard = () => {
         setIsApplicationTableVisible(!isApplicationTableVisible)
     }
 
-    // const [click, setClick] = useState(false);
-    // const [isMobileOpen, setIsMobileOpen] = useState('-100%')
-    //
-    // const handleMenuClick = () => {
-    //     console.log(click)
-    //     setClick(!click)
-    //     console.log(click)
-    //     setIsMobileOpen(click ? '-100%' :'0')
-    //     console.log(isOpen)
-    // }
-
     return (
       <>
           <SideNav

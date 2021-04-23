@@ -5,7 +5,8 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import {Row, Col, DetailButton} from "../DashboardPanel/DashboardPanel"
-import {InputLabel, TextField} from "@material-ui/core";
+import {TextField} from "@material-ui/core";
+import { COLORS, ROLES } from 'utils'
 
 
 export function DetailsDialog ({handleClose, internships, role, users, currentApplication, detailsDialogOpen, showAppForm}) {
@@ -102,12 +103,12 @@ export function DetailsDialog ({handleClose, internships, role, users, currentAp
                                 </Col>
                             </Row>
                         </DialogContentText>
-                        {role !== "Student" &&
+                        {role !== ROLES.STUDENT &&
                             <>
                                 <TextField
-                                    variant={"outlined"}
+                                    variant="outlined"
                                     value={comment}
-                                    label={"Comments"}
+                                    label="Comments"
                                     multiline={true}
                                     rows={2}
                                     onChange={handleCommentChange}
@@ -121,17 +122,17 @@ export function DetailsDialog ({handleClose, internships, role, users, currentAp
                         }
                     </DialogContent>
                     <DialogActions>
-                        {role !== 'Student' &&
+                        {role !== ROLES.STUDENT &&
                             <>
-                                <DetailButton bgColor='#4BB543' onClick={() => updateStatus('Approved', currentApplication.ApplicationID, comment)}>
+                                <DetailButton bgColor={COLORS.APPROVE} onClick={() => updateStatus('Approved', currentApplication.ApplicationID, comment)}>
                                     Approve
                                 </DetailButton>
-                                <DetailButton bgColor='#BD0037' onClick={() => updateStatus('Denied', currentApplication.ApplicationID, comment)} autoFocus>
+                                <DetailButton bgColor={COLORS.DENY} onClick={() => updateStatus('Denied', currentApplication.ApplicationID, comment)} autoFocus>
                                     Deny
                                 </DetailButton>
                             </>
                         }
-                        <DetailButton bgColor='gray' onClick={() => {
+                        <DetailButton bgColor={COLORS.CLOSE} onClick={() => {
                             handleClose()
                             showAppForm()
 
@@ -140,7 +141,7 @@ export function DetailsDialog ({handleClose, internships, role, users, currentAp
                         Edit Application
                         </DetailButton>
 
-                        <DetailButton bgColor='gray' onClick={handleClose}>
+                        <DetailButton bgColor={COLORS.CLOSE} onClick={handleClose}>
                             Close
                         </DetailButton>
                     </DialogActions>

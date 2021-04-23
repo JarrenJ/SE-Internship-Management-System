@@ -7,59 +7,55 @@ import styled from "styled-components";
 import './applicationForm.css';
 
 const Form = styled.form`
-  width: 100%;
-  max-width: 80%;
-  //min-height: 740px;
-  background-color: #ffffff;
-  border-radius: 3px;
-  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+    width: 100%;
+    max-width: 80%;
+    background-color: var(--secondary-bg-color);
+    border-radius: 3px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 `
 
 const Container = styled.div`
-  display: flex;
-  padding: 2rem 0;
-  justify-content: center;
-  align-items: center;
+    display: flex;
+    padding: 2rem 0;
+    justify-content: center;
+    align-items: center;
 `
 
 const Row = styled.div`
-  display: flex;
-  width: 100%;
-  height: 100%;
-  min-height: ${(props) => props.minHeight};
-  max-width: ${(props) => props.maxWidth};
-  @media (max-width: 970px) {
-    flex-direction: column;
-  }
-  margin: ${(props) => props.margin};
-  //border: 5px solid red;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    min-height: ${(props) => props.minHeight};
+    max-width: ${(props) => props.maxWidth};
+    
+    @media (max-width: 970px) {
+      flex-direction: column;
+    }
+    margin: ${(props) => props.margin};
 `
 
 const Col = styled.div`
-  flex: ${(props) => props.size};
-  background-color: ${(props => props.bgColor)};
-  min-width: ${(props => props.minWidth)};
-  max-width: ${(props => props.maxWidth)};
-  min-height: ${(props) => props.minHeight};
-  height: 100%;
-
-  @media (max-width: 768px) {
-    min-width: 100%;
-    margin: 10px auto;
-  }
-  //margin: 0 25px;
-  margin: ${(props) => props.margin};
-  //border: 5px solid black;
+    flex: ${(props) => props.size};
+    background-color: ${(props => props.bgColor)};
+    min-width: ${(props => props.minWidth)};
+    max-width: ${(props => props.maxWidth)};
+    min-height: ${(props) => props.minHeight};
+    height: 100%;
+    
+    @media (max-width: 768px) {
+        min-width: 100%;
+        margin: 10px auto;
+    }
+    margin: ${(props) => props.margin};
 `
 
 
 export function ApplicationForm({ getInitial, hideAppForm }) {
     const {initialValues, initialStartDate, initialEndDate, initialEmpAddr, initialStuAddr, date} = getInitial()
-    console.log(initialValues)
 
     const [signature, setSignature] = useState(" ")
     const [agreementDate, setAgreementDate] = useState(" ")
@@ -176,7 +172,7 @@ export function ApplicationForm({ getInitial, hideAppForm }) {
     return (
         <Container>
             <Form>
-                <Row minHeight={'700px'}>
+                <Row minHeight='700px'>
                     <Col size={1}>
                         <StudentInfo
                             currentStep={currentStep}
@@ -215,7 +211,7 @@ export function ApplicationForm({ getInitial, hideAppForm }) {
                     </Col>
                 </Row>
                 <Row>
-                    <Col size={1} maxWidth={'100%'} margin={'0 30px'}>
+                    <Col size={1} maxWidth='100%' margin='0 30px'>
                         <div className='app__btns__container'>
                             <div className='app__btn__prev'>
                                 {previousButton()}
@@ -246,77 +242,77 @@ const StudentInfo = ({ currentStep, values, handleInputChange, handleAddressChan
                 </Col>
             </Row>
             <Row>
-                <Col size={1} margin={'10px'}>
+                <Col size={1} margin='10px'>
                     <TextField
                         className='wide'
                         label='Student ID'
-                        variant={'outlined'}
+                        variant='outlined'
                         value={values.studentId}
                         onChange={handleInputChange}
-                        name={"studentId"}
+                        name="studentId"
                     />
                 </Col>
                 <Col size={1} margin={'10px'}>
                     <TextField
                         className='app__input__component'
                         label='Major'
-                        variant={'outlined'}
+                        variant='outlined'
                         value={values.major}
                         onChange={handleInputChange}
-                        name={"major"}
+                        name="major"
                     />
                 </Col>
             </Row>
             <Row>
-                <Col size={1} margin={'10px'}>
+                <Col size={1} margin='10px'>
                     <TextField
                         className='app__input__component'
                         id="normal"
                         label='First Name'
-                        variant={"outlined"}
+                        variant="outlined"
                         value={values.studentFirstName}
                         onChange={handleInputChange}
-                        name={"studentFirstName"}
+                        name="studentFirstName"
                     />
                 </Col>
-                <Col size={1} margin={'10px'}>
+                <Col size={1} margin='10px'>
                     <TextField
                         className='app__input__component'
                         id="normal"
                         label='Last Name'
-                        variant={'outlined'}
+                        variant='outlined'
                         value={values.studentLastName}
                         onChange={handleInputChange}
-                        name={'studentLastName'}
+                        name='studentLastName'
                     />
                 </Col>
             </Row>
             <Row>
-                <Col size={1} margin={'10px'}>
+                <Col size={1} margin='10px'>
                     <TextField
                         className='app__input__component'
                         id="normal"
                         label='Personal Email'
-                        variant={'outlined'}
+                        variant='outlined'
                         value={values.studentEmail}
                         onChange={handleInputChange}
-                        name={"studentEmail"}
+                        name="studentEmail"
                     />
                 </Col>
-                <Col size={1} margin={'10px'}>
+                <Col size={1} margin='10px'>
                     <TextField
                         className='app__input__component'
                         id="normal"
                         label='Phone Number'
-                        variant={'outlined'}
+                        variant='outlined'
                         value={values.studentPhoneNum}
                         onChange={handleInputChange}
-                        name={"studentPhoneNum"}
+                        name="studentPhoneNum"
                     />
                 </Col>
             </Row>
             <Row>
-                <Col size={1} margin={'10px'}>
+                <Col size={1} margin='10px'>
                     <TextField
                         className='wide'
                         id="normal"
@@ -329,7 +325,7 @@ const StudentInfo = ({ currentStep, values, handleInputChange, handleAddressChan
                 </Col>
             </Row>
             <Row>
-                <Col size={1} margin={'10px'}>
+                <Col size={1} margin='10px'>
                     <TextField
                         className='wide'
                         id="normal"
@@ -342,26 +338,26 @@ const StudentInfo = ({ currentStep, values, handleInputChange, handleAddressChan
                 </Col>
             </Row>
             <Row>
-                <Col size={1} margin={'10px'}>
+                <Col size={1} margin='10px'>
                     <TextField
                         className='app__input__component'
                         id="normal"
                         label='City'
-                        variant={'outlined'}
+                        variant='outlined'
                         value={stuAddress.city}
                         onChange={handleAddressChangeS}
-                        name={"city"}
+                        name="city"
                     />
                 </Col>
-                <Col size={1} margin={'10px'}>
+                <Col size={1} margin='10px'>
                     <TextField
                         className='app__input__component'
                         id="normal"
                         label='State'
-                        variant={'outlined'}
+                        variant='outlined'
                         value={stuAddress.state}
                         onChange={handleAddressChangeS}
-                        name={"state"}
+                        name="state"
                     />
                 </Col>
                 <Col size={1} margin={'10px'}>
@@ -369,13 +365,16 @@ const StudentInfo = ({ currentStep, values, handleInputChange, handleAddressChan
                         className='app__input__component'
                         id="normal"
                         label='ZIP'
-                        variant={'outlined'}
+                        variant='outlined'
                         value={stuAddress.zip}
                         onChange={handleAddressChangeS}
-                        name={"zip"}
+                        name="zip"
                     />
                 </Col>
             </Row>
+            {/*
+              * Below code is for comments, we never found reason to use, so commented out for now.
+            */}
             {/* <Row>
                 <Col size={1} margin={'10px'}>
                     <TextField
@@ -406,18 +405,18 @@ const InstructorInfo = ({ currentStep, values, handleInputChange }) => {
                 </Col>
             </Row>
             <Row>
-                <Col size={1} margin={'10px'}>
+                <Col size={1} margin='10px'>
                     <TextField
                         className='wide'
                         id="normal"
                         label='Instructor First Name'
-                        variant={"outlined"}
+                        variant="outlined"
                         value={values.instructorFirstName}
                         onChange={handleInputChange}
-                        name={'instructorFirstName'}
+                        name='instructorFirstName'
                     />
                 </Col>
-                <Col size={1} margin={'10px'}>
+                <Col size={1} margin='10px'>
                     <TextField
                         className='wide'
                         id="normal"
@@ -425,20 +424,20 @@ const InstructorInfo = ({ currentStep, values, handleInputChange }) => {
                         variant={'outlined'}
                         value={values.instructorLastName}
                         onChange={handleInputChange}
-                        name={"instructorLastName"}
+                        name="instructorLastName"
                     />
                 </Col>
             </Row>
             <Row>
-                <Col size={1} margin={'10px'}>
+                <Col size={1} margin='10px'>
                     <TextField
                         className='wide'
                         id="normal"
                         label='Instructor Mail'
-                        variant={'outlined'}
+                        variant='outlined'
                         value={values.instructorEmail}
                         onChange={handleInputChange}
-                        name={"instructorEmail"}
+                        name="instructorEmail"
                     />
                 </Col>
             </Row>
@@ -459,57 +458,57 @@ const EmployerInfo = ({ currentStep, values, handleInputChange, handleAddressCha
                     </Col>
                 </Row>
                 <Row>
-                    <Col size={1} margin={'10px'}>
+                    <Col size={1} margin='10px'>
                         <TextField
                             className='wide'
                             id="normal"
                             label='Employer Name'
-                            variant={'outlined'}
+                            variant='outlined'
                             value={values.employerName}
                             onChange={handleInputChange}
-                            name={"employerName"}
+                            name="employerName"
                         />
                     </Col>
                 </Row>
                 <Row>
-                    <Col size={1} margin={'10px'}>
+                    <Col size={1} margin='10px'>
                         <TextField
                             className='wide'
                             id="normal"
                             label='Primary Contact Name'
-                            variant={"outlined"}
+                            variant="outlined"
                             value={values.primaryContactName}
                             onChange={handleInputChange}
-                            name={"primaryContactName"}
+                            name="primaryContactName"
                         />
                     </Col>
                 </Row>
                 <Row>
-                    <Col size={1} margin={'10px'}>
+                    <Col size={1} margin='10px'>
                         <TextField
                             className='wide'
                             id="normal"
                             label='Employer Email'
-                            variant={'outlined'}
+                            variant='outlined'
                             value={values.employerEmail}
                             onChange={handleInputChange}
-                            name={"employerEmail"}
+                            name="employerEmail"
                         />
                     </Col>
-                    <Col size={1} margin={'10px'}>
+                    <Col size={1} margin='10px'>
                         <TextField
                             className='wide'
                             id="normal"
                             label='Employer Phone'
-                            variant={'outlined'}
+                            variant='outlined'
                             value={values.employerPhone}
                             onChange={handleInputChange}
-                            name={"employerPhone"}
+                            name="employerPhone"
                         />
                     </Col>
                 </Row>
                 <Row>
-                    <Col size={1} margin={'10px'}>
+                    <Col size={1} margin='10px'>
                         <TextField
                             className='wide'
                             id="normal"
@@ -517,12 +516,12 @@ const EmployerInfo = ({ currentStep, values, handleInputChange, handleAddressCha
                             variant='outlined'
                             value={empAddress.line1}
                             onChange={handleAddressChangeE}
-                            name={"line1"}
+                            name="line1"
                         />
                     </Col>
                 </Row>
                 <Row>
-                    <Col size={1} margin={'10px'}>
+                    <Col size={1} margin='10px'>
                         <TextField
                             className='wide'
                             id="normal"
@@ -530,12 +529,12 @@ const EmployerInfo = ({ currentStep, values, handleInputChange, handleAddressCha
                             variant='outlined'
                             value={empAddress.line2}
                             onChange={handleAddressChangeE}
-                            name={"line2"}
+                            name="line2"
                         />
                     </Col>
                 </Row>
                 <Row>
-                    <Col size={1} margin={'10px'}>
+                    <Col size={1} margin='10px'>
                         <TextField
                             className='wide'
                             id="normal"
@@ -543,10 +542,10 @@ const EmployerInfo = ({ currentStep, values, handleInputChange, handleAddressCha
                             variant='outlined'
                             value={empAddress.city}
                             onChange={handleAddressChangeE}
-                            name={"city"}
+                            name="city"
                         />
                     </Col>
-                    <Col size={1} margin={'10px'}>
+                    <Col size={1} margin='10px'>
                         <TextField
                             className='wide'
                             id="normal"
@@ -554,10 +553,10 @@ const EmployerInfo = ({ currentStep, values, handleInputChange, handleAddressCha
                             variant='outlined'
                             value={empAddress.state}
                             onChange={handleAddressChangeE}
-                            name={"state"}
+                            name="state"
                         />
                     </Col>
-                    <Col size={1} margin={'10px'}>
+                    <Col size={1} margin='10px'>
                         <TextField
                             className='wide'
                             id="normal"
@@ -565,7 +564,7 @@ const EmployerInfo = ({ currentStep, values, handleInputChange, handleAddressCha
                             variant='outlined'
                             value={empAddress.zip}
                             onChange={handleAddressChangeE}
-                            name={"zip"}
+                            name="zip"
                         />
                     </Col>
                 </Row>
@@ -586,7 +585,7 @@ const EmployerInfo = ({ currentStep, values, handleInputChange, handleAddressCha
                     </Col>
                 </Row>
                 <Row>
-                    <Col size={1} margin={'10px'}>
+                    <Col size={1} margin='10px'>
                         <TextField
                             className='wide'
                             id="date"
@@ -606,7 +605,7 @@ const EmployerInfo = ({ currentStep, values, handleInputChange, handleAddressCha
     )
 }
 
-const Agreement = ({ currentStep, values, signature, setSignature, agreementDate, setAgreementDate, handleInputChange }) => {
+const Agreement = ({ currentStep, signature, setSignature, agreementDate, setAgreementDate }) => {
     if (currentStep !== 4) {
         return null
     }

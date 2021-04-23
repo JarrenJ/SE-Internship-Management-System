@@ -12,7 +12,7 @@
     position: fixed;
     z-index: 1;
     top: -10px;
-    background-color: var(--primary-bg-color);
+    background-color: var(--green);
     transition: .75s ease;
     overflow-x: hidden;
     padding-top: 20px;
@@ -22,7 +22,7 @@
 .sidenav__collapsed {
     height: 100%;
     width: 3.5%;
-    background-color: var(--primary-bg-color);
+    background-color: var(--green);
     position: fixed;
     top: 0;
     left: 0;
@@ -72,14 +72,14 @@
 }
 
 .sidenav a, .sidenav__collapsed a {
-    color: white;
+    color: var(--primary-text-color);
     text-decoration: none;
     margin-top: 10px;
     margin-bottom: 10px;
 }
 
 .sidenav__p__click {
-    color: white;
+    color: var(--primary-text-color);
     margin-top: 10px;
     margin-bottom: 10px;
     cursor: pointer;
@@ -102,9 +102,9 @@
 .sidenav__btn button {
     height: 40px;
     width: 40px;
-    background: rgba(255, 255, 255, .4);
+    background: var(--sidenav-btn-bg);
     border-radius: 20px;
-    border: 1px solid rgba(255, 255, 255, .4);
+    border: 1px solid var(--sidenav-btn-bg);
     color: white;
     cursor: pointer;
 }

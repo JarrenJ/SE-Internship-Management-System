@@ -8,6 +8,7 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import ListItemText from '@material-ui/core/ListItemText';
 
+import { ROLES } from 'utils'
 import '../../colors.css'
 import './SideNav.css'
 
@@ -57,7 +58,7 @@ export function SideNav({role, handleClick, handleClose, closeSideNav, openSideN
                     <img src={NWHorizontal2Color} alt='NW_Horizontal_2Color' />
                 </div>
                 <Divider />
-                {role !== 'Student' &&
+                {role !== ROLES.STUDENT &&
                 <>
                     <div className='sidenav__link'>
                         <Link to='#'><i className="fas fa-tachometer-alt" /> Dashboard</Link>
@@ -66,7 +67,7 @@ export function SideNav({role, handleClick, handleClose, closeSideNav, openSideN
                 </>
                 }
                 <div className='sidenav__popup'>
-                    {role === 'Admin' &&
+                    {role === ROLES.ADMIN &&
                     <Link
                         to='#'
                         aria-controls="customized-menu"
@@ -83,13 +84,13 @@ export function SideNav({role, handleClick, handleClose, closeSideNav, openSideN
                         }
                     </Link>
                     }
-                    {role === 'Faculty' &&
+                    {role === ROLES.FACULTY &&
                     <Link to='#'>
                         <i className="fas fa-folder" /> Applications
                     </Link>
                     }
 
-                    {role === 'Student' &&
+                    {role === ROLES.STUDENT &&
                     <>
                         <p className='sidenav__p__click' onClick={showAppForm}>
                             <i className="fas fa-plus-square" /> New Application
@@ -129,13 +130,13 @@ export function SideNav({role, handleClick, handleClose, closeSideNav, openSideN
                 <div className='sidenav__collapsed__logo'>
                     <img src={NWTripleStacked2Color} alt='NW_Horizontal_2Color' />
                 </div>
-                {role !== 'Student' &&
+                {role !== ROLES.STUDENT &&
                 <div className='sidenav__collapsed__icon'>
                     <Link to='#'><i className="fas fa-tachometer-alt" /></Link>
                 </div>
                 }
                 <div className='sidenav__collapsed__icon'>
-                    {role === 'Admin' &&
+                    {role === ROLES.ADMIN &&
                     <Link
                         to='#'
                         aria-controls="customized-menu"
@@ -147,13 +148,13 @@ export function SideNav({role, handleClick, handleClose, closeSideNav, openSideN
                         <i className="fas fa-folder" />
                     </Link>
                     }
-                    {role === 'Faculty' &&
+                    {role === ROLES.FACULTY &&
                     <Link to='#'>
                         <i className="fas fa-folder" />
                     </Link>
                     }
 
-                    {role === 'Student' &&
+                    {role === ROLES.STUDENT &&
                     <>
                         <Link to='#'>
                             <i className="fas fa-plus-square" onClick={showAppForm} />

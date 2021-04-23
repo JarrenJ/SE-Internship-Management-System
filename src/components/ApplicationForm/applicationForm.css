@@ -1,5 +1,4 @@
 .app__form__container__component {
-    /*height: auto;*/
     padding-top: 2rem;
     padding-bottom: 2rem;
     display: flex;
@@ -11,7 +10,7 @@
     width: 100%;
     max-width: 1120px;
     min-height: 740px;
-    background-color: #ffffff;
+    background-color: var(--secondary-bg-color);
     border-radius: 3px;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
     display: flex;
@@ -30,11 +29,11 @@
 }
 
 .app__btn__prev {
-    background-color: #ececec;
+    background-color: var(--primary-bg-color);
 }
 
 .app__btn__next {
-    background-color: #006747;
+    background-color: var(--primary-btn-bg-color);
 }
 
 .wide {

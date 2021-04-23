@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import { Divide as Hamburger } from 'hamburger-react'
 import {Link} from "react-router-dom";
 
+import { COLORS, ROLES } from 'utils'
 import './MobileNav.css'
 
 export function MobileNav({role, showAppForm}) {
@@ -19,17 +20,17 @@ export function MobileNav({role, showAppForm}) {
     return(
         <>
             <div className='sidenav__hamburger__icon' onClick={handleMenuClick}>
-                <Hamburger size={30} color='#000000'/>
+                <Hamburger size={30} color={COLORS.BLACK}/>
             </div>
 
             <div className='sidenav__mobile__container' style={{left: isMobileOpen}}>
                 <div className='sidenav__mobile__links'>
-                    {role !== 'Student' &&
+                    {role !== ROLES.STUDENT &&
                         <div className='sidenav__mobile__link'>
                             <p onClick={handleMenuClick}><i className="fas fa-tachometer-alt"/> Dashboard</p>
                         </div>
                     }
-                    {role === 'Admin' &&
+                    {role === ROLES.ADMIN &&
                         <div className='sidenav__mobile__link'>
                             <Link
                                 to='#'
@@ -42,7 +43,7 @@ export function MobileNav({role, showAppForm}) {
                             </Link>
                         </div>
                     }
-                    {role === 'Student' &&
+                    {role === ROLES.STUDENT &&
                         <>
                             <div className='sidenav__mobile__link'>
                                 <p onClick={() => {
@@ -59,7 +60,7 @@ export function MobileNav({role, showAppForm}) {
                             </div>
                         </>
                     }
-                    {role === 'Faculty' &&
+                    {role === ROLES.FACULTY &&
                         <div className='sidenav__mobile__link'>
                             <Link to='#'>
                                 <i className="fas fa-folder"/> Applications
