@@ -28,6 +28,7 @@ export function ApplicationTable({ role, users, applications, internships, setCu
                 {field: 'studentAddress', headerName: 'Student Address', width: 175, hide: true},
                 {field: 'major', headerName: 'Major', width: 150, hide: facultyDefault},
                 {field: 'facultyName', headerName: 'Faculty Name', width: 150, hide: adminDefault},
+                {field: 'facultyEmail', headerName: 'Faculty Email', width: 175, hide: true},
                 {field: 'employerName', headerName: 'Employer Name', width: 175, hide: studentDefault},
                 {field: 'PointOfContact', headerName: 'Point Of Contact', width: 175, hide: true},
                 {field: 'employerEmail', headerName: 'Employer Email', width: 175, hide: true},

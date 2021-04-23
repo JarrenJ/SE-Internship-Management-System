@@ -69,6 +69,7 @@ export function ApplicationForm({ getInitial, hideAppForm }) {
 
 
     const onSubmit = () => {
+        console.log("hit submit")
         fetch(`/api/submit`, {
             method: "POST",
             headers: {
