@@ -186,7 +186,6 @@ const Dashboard = () => {
         setIsApplicationTableVisible(!isApplicationTableVisible)
         hideAppForm()
     }
-    
 
     return (
       <>

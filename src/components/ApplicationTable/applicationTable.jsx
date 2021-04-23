@@ -1,30 +1,25 @@
-import React, {useState} from "react";
-import { DataGrid, GridRowsProp, GridColDef, GridToolbar } from '@material-ui/data-grid';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import styled from "styled-components";
+import React from "react";
+import { DataGrid, GridToolbar } from '@material-ui/data-grid';
 import {Row, Col, DetailButton} from "../DashboardPanel/DashboardPanel"
+import { COLORS, ROLES } from 'utils'
 
 
 
-export function ApplicationTable({ role, users, applications, internships, tableError, setCurrentApplication, handleClickOpen}){
-    
+export function ApplicationTable({ role, users, applications, internships, setCurrentApplication, handleClickOpen}){
+
     let adminDefault = true
-    
+
     let facultyDefault = true
     let studentDefault = true
-    if (role === 'Admin') {
+    if (role === ROLES.ADMIN) {
         adminDefault = false
-    } else if (role === 'Faculty'){
+    } else if (role === ROLES.FACULTY){
         facultyDefault = false
-    } else if (role === 'Student'){
+    } else if (role === ROLES.STUDENT){
         studentDefault = false
     }
-   
-    const columns = 
+
+    const columns =
             [
                 {field: 'appID', hide: true},
                 {field: 'studentName', headerName: 'Student Name', width: 150, hide: facultyDefault && adminDefault},
@@ -36,7 +31,7 @@ export function ApplicationTable({ role, users, applications, internships, table
                 {field: 'employerName', headerName: 'Employer Name', width: 175, hide: studentDefault},
                 {field: 'PointOfContact', headerName: 'Point Of Contact', width: 175, hide: true},
                 {field: 'employerEmail', headerName: 'Employer Email', width: 175, hide: true},
-                {field: 'employerPhone', headerName: 'Employer Phone', width: 175, hide: true},            
+                {field: 'employerPhone', headerName: 'Employer Phone', width: 175, hide: true},
                 {field: 'employerAddress', headerName: 'Employer Address', width: 175, hide: true},
                 {field: 'startDate', headerName: 'Start Date', width: 125, hide: studentDefault && facultyDefault},
                 {field: 'endDate', headerName: 'End Date', width: 125, hide: studentDefault},
@@ -52,17 +47,16 @@ export function ApplicationTable({ role, users, applications, internships, table
                         const onClick = () => {
                             // Open DetailsDialog
                             handleClickOpen()
-                            // console.log(applications[params.getValue("appID")])
                             setCurrentApplication(applications[params.getValue("appID")])
                         };
                         return (
                             <div>
-                                {role !== 'Student' &&
+                                {role !== ROLES.STUDENT &&
                                 <DetailButton onClick={onClick}>
                                     Approve/Deny
                                 </DetailButton>
                                 }
-                                {role === 'Student' &&
+                                {role === ROLES.STUDENT &&
                                 <DetailButton onClick={onClick}>
                                     Details
                                 </DetailButton>
@@ -72,16 +66,13 @@ export function ApplicationTable({ role, users, applications, internships, table
                     }
                 }
             ]
-        
-    
-    // applications.length > 0 &&
+
     const rows = Object.entries(applications).map((i, idx) => {
-        // console.log(idx)
         const app = i[1]
-        
+
         return({
             id:idx,
-            appID: app.ApplicationID, 
+            appID: app.ApplicationID,
             studentName: `${users[app.StuID].FirstName} ${users[app.StuID].LastName}`,
             major: `Jarren needs to add this`,
             studentPersonalEmail: users[app.StuID].PersonalEmail,
@@ -99,7 +90,7 @@ export function ApplicationTable({ role, users, applications, internships, table
             employerEmail: internships[app.InternID].EmployerEmail,
             employerPhone: internships[app.InternID].EmployerPhone
         })
-        
+
     })
     return(
         <>
@@ -109,20 +100,14 @@ export function ApplicationTable({ role, users, applications, internships, table
                 </Col>
             </Row>
                 <Row>
-                    <Col size={1} bgColor='white' margin='0 20px' /*maxWidth='1200px' */>
-    
-                        {/* Something went wrong -- code below -- currently breaks things*/}
-    
-                        {/*<small style={{color: 'red'}}>{`${tableError.error}`}</small>*/}
-                        {/*{console.log(tableError.error)}*/}
+                    <Col size={1} bgColor={COLORS.SECONDARY_BG_COLOR} margin='0 20px'>
+
                         <DataGrid
                             rows={rows}
                             columns={columns}
                             pageSize={5}
                             autoHeight
-                            // disableExtendRowFullWidth
                             disableSelectionOnClick
-                            /*checkboxSelection*/
                             components={{
                                 Toolbar: GridToolbar,
                             }}

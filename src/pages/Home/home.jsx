@@ -8,7 +8,7 @@ import styled from "styled-components";
 import { NWHorizontal2Color } from 'assets'
 import '../../colors.css';
 import './home.css';
-
+import { COLORS, LINKS } from 'utils'
 
 export const Grid = styled.div`
   display: flex;
@@ -19,7 +19,6 @@ export const Grid = styled.div`
 
   @media (max-width: 768px) {
     margin: 0 auto;
-    //overflow-x: hidden;
     overflow-y: hidden;
   }
 `
@@ -42,8 +41,6 @@ export const Col = styled.div`
   @media (max-width: 768px) {
     min-width: 100%;
   }
-  
-  //border: 5px solid black;
 `
 
 
@@ -102,93 +99,48 @@ export function Home() {
     };
 
     return(
-        <>
         <div className="login__container">
             <Grid>
-                    <div className="login__logo">
-                        <img src={NWHorizontal2Color} alt='NW_Horizontal_2Color'/>
-                    </div>
-                    <Row maxWidth={'1120px'}>
-                        <Col size={1} minWidth={'500px'}>
-                            <div className="login__img" />
-                        </Col>
-                        <Col size={1} bgColor={'white'} minWidth={'500px'}>
-                            <form className="login__form" onSubmit={handleSubmit(onSubmit)}>
-                                <h2>Northwest Network Account Login</h2>
-                                <input
-                                    placeholder="Please enter your northwest account username"
-                                    name="username"
-                                    type="text"
-                                    ref={register({ required: true })}
-                                />
-                                <input
-                                    placeholder="Please enter your northwest account password"
-                                    name="password"
-                                    type="password"
-                                    ref={register({ required: true })}
-                                />
-                                <FormControlLabel
-                                    control={
-                                        <Checkbox
-                                            // checked={checked}
-                                            // onChange={handleChange}
-                                            name="checkedB"
-                                            color="primary"
-                                        />
-                                    }
-                                    label="Remember me"
-                                />
-                                <button type="submit">Submit</button>
-                                <small className='login__error'>{message.data}</small>
-                                <span><Link to="/forgotPassword">Forgot Password?</Link> | <Link to="/needHelp">Need Help?</Link></span>
-                            </form>
-                        </Col>
-                    </Row>
+                <div className="login__logo">
+                    <img src={NWHorizontal2Color} alt='NW_Horizontal_2Color'/>
+                </div>
+                <Row maxWidth='1120px'>
+                    <Col size={1} minWidth='500px'>
+                        <div className="login__img" />
+                    </Col>
+                    <Col size={1} bgColor={COLORS.SECONDARY_BG_COLOR} minWidth='500px'>
+                        <form className="login__form" onSubmit={handleSubmit(onSubmit)}>
+                            <h2>Northwest Network Account Login</h2>
+                            <input
+                                placeholder="Please enter your northwest account username"
+                                name="username"
+                                type="text"
+                                ref={register({ required: true })}
+                            />
+                            <input
+                                placeholder="Please enter your northwest account password"
+                                name="password"
+                                type="password"
+                                ref={register({ required: true })}
+                            />
+                            <FormControlLabel
+                                control={
+                                    <Checkbox
+                                        // checked={checked}
+                                        // onChange={handleChange}
+                                        name="checkedB"
+                                        color="primary"
+                                    />
+                                }
+                                label="Remember me"
+                            />
+                            <button type="submit">Submit</button>
+                            <small className='login__error'>{message.data}</small>
+                            <span><Link to={LINKS.FORGOT_PWD}>Forgot Password?</Link> | <Link to={LINKS.NEED_HELP}>Need Help?</Link></span>
+                        </form>
+                    </Col>
+                </Row>
             </Grid>
         </div>
-                    {/*    <div className="login__container">*/}
-                    {/*        <div className="login__logo">*/}
-                    {/*            <img src={NWHorizontal2Color} alt='NW_Horizontal_2Color'/>*/}
-                    {/*        </div>*/}
-                    {/*        <div className="login__box">*/}
-                    {/*            <div className="row">*/}
-                    {/*                <div className="login__column">*/}
-                    {/*                    <div className="login__img" />*/}
-                    {/*                </div>*/}
-                    {/*                <div className="login__column">*/}
-                    {/*                    <form className="login__form" onSubmit={handleSubmit(onSubmit)}>*/}
-                    {/*                        <h2>Northwest Network Account Login</h2>*/}
-                    {/*                        <input*/}
-                    {/*                            placeholder="Please enter your northwest account username"*/}
-                    {/*                            name="username"*/}
-                    {/*                            type="text"*/}
-                    {/*                            ref={register({ required: true })}*/}
-                    {/*                        />*/}
-                    {/*                        <input*/}
-                    {/*                            placeholder="Please enter your northwest account password"*/}
-                    {/*                            name="password"*/}
-                    {/*                            type="password"*/}
-                    {/*                            ref={register({ required: true })}*/}
-                    {/*                        />*/}
-                    {/*                        <FormControlLabel*/}
-                    {/*                            control={*/}
-                    {/*                                <Checkbox*/}
-                    {/*                                    // checked={checked}*/}
-                    {/*                                    // onChange={handleChange}*/}
-                    {/*                                    name="checkedB"*/}
-                    {/*                                    color="primary"*/}
-                    {/*                                />*/}
-                    {/*                            }*/}
-                    {/*                            label="Remember me"*/}
-                    {/*                        />*/}
-                    {/*                        <button type="submit">Submit</button>*/}
-                    {/*                        <small className='login__error'>{message.data}</small>*/}
-                    {/*                        <span><Link to="/forgotPassword">Forgot Password?</Link> | <Link to="/needHelp">Need Help?</Link></span>*/}
-                    {/*                    </form>*/}
-                    {/*                </div>*/}
-                    {/*            </div>*/}
-                    {/*        </div>*/}
-                    {/*    </div>*/}
-        </>
     )
 }

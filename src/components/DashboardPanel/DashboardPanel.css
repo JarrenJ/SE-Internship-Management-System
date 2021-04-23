@@ -1,7 +1,7 @@
 .dashboard__container {
-    background-color: rgb(231, 231, 231);
+    background-color: var(--primary-bg-color);
     position: fixed;
-    color: rgb(128, 123, 123);
+    color: var(--secondary-text-color);
     font-size:x-large;
     display: flex;
     flex-direction: column;
@@ -18,7 +18,7 @@
     display: flex;
     flex: 1 0 auto;
     height: 65px;
-    background-color: var(--white);
+    background-color: var(--secondary-bg-color);
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
     width: 100%;
 
@@ -43,7 +43,6 @@
     margin-top: 13px;
     margin-left: 5px;
     font-size:large;
-
 }
 
 .dashboard__row {
@@ -75,10 +74,9 @@
 
 .dashboard__Map_header{
     height: 10px;
-    color: Blue;
-    background-color: rgb(248, 248, 248);
+    color: var(--blue);
+    background-color: var(--primary-dashboard-headers);
     padding: 25px;
-    /*width: 800px;*/
     width: 60%;
     min-width: 150px;
     margin-top: 50px;
@@ -98,7 +96,7 @@
     height: 500px;
     /*height: 100%;*/
     /*background-color: white;*/
-    background: white url('/src/assets/map.png') no-repeat center/contain;
+    background: var(--secondary-bg-color) url('/src/assets/map.png') no-repeat center/contain;
     padding: 25px;
     /*width: 800px;*/
     width: 60%;

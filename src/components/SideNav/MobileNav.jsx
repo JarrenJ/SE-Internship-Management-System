@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import { Divide as Hamburger } from 'hamburger-react'
 import {Link} from "react-router-dom";
 
+import { COLORS, ROLES } from 'utils'
 import './MobileNav.css'
 
 export function MobileNav({role, showAppForm, showApplicationTable}) {
@@ -19,12 +20,12 @@ export function MobileNav({role, showAppForm, showApplicationTable}) {
     return(
         <>
             <div className='sidenav__hamburger__icon' onClick={handleMenuClick}>
-                <Hamburger size={30} color='#000000'/>
+                <Hamburger size={30} color={COLORS.BLACK}/>
             </div>
 
             <div className='sidenav__mobile__container' style={{left: isMobileOpen}}>
                 <div className='sidenav__mobile__links'>
-                    {role !== 'Student' &&
+                    {role !== ROLES.STUDENT &&
                         <>
                             <p className='sidenav__p__click' 
                                 onClick={() => {
@@ -40,7 +41,7 @@ export function MobileNav({role, showAppForm, showApplicationTable}) {
                             </p>
                         </>
                     }
-                    {role === 'Student' &&
+                    {role === ROLES.STUDENT &&
                         <>
                             <p className='sidenav__p__click'
                                  onClick={() => {

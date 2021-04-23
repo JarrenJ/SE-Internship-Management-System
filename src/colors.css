@@ -1,9 +1,20 @@
 :root {
   font-family: Roboto, serif;
-  --primary-bg-color: #006747;
+  --primary-bg-color: #ececec;
+  --secondary-bg-color: #fff;
+  --primary-text-color: #fff;
+  --secondary-text-color: rgb(128, 123, 123);
+  --primary-dashboard-headers: rgb(248, 248, 248);
+  --green: #006747;
   --white: #fff;
+  --blue: #0000FF;
+  --gray: 808080;
   --primary-btn-text: #fff;
+  --primary-btn-bg-color: #006747;
+  --secondary-btn-bg-color: #ececec;
   --error: #ff0000;
+  --sidenav-btn-bg: rgba(255, 255, 255, .4);
+  --sidenav-link-hover: rgba(0, 0, 0, 0.3);
 }
 
 body {

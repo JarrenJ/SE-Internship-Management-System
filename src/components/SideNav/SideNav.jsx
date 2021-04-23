@@ -8,6 +8,7 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import ListItemText from '@material-ui/core/ListItemText';
 
+import { ROLES } from 'utils'
 import '../../colors.css'
 import './SideNav.css'
 
@@ -59,7 +60,7 @@ export function SideNav({ role, handleClick, handleClose, closeSideNav, openSide
                 <Divider />
                 <div className='sidenav__popup'>
 
-                    {role !== 'Student' &&
+                    {role !== ROLES.STUDENT &&
                         <>
                             <p className='sidenav__p__click' onClick={showApplicationTable}>
                                 <i className="fas fa-tachometer-alt" /> Show Dashboard
@@ -70,7 +71,7 @@ export function SideNav({ role, handleClick, handleClose, closeSideNav, openSide
                             <Divider />
                         </>
                     }
-                    {role === 'Student' &&
+                    {role === ROLES.STUDENT &&
                         <>
                             <p className='sidenav__p__click' onClick={showAppForm}>
                                 <i className="fas fa-plus-square" /> New Application
@@ -111,7 +112,7 @@ export function SideNav({ role, handleClick, handleClose, closeSideNav, openSide
                         <img src={NWTripleStacked2Color} alt='NW_Horizontal_2Color' />
                     </div>
                     <div className='sidenav__collapsed__icon'>
-                        {role !== 'Student' &&
+                        {role !== ROLES.STUDENT &&
                             <>
                                 <p className='sidenav__p__click' onClick={showApplicationTable}>
                                     <i className="fas fa-tachometer-alt" /> 
@@ -122,7 +123,7 @@ export function SideNav({ role, handleClick, handleClose, closeSideNav, openSide
                                 <Divider />
                             </>
                         }
-                        {role === 'Student' &&
+                        {role === ROLES.STUDENT &&
                             <>
                                 <p className='sidenav__p__click' onClick={showAppForm}>
                                     <i className="fas fa-plus-square" />
