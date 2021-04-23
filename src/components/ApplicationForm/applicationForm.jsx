@@ -89,9 +89,8 @@ export function ApplicationForm({ getInitial, hideAppForm }) {
                     "agreementDate": agreementDate
                 }
             ),
-        }).then(r => r)
+        }).then(r => window.location.reload(true))
         hideAppForm()
-        window.location.reload(true)
     }
 
     const handleInputChange = (e) => {
