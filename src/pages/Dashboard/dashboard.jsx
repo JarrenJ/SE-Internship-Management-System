@@ -46,6 +46,8 @@ const Dashboard = () => {
 
     /* 
     This grabs all applications for the current user and stores them in data structures
+    These data structures are used for loading currentApplication data in DetailsDialog 
+    and DashboardPanel:getInitial()
     */
     useEffect(() => {
         fetch(`/api/getUser/${userID}`)
@@ -199,9 +201,7 @@ const Dashboard = () => {
             role={user.role}
             closeSideNav={closeSideNav}
             openSideNav={openSideNav}
-            down={down}
             navOpen={navOpen}
-            anchorEl={anchorEl}
             showAppForm={showAppForm}
             hideAppForm={hideAppForm}
             isAppFormVisible={isAppFormVisible}

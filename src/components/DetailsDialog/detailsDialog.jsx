@@ -82,6 +82,7 @@ export function DetailsDialog ({handleClose, internships, role, users, currentAp
                             <DetailsRow label="Student Name" info={`${users[currentApplication.StuID].FirstName} ${users[currentApplication.StuID].LastName}`}/>
                             <DetailsRow label="Student Personal Email" info={ users[currentApplication.StuID].PersonalEmail}/>
                             <DetailsRow label="Student Phone" info={ users[currentApplication.StuID].Phone}/>
+                            <DetailsRow label="Major" info={ users[currentApplication.StuID].Major}/>
                             <br/>
                             <DetailsRow label="Student Address" info={ users[currentApplication.StuID].StudentAddress}/>
                             <DetailsRow label="Application Date" info={ currentApplication.ApplicationDate}/>

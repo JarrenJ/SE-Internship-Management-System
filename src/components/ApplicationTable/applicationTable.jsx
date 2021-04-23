@@ -74,7 +74,7 @@ export function ApplicationTable({ role, users, applications, internships, setCu
             id:idx,
             appID: app.ApplicationID,
             studentName: `${users[app.StuID].FirstName} ${users[app.StuID].LastName}`,
-            major: `Jarren needs to add this`,
+            major: users[app.StuID].Major,
             studentPersonalEmail: users[app.StuID].PersonalEmail,
             studentPhone: users[app.StuID].Phone,
             studentAddress: users[app.StuID].StudentAddress,

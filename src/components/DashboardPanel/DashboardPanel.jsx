@@ -1,5 +1,5 @@
 import React from "react";
-import {account, airplane, Hourglass, Manlogo, NWDoubleStackedGreen} from "assets";
+import { account, airplane, Hourglass, Manlogo, NWDoubleStackedGreen } from "assets";
 import { ApplicationForm, ApplicationTable, DetailsDialog, AutoLogOut, MobileNav } from 'components'
 
 import styled from "styled-components";
@@ -98,17 +98,19 @@ const StyledPanel = styled.div`
 
 const Panel = ({ color, title, info, image, imgClass }) => {
     return (
-        <StyledPanel color={color}>
-            <Row direction='column'>
-                <Col size={1}>
-                    <p className='title'>{title}</p>
-                </Col>
-                <Col size={1}>
-                    <p className='info'>{info}</p>
-                </Col>
-            </Row>
-            <img className={imgClass} src={image} alt='Icon for dashboard panels' />
-        </StyledPanel>
+        <Col size={1} breakpoint='1024px' breakpointMargin='25px 0' maxHeight='100px' minWidth='200px'>
+            <StyledPanel color={color}>
+                <Row direction='column'>
+                    <Col size={1}>
+                        <p className='title'>{title}</p>
+                    </Col>
+                    <Col size={1}>
+                        <p className='info'>{info}</p>
+                    </Col>
+                </Row>
+                <img className={imgClass} src={image} alt='Icon for dashboard panels' />
+            </StyledPanel>
+        </Col>
     )
 }
 
@@ -120,7 +122,7 @@ export function DashboardPanel({ isSideNavOpen, role, isAppFormVisible,
     activeFacultyInterns, pendingFacultyApprovals, outOfStateInternsFaculty,
     inStateInternsFaculty }) {
 
-    
+
     const [detailsDialogOpen, setDetailsDialogOpen] = React.useState(false);
 
     /* 
@@ -275,22 +277,12 @@ export function DashboardPanel({ isSideNavOpen, role, isAppFormVisible,
                     </Col>
                 </Row>
                 <Row breakpoint='507px' wrap='true' margin='0 0 0 -10px'>
-                            <Col size={1} breakpoint='1024px' breakpointMargin='25px 0' maxHeight='100px' minWidth='200px'>
-                                <Panel color={COLORS.BLUE} info={totalFacultyInterns} title='Total Interns ' image={Manlogo} imgClass='man-icon' />
-                            </Col>
-                            <Col size={1} breakpoint='1024px' breakpointMargin='25px 0' maxHeight='100px' minWidth='200px'>
-                                <Panel color={COLORS.PURPLE} info={activeFacultyInterns} title='Active Interns ' image={Manlogo} imgClass='man-icon' />
-                            </Col>
-                            <Col size={1} breakpoint='1024px' breakpointMargin='25px 0' maxHeight='100px' minWidth='200px'>
-                                <Panel color={COLORS.LIGHT_GREEN} info={pendingFacultyApprovals} title='Pending Approvals ' image={Hourglass} imgClass='large-icon' />
-                            </Col>
-                            <Col size={1} breakpoint='1024px' breakpointMargin='25px 0' maxHeight='100px' minWidth='200px'>
-                                <Panel color={COLORS.LIGHT_BLUE} info={inStateInternsFaculty} title='In State' image={Manlogo} imgClass='man-icon' />
-                            </Col>
-                            <Col size={1} breakpoint='1024px' breakpointMargin='25px 0' maxHeight='100px' minWidth='200px'>
-                                <Panel color={COLORS.RED} info={outOfStateInternsFaculty} title='Out of State' image={airplane} imgClass='large-icon'/>
-                            </Col>
-                        </Row>
+                    <Panel color={COLORS.BLUE} info={totalFacultyInterns} title='Total Interns ' image={Manlogo} imgClass='man-icon' />
+                    <Panel color={COLORS.PURPLE} info={activeFacultyInterns} title='Active Interns ' image={Manlogo} imgClass='man-icon' />
+                    <Panel color={COLORS.LIGHT_GREEN} info={pendingFacultyApprovals} title='Pending Approvals ' image={Hourglass} imgClass='large-icon' />
+                    <Panel color={COLORS.LIGHT_BLUE} info={inStateInternsFaculty} title='In State' image={Manlogo} imgClass='man-icon' />
+                    <Panel color={COLORS.RED} info={outOfStateInternsFaculty} title='Out of State' image={airplane} imgClass='large-icon' />
+                </Row>
 
             </>
         )
@@ -307,18 +299,10 @@ export function DashboardPanel({ isSideNavOpen, role, isAppFormVisible,
                     </Col>
                 </Row>
                 <Row breakpoint='507px' wrap margin='0 0 0 -10px'>
-                    <Col size={1} breakpoint='1024px' breakpointMargin='25px 0' maxHeight='100px' minWidth='200px'>
-                        <Panel color={COLORS.BLUE} info={totalInterns} title='Total Interns' image={Manlogo} imgClass='man-icon' />
-                    </Col>
-                    <Col size={1} breakpoint='1024px' breakpointMargin='25px 0' maxHeight='100px' minWidth='200px'>
-                        <Panel color={COLORS.LIGHT_GREEN} info={activeInterns} title='Active Internships' image={Manlogo} imgClass='man-icon' />
-                    </Col>
-                    <Col size={1} breakpoint='1024px' breakpointMargin='25px 0' maxHeight='100px' minWidth='200px'>
-                        <Panel color={COLORS.LIGHT_BLUE} info={pendingApprovals} title='Pending Approvals' image={Hourglass} imgClass='large-icon' />
-                    </Col>
-                    <Col size={1} breakpoint='1024px' breakpointMargin='25px 0' maxHeight='100px' minWidth='200px'>
-                        <Panel color={COLORS.RED} info={outOfStateInterns} title='Out of State' image={airplane} imgClass='large-icon' />
-                    </Col>
+                    <Panel color={COLORS.BLUE} info={totalInterns} title='Total Interns' image={Manlogo} imgClass='man-icon' />
+                    <Panel color={COLORS.LIGHT_GREEN} info={activeInterns} title='Active Internships' image={Manlogo} imgClass='man-icon' />
+                    <Panel color={COLORS.LIGHT_BLUE} info={pendingApprovals} title='Pending Approvals' image={Hourglass} imgClass='large-icon' />
+                    <Panel color={COLORS.RED} info={outOfStateInterns} title='Out of State' image={airplane} imgClass='large-icon' />
                 </Row>
             </>
         )
