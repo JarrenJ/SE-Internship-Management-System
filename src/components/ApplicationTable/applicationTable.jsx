@@ -7,8 +7,8 @@ import { COLORS, ROLES } from 'utils'
 
 export function ApplicationTable({ role, users, applications, internships, setCurrentApplication, handleClickOpen}){
 
+    // This determines the default columns based on role
     let adminDefault = true
-
     let facultyDefault = true
     let studentDefault = true
     if (role === ROLES.ADMIN) {
@@ -19,9 +19,13 @@ export function ApplicationTable({ role, users, applications, internships, setCu
         studentDefault = false
     }
 
+    /* Column structure, widths are hardcoded to not cutoff. All columns here can be shown in table
+     * Hide determines which columns are shown on load. If you would like to change the default columns
+     * add or remove defaults to hide, they should be ANDed together
+     */
     const columns =
             [
-                {field: 'appID', hide: true},
+                {field: 'appID', hide: true}, // needed to load details
                 {field: 'studentName', headerName: 'Student Name', width: 150, hide: facultyDefault && adminDefault},
                 {field: 'studentPersonalEmail', headerName: 'Student Email', width: 150, hide: true},
                 {field: 'studentPhone', headerName: 'Student Phone', width: 150, hide: true},
@@ -67,7 +71,8 @@ export function ApplicationTable({ role, users, applications, internships, setCu
                     }
                 }
             ]
-
+    /* Iterates through the loaded applications and gets info
+     */
     const rows = Object.entries(applications).map((i, idx) => {
         const app = i[1]
 

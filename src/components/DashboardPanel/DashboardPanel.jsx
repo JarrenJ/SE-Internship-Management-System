@@ -95,7 +95,7 @@ const StyledPanel = styled.div`
       max-width: 250px;
     }
 `
-
+// Information Panels
 const Panel = ({ color, title, info, image, imgClass }) => {
     return (
         <Col size={1} breakpoint='1024px' breakpointMargin='25px 0' maxHeight='100px' minWidth='200px'>
@@ -114,20 +114,42 @@ const Panel = ({ color, title, info, image, imgClass }) => {
     )
 }
 
-export function DashboardPanel({ isSideNavOpen, role, isAppFormVisible,
-    userID, users, applications,
-    internships, totalInterns, pendingApprovals,
-    activeInterns, outOfStateInterns, showAppForm, hideAppForm, showApplicationTable, isApplicationTableVisible,
-    currentApplication, setCurrentApplication, totalFacultyInterns,
-    activeFacultyInterns, pendingFacultyApprovals, outOfStateInternsFaculty,
-    inStateInternsFaculty }) {
+export function DashboardPanel({ 
+    // current user
+    userID,
+    role,
+    // Loaded info for current user
+    users,
+    applications,
+    internships,
+    // Currently loaded application, either object or undefined
+    currentApplication,
+    setCurrentApplication,
+    // Viewing variables
+    isAppFormVisible,
+    isSideNavOpen,
+    showAppForm,
+    hideAppForm,
+    showApplicationTable,
+    isApplicationTableVisible,
+    // Panel info
+    totalInterns,
+    pendingApprovals,
+    activeInterns,
+    outOfStateInterns,
+    totalFacultyInterns,
+    activeFacultyInterns,
+    pendingFacultyApprovals,
+    outOfStateInternsFaculty,
+    inStateInternsFaculty
+    }) {
 
 
     const [detailsDialogOpen, setDetailsDialogOpen] = React.useState(false);
 
-    /* 
-    getInitial sets the initial values for an application form based off of the currentApplication
-    */
+    /* getInitial sets the initial values for an application form based off of the currentApplication
+     * loaded in Dashboard panel because this structure could be modified to be used in DetailsDialog and ApplicationForm
+     */
     const getInitial = () => {
 
         if (typeof currentApplication === 'undefined') {
@@ -228,9 +250,8 @@ export function DashboardPanel({ isSideNavOpen, role, isAppFormVisible,
     const handleClose = () => {
         setDetailsDialogOpen(false);
     };
-    /* 
-    DefaultStudentView is loaded when student has no applications in the database.
-    */
+    /* DefaultStudentView is loaded when student has no applications in the database.
+     */
     const DefaultStudentView = () => {
         return (
             <>
@@ -265,9 +286,8 @@ export function DashboardPanel({ isSideNavOpen, role, isAppFormVisible,
         )
     }
 
-    /* 
-    FacultyView returns the the panels for faculty with information loaded from the database
-    */
+    /* FacultyView returns the the panels for faculty with information loaded from the database
+     */
     const FacultyView = () => {
         return (
             <>
@@ -287,9 +307,8 @@ export function DashboardPanel({ isSideNavOpen, role, isAppFormVisible,
             </>
         )
     }
-    /* 
-    AdminView loads the given panels for admin with information from the database
-    */
+    /* AdminView loads the given panels for admin with information from the database
+     */
     const AdminView = () => {
         return (
             <>

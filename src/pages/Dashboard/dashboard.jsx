@@ -25,6 +25,8 @@ const Dashboard = () => {
     const [internships, setInternships] = useState([])
     //Object of users indexed by UserID
     const [users, setUsers] = useState([])
+
+    //Object of Application info
     const [currentApplication, setCurrentApplication] = useState()
 
     /* 
