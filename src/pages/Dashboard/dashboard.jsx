@@ -231,8 +231,8 @@ const Dashboard = () => {
             isOpen={isOpen}
             showAppForm={showAppForm}
             hideAppForm={hideAppForm}
+            showApplicationTable={showApplicationTable}
             isAppFormVisible={isAppFormVisible}
-            isApplicationTableVisible={isApplicationTableVisible}
             currentApplication={currentApplication}
             setCurrentApplication={setCurrentApplication}
           />}

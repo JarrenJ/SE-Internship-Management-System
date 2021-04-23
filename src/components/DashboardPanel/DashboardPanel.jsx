@@ -113,10 +113,10 @@ const Panel = ({ color, title, info, image, imgClass }) => {
     )
 }
 
-export function DashboardPanel({ isOpen, role, isAppFormVisible, isApplicationTableVisible,
+export function DashboardPanel({ isOpen, role, isAppFormVisible,
     userID, users, applications,
     internships, tableError, totalInterns, pendingApprovals,
-    activeInterns, outOfStateInterns, showAppForm, hideAppForm,
+    activeInterns, outOfStateInterns, showAppForm, hideAppForm, showApplicationTable,
     currentApplication, setCurrentApplication, totalFacultyInterns,
     activeFacultyInterns, pendingFacultyApprovals, outOfStateInternsFaculty,
     inStateInternsFaculty }) {
@@ -260,27 +260,8 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible, isApplicationTa
         )
     }
 
-    // const StudentView = () => {
-    //     return (
-    //         <>
-    //             <Row>
-    //                 <Col size={1} bgColor='transparent' margin='0 20px' /*maxWidth='1200px' */>
-    //                     <ApplicationTable
-    //                         role={role}
-    //                         users={users}
-    //                         applications={applications}
-    //                         internships={internships}
-    //                         tableError={tableError}
-    //                         setCurrentApplication={setCurrentApplication}
-    //                         handleClickOpen={handleClickOpen}
-    //                     />
-    //                 </Col>
-    //             </Row>
-    //         </>
-    //     )
-    // }
+    
     const FacultyView = () => {
-        isApplicationTableVisible = true
         return (
             <>
                 <Row>
@@ -288,31 +269,28 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible, isApplicationTa
                         <p className='dashboard__title'>Dashboard</p>
                     </Col>
                 </Row>
-                <Row breakpoint='1024px'>
-                    <Col size={1} breakpoint='1024px' breakpointMargin='25px 0'>
+                <Row breakpoint='507px' wrap margin='0 0 0 -10px'>
+                    <Col size={1} breakpoint='1024px' breakpointMargin='25px 0' maxHeight='100px' minWidth='200px'>
                         <Panel color='blue' info={totalFacultyInterns} title='Total Interns ' image={Manlogo} imgClass='man-icon' />
                     </Col>
-                    <Col size={1} breakpoint='1024px' breakpointMargin='25px 0'>
+                    <Col size={1} breakpoint='1024px' breakpointMargin='25px 0' maxHeight='100px' minWidth='200px'>
                         <Panel color='purple' info={activeFacultyInterns} title='Active Interns ' image={Manlogo} imgClass='man-icon' />
                     </Col>
-                    <Col size={1} breakpoint='1024px' breakpointMargin='25px 0'>
+                    <Col size={1} breakpoint='1024px' breakpointMargin='25px 0' maxHeight='100px' minWidth='200px'>
                         <Panel color='Green' info={pendingFacultyApprovals} title='Pending Approvals ' image={Hourglass} imgClass='large-icon' />
                     </Col>
-                    <Col size={1} breakpoint='1024px' breakpointMargin='25px 0'>
+                    <Col size={1} breakpoint='1024px' breakpointMargin='25px 0' maxHeight='100px' minWidth='200px'>
                         <Panel color='rgb(55, 165, 238)' info={inStateInternsFaculty} title='In State' image={Manlogo} imgClass='man-icon' />
                     </Col>
-                    <Col size={1} breakpoint='1024px' breakpointMargin='25px 0'>
+                    <Col size={1} breakpoint='1024px' breakpointMargin='25px 0' maxHeight='100px' minWidth='200px'>
                         <Panel color='red' info={outOfStateInternsFaculty} title='Out of State' image={airplane} imgClass='large-icon' />
                     </Col>
                 </Row>
-                <Row breakpoint='1024px' margin='50px 0'>
-
-                </Row>
+                
             </>
         )
     }
     const AdminView = () => {
-        // isApplicationTableVisible = true
         return (
             <>
                 <Row>
@@ -347,6 +325,7 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible, isApplicationTa
                     <MobileNav
                         role={role}
                         showAppForm={showAppForm}
+                        showApplicationTable={showApplicationTable}
                     />
                     <Col size={1} maxHeight='65px'>
                         <div className="dashboard__Header">
