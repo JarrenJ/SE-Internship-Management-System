@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Button from "@material-ui/core/Button";
 import TextField from '@material-ui/core/TextField';
+import { Row, Col } from "../DashboardPanel/DashboardPanel"
 
 import styled from "styled-components";
 
@@ -25,41 +26,16 @@ const Container = styled.div`
     align-items: center;
 `
 
-const Row = styled.div`
-    display: flex;
-    width: 100%;
-    height: 100%;
-    min-height: ${(props) => props.minHeight};
-    max-width: ${(props) => props.maxWidth};
-    
-    @media (max-width: 970px) {
-      flex-direction: column;
-    }
-    margin: ${(props) => props.margin};
-`
-
-const Col = styled.div`
-    flex: ${(props) => props.size};
-    background-color: ${(props => props.bgColor)};
-    min-width: ${(props => props.minWidth)};
-    max-width: ${(props => props.maxWidth)};
-    min-height: ${(props) => props.minHeight};
-    height: 100%;
-    
-    @media (max-width: 768px) {
-        min-width: 100%;
-        margin: 10px auto;
-    }
-    margin: ${(props) => props.margin};
-`
-
-
 export function ApplicationForm({ getInitial, hideAppForm }) {
+    // Gets initial values from DashboardPanel
     const {initialValues, initialStartDate, initialEndDate, initialEmpAddr, initialStuAddr, date} = getInitial()
 
+    // determines which page is rendered, page values are hard coded
+    const [currentStep, setCurrentStep] = useState(1)
+
+    // State for all info that needs to be modified 
     const [signature, setSignature] = useState(" ")
     const [agreementDate, setAgreementDate] = useState(" ")
-    const [currentStep, setCurrentStep] = useState(1)
     const [startDate, setStartDate] = useState(initialStartDate)
     const [endDate, setEndDate] = useState(initialEndDate)
     const [values, setValues] = useState(initialValues) //will store majority of the text box inputs
@@ -67,7 +43,9 @@ export function ApplicationForm({ getInitial, hideAppForm }) {
     const [stuAddress, setStuAddress] = useState(initialStuAddr);
     const [empAddress, setEmpAddress] = useState(initialEmpAddr);
 
-
+    /* Submits all values from application state into submit endpoint 
+     *
+     */
     const onSubmit = () => {
         console.log("hit submit")
         fetch(`/api/submit`, {
