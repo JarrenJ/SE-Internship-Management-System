@@ -116,12 +116,17 @@ const Panel = ({ color, title, info, image, imgClass }) => {
 export function DashboardPanel({ isSideNavOpen, role, isAppFormVisible,
     userID, users, applications,
     internships, tableError, totalInterns, pendingApprovals,
-    activeInterns, outOfStateInterns, showAppForm, hideAppForm, showApplicationTable,
+    activeInterns, outOfStateInterns, showAppForm, hideAppForm, showApplicationTable, isApplicationTableVisible,
     currentApplication, setCurrentApplication, totalFacultyInterns,
     activeFacultyInterns, pendingFacultyApprovals, outOfStateInternsFaculty,
     inStateInternsFaculty }) {
 
+    
     const [detailsDialogOpen, setDetailsDialogOpen] = React.useState(false);
+
+    /* 
+    getInitial sets the initial values for an application form based off of the currentApplication
+    */
     const getInitial = () => {
 
         if (typeof currentApplication === 'undefined') {
@@ -225,7 +230,9 @@ export function DashboardPanel({ isSideNavOpen, role, isAppFormVisible,
     const handleClose = () => {
         setDetailsDialogOpen(false);
     };
-
+    /* 
+    DefaultStudentView is loaded when student has no applications in the database.
+    */
     const DefaultStudentView = () => {
         return (
             <>
@@ -260,7 +267,9 @@ export function DashboardPanel({ isSideNavOpen, role, isAppFormVisible,
         )
     }
 
-    
+    /* 
+    FacultyView returns the the panels for faculty with information loaded from the database
+    */
     const FacultyView = () => {
         return (
             <>
@@ -286,10 +295,13 @@ export function DashboardPanel({ isSideNavOpen, role, isAppFormVisible,
                         <Panel color='red' info={outOfStateInternsFaculty} title='Out of State' image={airplane} imgClass='large-icon' />
                     </Col>
                 </Row>
-                
+
             </>
         )
     }
+    /* 
+    AdminView loads the given panels for admin with information from the database
+    */
     const AdminView = () => {
         return (
             <>
@@ -354,7 +366,7 @@ export function DashboardPanel({ isSideNavOpen, role, isAppFormVisible,
                         getInitial={getInitial}
                         hideAppForm={hideAppForm} />
                 }
-                {!isAppFormVisible && role !== 'Student' &&
+                {!isAppFormVisible && !isApplicationTableVisible && role !== 'Student' &&
                     <>
                         <Row>
                             <Col size={1}>
@@ -367,7 +379,7 @@ export function DashboardPanel({ isSideNavOpen, role, isAppFormVisible,
 
                     </>
                 }
-                {!isAppFormVisible && 
+                {isApplicationTableVisible &&
                     <Row>
                         <Col size={1} bgColor='transparent' margin='0 20px' >
                             <ApplicationTable

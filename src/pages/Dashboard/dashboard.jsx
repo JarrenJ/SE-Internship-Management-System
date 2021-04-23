@@ -9,7 +9,7 @@ const Dashboard = () => {
     const [isSideNavOpen, setIsSideNavOpen] = useState(true)
     const userID = sessionStorage.getItem("userID")
     const [isAppFormVisible, setIsAppFormVisible] = useState(false)
-    const [isApplicationTableVisible, setIsApplicationTableVisible] = useState(false)
+    const [isApplicationTableVisible, setIsApplicationTableVisible] = useState(true)
     const [tableError, setTableError] = useState({
         "error": new Error
     })
@@ -155,7 +155,7 @@ const Dashboard = () => {
         setAnchorEl(null);
         setDown(!down)
     };
-
+    
     const closeSideNav = () => {
         setNavOpen('-20%')
         console.log(isSideNavOpen)
@@ -168,17 +168,22 @@ const Dashboard = () => {
         setIsSideNavOpen(true)
     }
 
+    /* 
+    The following three functions are passed into components so they can change the visibility of other components
+    isAppFormVisible is used the in the conditional rendering of some items in Dashboard panel so 
+    */
     const showAppForm = () => {
         setIsAppFormVisible(true)
+        setIsApplicationTableVisible(false)
     }
     const hideAppForm = () => {
         setIsAppFormVisible(false)
         setCurrentApplication(undefined)
+        setIsApplicationTableVisible(!isApplicationTableVisible)
         console.log(currentApplication)
     }
-
     const showApplicationTable = () => {
-        setIsApplicationTableVisible(true)
+        setIsApplicationTableVisible(!isApplicationTableVisible)
         hideAppForm()
     }
     
@@ -222,6 +227,7 @@ const Dashboard = () => {
             hideAppForm={hideAppForm}
             showApplicationTable={showApplicationTable}
             isAppFormVisible={isAppFormVisible}
+            isApplicationTableVisible={isApplicationTableVisible}
             currentApplication={currentApplication}
             setCurrentApplication={setCurrentApplication}
           />}
