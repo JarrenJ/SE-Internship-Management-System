@@ -48,8 +48,22 @@ const StyledMenuItem = withStyles(() => ({
     },
 }))(MenuItem);
 
-export function SideNav({ role, handleClick, handleClose, closeSideNav, openSideNav, anchorEl,
+export function SideNav({ role, closeSideNav, openSideNav, anchorEl,
     down, navOpen, showAppForm, showApplicationTable }) {
+    /* 
+    DEPRECATED functions and state for handling click for styled drop down 
+    */
+    /* const [anchorEl, setAnchorEl] = useState(null);
+    const [down, setDown] = useState(false)
+    const handleClick = (e) => {
+        setDown(!down)
+        setAnchorEl(e.currentTarget);
+    };
+
+    const handleClose = () => {
+        setAnchorEl(null);
+        setDown(!down)
+    }; */
 
     return (
         <div className='container'>
@@ -82,6 +96,8 @@ export function SideNav({ role, handleClick, handleClose, closeSideNav, openSide
                         </>
                     }
                 </div>
+                {/*
+                DEPRECATED dropdown as show in the system-doc for reports 
                 <div>
                     <StyledMenu
                         id="customized-menu"
@@ -100,7 +116,7 @@ export function SideNav({ role, handleClick, handleClose, closeSideNav, openSide
                             <ListItemText primary="Major Report" />
                         </StyledMenuItem>
                     </StyledMenu>
-                </div>
+                </div> */}
 
                 <div className='sidenav__btn'>
                     <button onClick={closeSideNav}><i className="fas fa-chevron-left" /></button>

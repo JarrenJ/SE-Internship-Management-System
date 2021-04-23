@@ -2,40 +2,51 @@ import React, {useEffect, useState} from "react"
 import { SideNav, DashboardPanel } from "components"
 
 const Dashboard = () => {
-    const [anchorEl, setAnchorEl] = useState(null);
-    const [down, setDown] = useState(false)
+    // Size of SideNav
     const [navOpen, setNavOpen] = useState('0')
-
+    // Boolean for side nav being open. Passed into DashboardPanel to determine width of panel
     const [isSideNavOpen, setIsSideNavOpen] = useState(true)
+    
     const userID = sessionStorage.getItem("userID")
-    const [isAppFormVisible, setIsAppFormVisible] = useState(false)
-    const [isApplicationTableVisible, setIsApplicationTableVisible] = useState(true)
-    const [tableError, setTableError] = useState({
-        "error": new Error
-    })
-
     const [user, setUser] = useState({
         "username": '',
         "role": ''
     })
 
+    const [isAppFormVisible, setIsAppFormVisible] = useState(false)
+    const [isApplicationTableVisible, setIsApplicationTableVisible] = useState(true)
+    // Wait to load DashboardPanel until data is retrieved
+    const [isDataRetrieved, setIsDataRetrieved] = useState(false)
+
+
+    //Object of applications indexed by ApplicationID
     const [applications, setApplications] = useState([])
+    //Object of internships indexed by InternshipID
     const [internships, setInternships] = useState([])
+    //Object of users indexed by UserID
     const [users, setUsers] = useState([])
-    const [isLoaded, setIsLoaded] = useState(false)
+    const [currentApplication, setCurrentApplication] = useState()
+
+    /* 
+    These states hold values from the database for the dashboard panels.
+    All values are integers
+    */
+    // Values for Admin Panels
     const [totalInterns, setTotalInterns] = useState(0)
     const [pendingApprovals, setPendingApprovals] = useState(0)
     const [activeInterns, setActiveInterns] = useState(0)
     const [outOfStateInterns, setOutOfStateInterns] = useState(0)
-    const [currentApplication, setCurrentApplication] = useState()
 
+    // Values for Faculty Panels
     const [totalFacultyInterns, setTotalFacultyInterns] = useState(0)
     const [activeFacultyInterns, setActiveFacultyInterns] = useState(0)
     const [pendingFacultyApprovals, setPendingFacultyApprovals] = useState(0)
     const [outOfStateInternsFaculty, setOutOfStateInternsFaculty] = useState(0)
     const [inStateInternsFaculty, setInStateInternsFaculty] = useState(0)
 
-
+    /* 
+    This grabs all applications for the current user and stores them in data structures
+    */
     useEffect(() => {
         fetch(`/api/getUser/${userID}`)
           .then(response => response.json())
@@ -59,17 +70,19 @@ const Dashboard = () => {
                       setApplications(data1.applications)
                       setInternships(data1.internships)
                       setUsers(data1.users)
-                      setIsLoaded(true)
+                      setIsDataRetrieved(true)
                   }).catch((error) => {
-                    setIsLoaded(true)
+                    setIsDataRetrieved(true)
                     console.log(error)
-                    setTableError({ error: error })
                 });
             }
           );
     }, []);
 
-    // For below 3 codeblocks, I am planning on hitting one endpoint eventually to grab all necessary data
+    /* 
+    These useEffects gather all information for dashboard panels.
+    We tried to put them in a object structure but ran into issues with state 
+    */
 
     useEffect(() => {
         fetch(`/api/getTotalInterns`)
@@ -145,17 +158,10 @@ const Dashboard = () => {
               setInStateInternsFaculty(data[0].InStateInterns)
           })
     }, [inStateInternsFaculty])
-
-    const handleClick = (e) => {
-        setDown(!down)
-        setAnchorEl(e.currentTarget);
-    };
-
-    const handleClose = () => {
-        setAnchorEl(null);
-        setDown(!down)
-    };
     
+    /* 
+    Functions for handling the size of sidenav on dashboard
+    */
     const closeSideNav = () => {
         setNavOpen('-20%')
         console.log(isSideNavOpen)
@@ -170,7 +176,7 @@ const Dashboard = () => {
 
     /* 
     The following three functions are passed into components so they can change the visibility of other components
-    isAppFormVisible is used the in the conditional rendering of some items in Dashboard panel so 
+    isAppFormVisible and isApplicationTableVisible are used in the conditional rendering on DashboardPanel
     */
     const showAppForm = () => {
         setIsAppFormVisible(true)
@@ -191,8 +197,6 @@ const Dashboard = () => {
       <>
           <SideNav
             role={user.role}
-            handleClick={handleClick}
-            handleClose={handleClose}
             closeSideNav={closeSideNav}
             openSideNav={openSideNav}
             down={down}
@@ -205,13 +209,13 @@ const Dashboard = () => {
             isApplicationTableVisible={isApplicationTableVisible}
             setCurrentApplication={setCurrentApplication}
           />
-          {isLoaded && <DashboardPanel
+          {isDataRetrieved && <DashboardPanel
             role={user.role}
             userID={user.username}
             users={users}
             applications={applications}
             internships={internships}
-            tableError={tableError}
+
             totalInterns={totalInterns}
             totalFacultyInterns={totalFacultyInterns}
             pendingApprovals={pendingApprovals}
@@ -221,6 +225,7 @@ const Dashboard = () => {
             outOfStateInterns={outOfStateInterns}
             outOfStateInternsFaculty={outOfStateInternsFaculty}
             inStateInternsFaculty={inStateInternsFaculty}
+
             isSideNavOpen={isSideNavOpen}
             showAppForm={showAppForm}
             hideAppForm={hideAppForm}

@@ -135,8 +135,7 @@ export function DetailsDialog ({handleClose, internships, role, users, currentAp
                         <DetailButton bgColor={COLORS.CLOSE} onClick={() => {
                             handleClose()
                             showAppForm()
-
-                        }
+                            }
                         }>
                         Edit Application
                         </DetailButton>

@@ -114,7 +114,7 @@ const Panel = ({ color, title, info, image, imgClass }) => {
 
 export function DashboardPanel({ isSideNavOpen, role, isAppFormVisible,
     userID, users, applications,
-    internships, tableError, totalInterns, pendingApprovals,
+    internships, totalInterns, pendingApprovals,
     activeInterns, outOfStateInterns, showAppForm, hideAppForm, showApplicationTable, isApplicationTableVisible,
     currentApplication, setCurrentApplication, totalFacultyInterns,
     activeFacultyInterns, pendingFacultyApprovals, outOfStateInternsFaculty,
@@ -351,7 +351,7 @@ export function DashboardPanel({ isSideNavOpen, role, isAppFormVisible,
                     role === ROLES.FACULTY && <FacultyView />
                 }
                 {
-                    role === ROLES.ADMIN &&
+                    role === ROLES.STUDENT &&
                     <>
                         {applications.length === 0 && !isAppFormVisible &&
                             <DefaultStudentView />}
@@ -383,7 +383,6 @@ export function DashboardPanel({ isSideNavOpen, role, isAppFormVisible,
                                 users={users}
                                 applications={applications}
                                 internships={internships}
-                                tableError={tableError}
                                 setCurrentApplication={setCurrentApplication}
                                 handleClickOpen={handleClickOpen}
                             />
