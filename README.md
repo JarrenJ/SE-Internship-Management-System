@@ -20,8 +20,16 @@ Internship Management System
   - password: password
 
 ## MySQL
-- We are using a `.env` file. If you do not have this, reach out to Aaron or Jarren, they can explain what you need in it.
-- The database is currently running on a Raspberry Pi 4 with MariaDB for dev purposes.
+- Server.js reaches out to a .env file for MySQL server credentials. Run the setup.sql file to create default schema and load default values
+.env layout
+```
+NODE_PATH=src
+MYSQL_HOST=
+MYSQL_USER=
+MYSQL_PWD=
+MYSQL_DB=ims
+TOKEN_SECRET=12345
+```
 
 ## Setting Up Local Dev Environment
 

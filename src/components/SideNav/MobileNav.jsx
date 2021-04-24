@@ -5,7 +5,7 @@ import {Link} from "react-router-dom";
 import { COLORS, ROLES } from 'utils'
 import './MobileNav.css'
 
-export function MobileNav({role, showAppForm}) {
+export function MobileNav({role, showAppForm, showApplicationTable}) {
     const [click, setClick] = useState(false);
     const [isMobileOpen, setIsMobileOpen] = useState('-100%')
 
@@ -26,46 +26,36 @@ export function MobileNav({role, showAppForm}) {
             <div className='sidenav__mobile__container' style={{left: isMobileOpen}}>
                 <div className='sidenav__mobile__links'>
                     {role !== ROLES.STUDENT &&
-                        <div className='sidenav__mobile__link'>
-                            <p onClick={handleMenuClick}><i className="fas fa-tachometer-alt"/> Dashboard</p>
-                        </div>
-                    }
-                    {role === ROLES.ADMIN &&
-                        <div className='sidenav__mobile__link'>
-                            <Link
-                                to='#'
-                                aria-controls="customized-menu"
-                                aria-haspopup="true"
-                                variant="contained"
-                                color="primary"
-                            >
-                                <i className="fas fa-folder"/> Reports
-                            </Link>
-                        </div>
+                        <>
+                            <p className='sidenav__p__click' 
+                                onClick={() => {
+                                    showApplicationTable()
+                                    handleMenuClick()}}>
+                                <i className="fas fa-tachometer-alt" /> Show Dashboard
+                            </p>
+                            <p className='sidenav__p__click' 
+                                onClick={() => {
+                                    showAppForm()
+                                    handleMenuClick()}}>
+                                <i className="fas fa-plus-square" /> New Application
+                            </p>
+                        </>
                     }
                     {role === ROLES.STUDENT &&
                         <>
-                            <div className='sidenav__mobile__link'>
-                                <p onClick={() => {
+                            <p className='sidenav__p__click'
+                                 onClick={() => {
                                     showAppForm()
-                                    handleMenuClick()
-                                }}>
-                                    <i className="fas fa-plus-square" /> New Application
-                                </p>
-                            </div>
-                            <div className='sidenav__mobile__link'>
-                                <p>
-                                    <i className="fas fa-folder-open" /> Check Status
-                                </p>
-                            </div>
+                                    handleMenuClick()}}>
+                                <i className="fas fa-plus-square" /> New Application
+                            </p>
+                            <p className='sidenav__p__click' 
+                                onClick={() => {
+                                    showApplicationTable()
+                                    handleMenuClick()}}>
+                                <i className="fas fa-folder-open" /> Check Status
+                            </p>
                         </>
-                    }
-                    {role === ROLES.FACULTY &&
-                        <div className='sidenav__mobile__link'>
-                            <Link to='#'>
-                                <i className="fas fa-folder"/> Applications
-                            </Link>
-                        </div>
                     }
                 </div>
             </div>

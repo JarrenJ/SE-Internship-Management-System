@@ -16,8 +16,6 @@ const App = () => {
     <Router>
         <Switch>
             <Route path='/' exact component={Home} />
-            {/* Leaving this in so we have a version of appForm that is single page will most likely end up deleting*/}
-            {/*<Route path='/appForm' component={ApplicationForm} />*/}
             <Route path='/dashboard' component={authGuard(Dashboard)} />
             {/*<Route component={error404} />*/}
         </Switch>

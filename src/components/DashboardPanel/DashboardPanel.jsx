@@ -1,5 +1,5 @@
 import React from "react";
-import {account, airplane, Hourglass, Manlogo, NWDoubleStackedGreen} from "assets";
+import { account, airplane, Hourglass, Manlogo, NWDoubleStackedGreen } from "assets";
 import { ApplicationForm, ApplicationTable, DetailsDialog, AutoLogOut, MobileNav } from 'components'
 
 import styled from "styled-components";
@@ -95,32 +95,61 @@ const StyledPanel = styled.div`
       max-width: 250px;
     }
 `
-
+// Information Panels
 const Panel = ({ color, title, info, image, imgClass }) => {
-    return(
-        <StyledPanel color={color}>
-            <Row direction='column'>
-                <Col size={1}>
-                    <p className='title'>{title}</p>
-                </Col>
-                <Col size={1}>
-                    <p className='info'>{info}</p>
-                </Col>
-            </Row>
-            <img className={imgClass} src={image} alt='Icon for dashboard panels' />
-        </StyledPanel>
+    return (
+        <Col size={1} breakpoint='1024px' breakpointMargin='25px 0' maxHeight='100px' minWidth='200px'>
+            <StyledPanel color={color}>
+                <Row direction='column'>
+                    <Col size={1}>
+                        <p className='title'>{title}</p>
+                    </Col>
+                    <Col size={1}>
+                        <p className='info'>{info}</p>
+                    </Col>
+                </Row>
+                <img className={imgClass} src={image} alt='Icon for dashboard panels' />
+            </StyledPanel>
+        </Col>
     )
 }
 
-export function DashboardPanel({ isOpen, role, isAppFormVisible,
-                                userID, users, applications,
-                                internships, tableError, totalInterns, pendingApprovals,
-                                activeInterns, outOfStateInterns, showAppForm, hideAppForm,
-                                currentApplication, setCurrentApplication, totalFacultyInterns,
-                                activeFacultyInterns, pendingFacultyApprovals, outOfStateInternsFaculty,
-                                inStateInternsFaculty }) {
+export function DashboardPanel({ 
+    // current user
+    userID,
+    role,
+    // Loaded info for current user
+    users,
+    applications,
+    internships,
+    // Currently loaded application, either object or undefined
+    currentApplication,
+    setCurrentApplication,
+    // Viewing variables
+    isAppFormVisible,
+    isSideNavOpen,
+    showAppForm,
+    hideAppForm,
+    showApplicationTable,
+    isApplicationTableVisible,
+    // Panel info
+    totalInterns,
+    pendingApprovals,
+    activeInterns,
+    outOfStateInterns,
+    totalFacultyInterns,
+    activeFacultyInterns,
+    pendingFacultyApprovals,
+    outOfStateInternsFaculty,
+    inStateInternsFaculty
+    }) {
+
 
     const [detailsDialogOpen, setDetailsDialogOpen] = React.useState(false);
+
+    /* getInitial sets the initial values for an application form based off of the currentApplication
+     * loaded in Dashboard panel because this structure could be modified to be used in DetailsDialog and ApplicationForm
+     */
     const getInitial = () => {
 
         if (typeof currentApplication === 'undefined') {
@@ -162,11 +191,11 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible,
                 zip: "",
             }
             let submitDate = new Date(),
-            date = submitDate.getFullYear() + '-' + (submitDate.getMonth() + 1) + '-' + submitDate.getDate();
+                date = submitDate.getFullYear() + '-' + (submitDate.getMonth() + 1) + '-' + submitDate.getDate();
             let initialStartDate = date
             let initialEndDate = date
             return (
-                {initialValues, initialStartDate, initialEndDate, initialEmpAddr, initialStuAddr, date}
+                { initialValues, initialStartDate, initialEndDate, initialEmpAddr, initialStuAddr, date }
             )
         } else {
             let initialValues = {
@@ -207,10 +236,10 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible,
                 zip: employerAddress[4],
             }
             let date = currentApplication.ApplicationDate
-            let initialStartDate =  internships[currentApplication.InternID].StartDate.substr(0, internships[currentApplication.InternID].StartDate.indexOf('T'))
+            let initialStartDate = internships[currentApplication.InternID].StartDate.substr(0, internships[currentApplication.InternID].StartDate.indexOf('T'))
             let initialEndDate = internships[currentApplication.InternID].EndDate.substr(0, internships[currentApplication.InternID].EndDate.indexOf('T'))
             return (
-                {initialValues, initialStartDate, initialEndDate, initialEmpAddr, initialStuAddr, date}
+                { initialValues, initialStartDate, initialEndDate, initialEmpAddr, initialStuAddr, date }
             )
         }
     }
@@ -221,9 +250,10 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible,
     const handleClose = () => {
         setDetailsDialogOpen(false);
     };
-
+    /* DefaultStudentView is loaded when student has no applications in the database.
+     */
     const DefaultStudentView = () => {
-        return(
+        return (
             <>
                 <Container>
                     <Row>
@@ -238,7 +268,7 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible,
                     <Row>
                         <Col size={1}>
                             <div className='dashboard__student__default__image'>
-                                <img src={NWDoubleStackedGreen} alt='Northwest Stacked Logo Green'/>
+                                <img src={NWDoubleStackedGreen} alt='Northwest Stacked Logo Green' />
                             </div>
                         </Col>
                     </Row>
@@ -247,7 +277,7 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible,
                     <Row>
                         <Col size={1}>
                             <div className='dashboard__student__default__title'>
-                                <p>Apply or Track your Internship Application</p>
+                                <p>Apply or Track Internship Applications</p>
                             </div>
                         </Col>
                     </Row>
@@ -256,102 +286,44 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible,
         )
     }
 
-    const StudentView = () => {
-        return(
-            <>
-                    <Row>
-                        <Col size={1} bgColor={COLORS.TRANSPARENT} margin='0 20px' /*maxWidth='1200px' */>
-                            <ApplicationTable
-                                role={role}
-                                users={users}
-                                applications={applications}
-                                internships={internships}
-                                tableError={tableError}
-                                setCurrentApplication={setCurrentApplication}
-                                handleClickOpen={handleClickOpen}
-                            />
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col size={1}>
-                            <DetailsDialog
-                                handleClose={handleClose}
-                                applications={applications}
-                                internships={internships}
-                                role={role}
-                                users={users}
-                                currentApplication={currentApplication}
-                                setCurrentApplication={setCurrentApplication}
-                                detailsDialogOpen={detailsDialogOpen}
-                                showAppForm={showAppForm}
-                            />
-                        </Col>
-                    </Row>
-            </>
-        )
-    }
+    /* FacultyView returns the the panels for faculty with information loaded from the database
+     */
     const FacultyView = () => {
         return (
             <>
-                        <Row>
-                            <Col>
-                                <p className='dashboard__title'>Dashboard</p>
-                            </Col>
-                        </Row>
-                        <Row breakpoint='507px' wrap='true' margin='0 0 0 -10px'>
-                            <Col size={1} breakpoint='1024px' breakpointMargin='25px 0' maxHeight='100px' minWidth='200px'>
-                                <Panel color={COLORS.BLUE} info={totalFacultyInterns} title='Total Interns ' image={Manlogo} imgClass='man-icon' />
-                            </Col>
-                            <Col size={1} breakpoint='1024px' breakpointMargin='25px 0' maxHeight='100px' minWidth='200px'>
-                                <Panel color={COLORS.PURPLE} info={activeFacultyInterns} title='Active Interns ' image={Manlogo} imgClass='man-icon' />
-                            </Col>
-                            <Col size={1} breakpoint='1024px' breakpointMargin='25px 0' maxHeight='100px' minWidth='200px'>
-                                <Panel color={COLORS.LIGHT_GREEN} info={pendingFacultyApprovals} title='Pending Approvals ' image={Hourglass} imgClass='large-icon' />
-                            </Col>
-                            <Col size={1} breakpoint='1024px' breakpointMargin='25px 0' maxHeight='100px' minWidth='200px'>
-                                <Panel color={COLORS.LIGHT_BLUE} info={inStateInternsFaculty} title='In State' image={Manlogo} imgClass='man-icon' />
-                            </Col>
-                            <Col size={1} breakpoint='1024px' breakpointMargin='25px 0' maxHeight='100px' minWidth='200px'>
-                                <Panel color={COLORS.RED} info={outOfStateInternsFaculty} title='Out of State' image={airplane} imgClass='large-icon'/>
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col size={1}>
-                                <div className='dashboard__Map_header'>
-                                    <p>Interns Map</p>
-                                </div>
-                                <div className='dashboard__Map' />
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col size={1} bgColor='transparent' margin='0 20px' /*maxWidth='1200px' */>
-                                <ApplicationTable
-                                  role={role}
-                                  users={users}
-                                  applications={applications}
-                                  internships={internships}
-                                  tableError={tableError}
-                                  setCurrentApplication={setCurrentApplication}
-                                  handleClickOpen={handleClickOpen}
-                                />
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col size={1}>
-                                <DetailsDialog
-                                  handleClose={handleClose}
-                                  applications={applications}
-                                  internships={internships}
-                                  role={role}
-                                  users={users}
-                                  currentApplication={currentApplication}
-                                  setCurrentApplication={setCurrentApplication}
-                                  detailsDialogOpen={detailsDialogOpen}
-                                  showAppForm={showAppForm}
-                                />
-                            </Col>
-                        </Row>
-                    </>
+                <Row>
+                    <Col>
+                        <p className='dashboard__title'>Dashboard</p>
+                    </Col>
+                </Row>
+                <Row breakpoint='507px' wrap='true' margin='0 0 0 -10px'>
+                    <Panel color={COLORS.BLUE} info={totalFacultyInterns} title='Total Interns ' image={Manlogo} imgClass='man-icon' />
+                    <Panel color={COLORS.PURPLE} info={activeFacultyInterns} title='Active Interns ' image={Manlogo} imgClass='man-icon' />
+                    <Panel color={COLORS.LIGHT_GREEN} info={pendingFacultyApprovals} title='Pending Approvals ' image={Hourglass} imgClass='large-icon' />
+                    <Panel color={COLORS.LIGHT_BLUE} info={inStateInternsFaculty} title='In State' image={Manlogo} imgClass='man-icon' />
+                    <Panel color={COLORS.RED} info={outOfStateInternsFaculty} title='Out of State' image={airplane} imgClass='large-icon' />
+                </Row>
+
+            </>
+        )
+    }
+    /* AdminView loads the given panels for admin with information from the database
+     */
+    const AdminView = () => {
+        return (
+            <>
+                <Row>
+                    <Col>
+                        <p className='dashboard__title'>Dashboard</p>
+                    </Col>
+                </Row>
+                <Row breakpoint='507px' wrap margin='0 0 0 -10px'>
+                    <Panel color={COLORS.BLUE} info={totalInterns} title='Total Interns' image={Manlogo} imgClass='man-icon' />
+                    <Panel color={COLORS.LIGHT_GREEN} info={activeInterns} title='Active Internships' image={Manlogo} imgClass='man-icon' />
+                    <Panel color={COLORS.LIGHT_BLUE} info={pendingApprovals} title='Pending Approvals' image={Hourglass} imgClass='large-icon' />
+                    <Panel color={COLORS.RED} info={outOfStateInterns} title='Out of State' image={airplane} imgClass='large-icon' />
+                </Row>
+            </>
         )
     }
 
@@ -359,42 +331,42 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible,
         <>
             {/* Call AutoLogOut function here */}
             <AutoLogOut />
-            <div className="dashboard__container" style={{left: isOpen ? '20%' : '3.5%', width: isOpen ? `80%` : `96.5%`}}>
+            <div className="dashboard__container" style={{ left: isSideNavOpen ? '20%' : '3.5%', width: isSideNavOpen ? `80%` : `96.5%` }}>
                 <Row maxHeight='65px'>
                     <MobileNav
                         role={role}
                         showAppForm={showAppForm}
+                        showApplicationTable={showApplicationTable}
                     />
                     <Col size={1} maxHeight='65px'>
                         <div className="dashboard__Header">
-                            <img className='dashboard__profile__pic' src={ account } alt='account.png'/>
+                            <img className='dashboard__profile__pic' src={account} alt='account.png' />
                             <div className="Header_Namebox">
                                 <p>{userID}</p>
                             </div>
                         </div>
                     </Col>
                 </Row>
-                {role === ROLES.ADMIN &&
+                {
+                    role === ROLES.ADMIN && <AdminView />
+                }
+                {
+                    role === ROLES.FACULTY && <FacultyView />
+                }
+                {
+                    role === ROLES.STUDENT &&
                     <>
-                        <Row>
-                            <Col>
-                                <p className='dashboard__title'>Dashboard</p>
-                            </Col>
-                        </Row>
-                        <Row breakpoint='507px' wrap='true' margin='0 0 0 -10px'>
-                            <Col size={1} breakpoint='1024px' breakpointMargin='25px 0' maxHeight='100px' minWidth='200px'>
-                                <Panel color={COLORS.BLUE} info={totalInterns} title='Total Interns' image={Manlogo} imgClass='man-icon' />
-                            </Col>
-                            <Col size={1} breakpoint='1024px' breakpointMargin='25px 0' maxHeight='100px' minWidth='200px'>
-                                <Panel color={COLORS.LIGHT_GREEN} info={activeInterns} title='Active Internships' image={Manlogo} imgClass='man-icon' />
-                            </Col>
-                            <Col size={1} breakpoint='1024px' breakpointMargin='25px 0' maxHeight='100px' minWidth='200px'>
-                                <Panel color={COLORS.LIGHT_BLUE} info={pendingApprovals} title='Pending Approvals' image={Hourglass} imgClass='large-icon' />
-                            </Col>
-                            <Col size={1} breakpoint='1024px' breakpointMargin='25px 0' maxHeight='100px' minWidth='200px'>
-                                <Panel color={COLORS.RED} info={outOfStateInterns} title='Out of State' image={airplane} imgClass='large-icon'/>
-                            </Col>
-                        </Row>
+                        {applications.length === 0 && !isAppFormVisible &&
+                            <DefaultStudentView />}
+                    </>
+                }
+                {isAppFormVisible &&
+                    <ApplicationForm
+                        getInitial={getInitial}
+                        hideAppForm={hideAppForm} />
+                }
+                {!isAppFormVisible && !isApplicationTableVisible && role !== 'Student' &&
+                    <>
                         <Row>
                             <Col size={1}>
                                 <div className='dashboard__Map_header'>
@@ -403,53 +375,41 @@ export function DashboardPanel({ isOpen, role, isAppFormVisible,
                                 <div className='dashboard__Map' />
                             </Col>
                         </Row>
-                        <Row>
-                            <Col size={1} bgColor={COLORS.TRANSPARENT} margin='0 20px'>
-                              <ApplicationTable
+
+                    </>
+                }
+                {isApplicationTableVisible &&
+                    <Row>
+                        <Col size={1} bgColor={COLORS.TRANSPARENT} margin='0 20px' >
+                            <ApplicationTable
                                 role={role}
                                 users={users}
                                 applications={applications}
                                 internships={internships}
-                                tableError={tableError}
                                 setCurrentApplication={setCurrentApplication}
                                 handleClickOpen={handleClickOpen}
-                              />
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col size={1}>
-                              <DetailsDialog
-                                handleClose={handleClose}
-                                applications={applications}
-                                internships={internships}
-                                role={role}
-                                users={users}
-                                currentApplication={currentApplication}
-                                setCurrentApplication={setCurrentApplication}
-                                detailsDialogOpen={detailsDialogOpen}
-                                showAppForm={showAppForm}
-                              />
-                            </Col>
-                        </Row>
-                    </>
+                            />
+                        </Col>
+                    </Row>
                 }
-                {
-                    isAppFormVisible && <ApplicationForm
-                    getInitial={getInitial}
-                    hideAppForm={hideAppForm}/>
-                }
-                {
-                    role === ROLES.FACULTY && <FacultyView />
-                }
-                {
-                    role === ROLES.STUDENT
-                    &&
-                    <>
-                        {typeof applications === undefined &&<DefaultStudentView />}
-                        {<StudentView />}
-                    </>
-                }
+                <Row>
+                    <Col size={1}>
+                        <DetailsDialog
+                            handleClose={handleClose}
+                            applications={applications}
+                            internships={internships}
+                            role={role}
+                            users={users}
+                            currentApplication={currentApplication}
+                            setCurrentApplication={setCurrentApplication}
+                            detailsDialogOpen={detailsDialogOpen}
+                            showAppForm={showAppForm}
+                        />
+                    </Col>
+                </Row>
+
 
             </div>
         </>
-    )}
+    )
+}

@@ -48,59 +48,56 @@ const StyledMenuItem = withStyles(() => ({
     },
 }))(MenuItem);
 
-export function SideNav({role, handleClick, handleClose, closeSideNav, openSideNav, anchorEl,
-                            down, navOpen, showAppForm}) {
+export function SideNav({ role, closeSideNav, openSideNav, anchorEl,
+    down, navOpen, showAppForm, showApplicationTable }) {
+    /* 
+    DEPRECATED functions and state for handling click for styled drop down 
+    */
+    /* const [anchorEl, setAnchorEl] = useState(null);
+    const [down, setDown] = useState(false)
+    const handleClick = (e) => {
+        setDown(!down)
+        setAnchorEl(e.currentTarget);
+    };
 
-    return(
+    const handleClose = () => {
+        setAnchorEl(null);
+        setDown(!down)
+    }; */
+
+    return (
         <div className='container'>
-            <div className='sidenav' style={{left: navOpen}}>
+            <div className='sidenav' style={{ left: navOpen }}>
                 <div className='sidenav__logo'>
                     <img src={NWHorizontal2Color} alt='NW_Horizontal_2Color' />
                 </div>
                 <Divider />
-                {role !== ROLES.STUDENT &&
-                <>
-                    <div className='sidenav__link'>
-                        <Link to='#'><i className="fas fa-tachometer-alt" /> Dashboard</Link>
-                    </div>
-                    <Divider />
-                </>
-                }
                 <div className='sidenav__popup'>
-                    {role === ROLES.ADMIN &&
-                    <Link
-                        to='#'
-                        aria-controls="customized-menu"
-                        aria-haspopup="true"
-                        variant="contained"
-                        color="primary"
-                        onClick={handleClick}
-                    >
-                        <i className="fas fa-folder" /> Reports
-                        {
-                            down ? <i className="fas fa-chevron-down left" />
-                                :
-                                <i className="fas fa-chevron-right left" />
-                        }
-                    </Link>
-                    }
-                    {role === ROLES.FACULTY &&
-                    <Link to='#'>
-                        <i className="fas fa-folder" /> Applications
-                    </Link>
-                    }
 
+                    {role !== ROLES.STUDENT &&
+                        <>
+                            <p className='sidenav__p__click' onClick={showApplicationTable}>
+                                <i className="fas fa-tachometer-alt" /> Show Dashboard
+                            </p>
+                            <p className='sidenav__p__click' onClick={showAppForm}>
+                                <i className="fas fa-plus-square" /> New Application
+                            </p>
+                            <Divider />
+                        </>
+                    }
                     {role === ROLES.STUDENT &&
-                    <>
-                        <p className='sidenav__p__click' onClick={showAppForm}>
-                            <i className="fas fa-plus-square" /> New Application
-                        </p>
-                        <p className='sidenav__p__click'>
-                            <i className="fas fa-folder-open" /> Check Status
-                        </p>
-                    </>
+                        <>
+                            <p className='sidenav__p__click' onClick={showAppForm}>
+                                <i className="fas fa-plus-square" /> New Application
+                            </p>
+                            <p className='sidenav__p__click' onClick={showApplicationTable}>
+                                <i className="fas fa-folder-open" /> Check Status
+                            </p>
+                        </>
                     }
                 </div>
+                {/*
+                DEPRECATED dropdown as show in the system-doc for reports 
                 <div>
                     <StyledMenu
                         id="customized-menu"
@@ -119,56 +116,45 @@ export function SideNav({role, handleClick, handleClose, closeSideNav, openSideN
                             <ListItemText primary="Major Report" />
                         </StyledMenuItem>
                     </StyledMenu>
-                </div>
+                </div> */}
 
                 <div className='sidenav__btn'>
                     <button onClick={closeSideNav}><i className="fas fa-chevron-left" /></button>
                 </div>
             </div>
             {navOpen >= '-15%' &&
-            <div className='sidenav__collapsed'>
-                <div className='sidenav__collapsed__logo'>
-                    <img src={NWTripleStacked2Color} alt='NW_Horizontal_2Color' />
+                <div className='sidenav__collapsed'>
+                    <div className='sidenav__collapsed__logo'>
+                        <img src={NWTripleStacked2Color} alt='NW_Horizontal_2Color' />
+                    </div>
+                    <div className='sidenav__collapsed__icon'>
+                        {role !== ROLES.STUDENT &&
+                            <>
+                                <p className='sidenav__p__click' onClick={showApplicationTable}>
+                                    <i className="fas fa-tachometer-alt" /> 
+                                </p>
+                                <p className='sidenav__p__click' onClick={showAppForm}>
+                                    <i className="fas fa-plus-square" />
+                                </p>
+                                <Divider />
+                            </>
+                        }
+                        {role === ROLES.STUDENT &&
+                            <>
+                                <p className='sidenav__p__click' onClick={showAppForm}>
+                                    <i className="fas fa-plus-square" />
+                                </p>
+                                <p className='sidenav__p__click' onClick={showApplicationTable}>
+                                    <i className="fas fa-folder-open" />
+                                </p>
+                            </>
+                        }
+                    </div>
+                    <div className='sidenav__btn'>
+                        <button onClick={openSideNav}><i className="fas fa-chevron-right" /></button>
+                    </div>
                 </div>
-                {role !== ROLES.STUDENT &&
-                <div className='sidenav__collapsed__icon'>
-                    <Link to='#'><i className="fas fa-tachometer-alt" /></Link>
-                </div>
-                }
-                <div className='sidenav__collapsed__icon'>
-                    {role === ROLES.ADMIN &&
-                    <Link
-                        to='#'
-                        aria-controls="customized-menu"
-                        aria-haspopup="true"
-                        variant="contained"
-                        color="primary"
-                        onClick={handleClick}
-                    >
-                        <i className="fas fa-folder" />
-                    </Link>
-                    }
-                    {role === ROLES.FACULTY &&
-                    <Link to='#'>
-                        <i className="fas fa-folder" />
-                    </Link>
-                    }
-
-                    {role === ROLES.STUDENT &&
-                    <>
-                        <Link to='#'>
-                            <i className="fas fa-plus-square" onClick={showAppForm} />
-                        </Link>
-                        <Link to='#'>
-                            <i className="fas fa-folder-open" />
-                        </Link>
-                    </>
-                    }
-                </div>
-                <div className='sidenav__btn'>
-                    <button onClick={openSideNav}><i className="fas fa-chevron-right" /></button>
-                </div>
-            </div>
             }
         </div>
-    )}
+    )
+}
